@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import { pengabdianService, PengabdianRegistration } from '@/src/services/pengabdianService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import PengabdianCompleteHistory from '@/src/components/dashboard/PengabdianCompleteHistory';
 
 export default function PengabdianDosenSection() {
   const [registration, setRegistration] = useState<PengabdianRegistration | null>(null);
@@ -219,7 +220,29 @@ export default function PengabdianDosenSection() {
              </div>
            )}
 
-           {registration.status === 'LOGBOOK' && (
+           {registration.status === 'COMPLETED' && (
+               <div className="space-y-10">
+                  <div className="card p-16 text-center bg-slate-900 border-none text-white relative overflow-hidden rounded-[80px]">
+                     <div className="absolute inset-0 bg-primary/5" />
+                     <div className="absolute -right-20 -bottom-20 opacity-5 rotate-12"><HeartHandshake size={300} /></div>
+                     
+                     <div className="relative z-10 space-y-6">
+                        <CheckCircle2 size={64} className="mx-auto text-emerald-500 animate-bounce" />
+                        <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] italic leading-none">Synergy outreach finalized</p>
+                        <h2 className="text-4xl font-black italic text-white tracking-tighter uppercase leading-none">Pengabdian Selesai</h2>
+                        <p className="text-slate-400 max-w-md mx-auto text-xs font-semibold leading-relaxed">
+                           Seluruh kewajiban jam pelaporan darmabakti pengabdian masyarakat telah diaudit dan disetujui secara institusional.
+                        </p>
+                     </div>
+                  </div>
+
+                  <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl text-slate-950">
+                     <PengabdianCompleteHistory registration={registration} />
+                  </div>
+               </div>
+            )}
+
+            {registration.status === 'LOGBOOK' && (
               <PengabdianLogbookSection registration={registration} />
            )}
         </motion.div>

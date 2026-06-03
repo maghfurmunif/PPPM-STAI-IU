@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import { pengabdianService, PengabdianRegistration } from '@/src/services/pengabdianService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import PengabdianCompleteHistory from '@/src/components/dashboard/PengabdianCompleteHistory';
 
 export default function AdminPengabdian() {
   const [registrations, setRegistrations] = useState<PengabdianRegistration[]>([]);
@@ -181,11 +182,16 @@ export default function AdminPengabdian() {
                       )}
 
                       {selectedReg.status === 'COMPLETED' && (
-                        <div className="card p-20 text-center bg-slate-100 border-none shadow-inner relative overflow-hidden flex flex-col items-center">
-                           <CheckCircle2 size={80} className="text-green-500 mb-8" />
-                           <h3 className="text-4xl font-black italic uppercase tracking-tighter text-slate-900 leading-none">Service Mission Accomplished</h3>
-                           <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-6 italic">This project has been successfully archived in the institutional database.</p>
-                           <button className="btn-primary mt-12 px-12 h-16 rounded-2xl shadow-xl font-black uppercase text-[11px] tracking-widest">Generate Certificate of Service</button>
+                        <div className="space-y-10 shadow-sm rounded-3xl">
+                           <div className="card p-20 text-center bg-slate-100 border-none shadow-inner relative overflow-hidden flex flex-col items-center">
+                              <CheckCircle2 size={80} className="text-green-500 mb-8" />
+                              <h3 className="text-4xl font-black italic uppercase tracking-tighter text-slate-900 leading-none">Service Mission Accomplished</h3>
+                              <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-6 italic">This project has been successfully archived in the institutional database.</p>
+                              <button className="btn-primary mt-12 px-12 h-16 rounded-2xl shadow-xl font-black uppercase text-[11px] tracking-widest">Generate Certificate of Service</button>
+                           </div>
+                           <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl text-slate-950">
+                              <PengabdianCompleteHistory registration={selectedReg} />
+                           </div>
                         </div>
                       )}
                    </div>

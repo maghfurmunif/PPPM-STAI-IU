@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import { kknService, KKNRegistration, KKNLogbook, KKNStatus } from '@/src/services/kknService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import KKNCompleteHistory from '@/src/components/dashboard/KKNCompleteHistory';
 
 export default function AdminKKN() {
   const [registrations, setRegistrations] = useState<KKNRegistration[]>([]);
@@ -183,22 +184,25 @@ export default function AdminKKN() {
                       <GradingBox reg={selectedReg} onAction={refreshData} />
                     )}
                     {selectedReg.status === 'COMPLETED' && (
-                      <div className="card p-20 text-center bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
-                         <div className="absolute inset-0 bg-green-500/5" />
-                         <CheckCircle2 size={80} className="text-primary mx-auto mb-8 animate-in zoom-in spin-in duration-700" />
-                         <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">Yudisium Selesai</h3>
-                         <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Mahasiswa telah memenuhi dan mempertahankan semua persyaratan akademik.</p>
-                         
-                         <div className="mt-12 grid grid-cols-2 gap-6 relative z-10">
-                            <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
-                               <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Nilai Akhir</p>
-                               <span className="text-3xl font-black text-white italic">{(selectedReg.grades?.total ?? 0).toFixed(1)}</span>
-                            </div>
-                            <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
-                               <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Huruf Mutu</p>
-                               <span className="text-3xl font-black text-white italic">{selectedReg.grades?.gradeText}</span>
+                      <div className="space-y-10 animate-in fade-in duration-500">
+                         <div className="card p-20 text-center bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
+                            <div className="absolute inset-0 bg-green-500/5" />
+                            <CheckCircle2 size={80} className="text-primary mx-auto mb-8 animate-in zoom-in spin-in duration-700" />
+                            <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">Yudisium Selesai</h3>
+                            <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Mahasiswa telah memenuhi dan mempertahankan semua persyaratan akademik.</p>
+                            
+                            <div className="mt-12 grid grid-cols-2 gap-6 relative z-10">
+                               <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
+                                  <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Nilai Akhir</p>
+                                  <span className="text-3xl font-black text-white italic">{(selectedReg.grades?.total ?? 0).toFixed(1)}</span>
+                               </div>
+                               <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
+                                  <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Huruf Mutu</p>
+                                  <span className="text-3xl font-black text-white italic">{selectedReg.grades?.gradeText}</span>
+                               </div>
                             </div>
                          </div>
+                         <KKNCompleteHistory registration={selectedReg} />
                       </div>
                     )}
                   </div>

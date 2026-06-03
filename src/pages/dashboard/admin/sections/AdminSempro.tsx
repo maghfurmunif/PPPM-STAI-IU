@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import { semproService, SemproRegistration } from '@/src/services/semproService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import SemproCompleteHistory from '@/src/components/dashboard/SemproCompleteHistory';
 
 export default function AdminSempro() {
   const [registrations, setRegistrations] = useState<SemproRegistration[]>([]);
@@ -234,11 +235,16 @@ export default function AdminSempro() {
                   )}
                   
                   {selectedReg.status === 'COMPLETED' && (
-                    <div className="card p-10 bg-green-50 border-green-200 text-center space-y-3">
-                       <CheckCircle2 size={40} className="mx-auto text-green-600" />
-                       <h4 className="text-xl font-bold text-green-900 tracking-tighter">Proses Sempro Selesai</h4>
-                       <p className="text-green-700/60 font-medium text-xs">Seluruh dokumen telah divalidasi dan nilai akhir telah diterbitkan.</p>
-                       <div className="inline-block mt-4 px-6 py-2 bg-white border border-green-200 rounded-full font-black text-green-700 uppercase italic text-sm">Nilai: {selectedReg.grade}</div>
+                    <div className="space-y-10">
+                       <div className="card p-10 bg-green-50 border-green-200 text-center space-y-3 rounded-3xl">
+                          <CheckCircle2 size={40} className="mx-auto text-green-600" />
+                          <h4 className="text-xl font-bold text-green-900 tracking-tighter">Proses Sempro Selesai</h4>
+                          <p className="text-green-700/60 font-medium text-xs">Seluruh dokumen telah divalidasi dan nilai akhir telah diterbitkan.</p>
+                          <div className="inline-block mt-4 px-6 py-2 bg-white border border-green-200 rounded-full font-black text-green-700 uppercase italic text-sm">Nilai: {selectedReg.grade}</div>
+                       </div>
+                       <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl text-slate-950">
+                          <SemproCompleteHistory registration={selectedReg} />
+                       </div>
                     </div>
                   )}
                </motion.div>

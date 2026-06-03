@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import { penelitianService, PenelitianRegistration, PenelitianLogbook } from '@/src/services/penelitianService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import PenelitianCompleteHistory from '@/src/components/dashboard/PenelitianCompleteHistory';
 
 export default function PenelitianDosen() {
   const [registration, setRegistration] = useState<PenelitianRegistration | null>(null);
@@ -185,7 +186,7 @@ export default function PenelitianDosen() {
 
               {registration.status === 'COMPLETED' && (
                  <div className="max-w-4xl mx-auto space-y-10">
-                    <div className="card p-12 bg-slate-900 text-white text-center relative overflow-hidden shadow-2xl border-none">
+                    <div className="card p-12 bg-slate-900 text-white text-center relative overflow-hidden shadow-2xl border-none rounded-[40px]">
                        <div className="absolute -right-10 -bottom-10 opacity-10 rotate-12 text-primary"><FlaskConical size={240} /></div>
                        <CheckCircle2 size={80} className="mx-auto mb-8 text-primary" />
                        <h2 className="text-5xl font-black italic mb-4 uppercase tracking-tighter">RISER ACHIEVED</h2>
@@ -201,6 +202,10 @@ export default function PenelitianDosen() {
                              <p className="font-bold text-lg italic">#{registration.id.slice(0, 8).toUpperCase()}</p>
                           </div>
                        </div>
+                    </div>
+
+                    <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl text-slate-950">
+                       <PenelitianCompleteHistory registration={registration} />
                     </div>
                  </div>
               )}

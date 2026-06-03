@@ -10,6 +10,7 @@ import { cn, formatDate } from '@/src/lib/utils';
 import { skripsiService, SkripsiRegistration, SkripsiLogbook } from '@/src/services/skripsiService';
 import { uploadToCloudinary } from '@/src/lib/cloudinary';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import SkripsiCompleteHistory from '@/src/components/dashboard/SkripsiCompleteHistory';
 
 export default function SkripsiSection() {
   const [registration, setRegistration] = useState<SkripsiRegistration | null>(null);
@@ -546,6 +547,10 @@ export default function SkripsiSection() {
                        <CheckCircle2 size={24} className="text-white" />
                        <p className="font-bold text-xs uppercase tracking-widest tracking-[0.1em] text-white">Gelar Akademik: S.Pd</p>
                     </div>
+                 </div>
+
+                 <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl">
+                    <SkripsiCompleteHistory registration={registration} />
                  </div>
               </motion.div>
             )}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { semproService, SemproRegistration, AcademicStatus } from '@/src/services/semproService';
+import SemproCompleteHistory from '@/src/components/dashboard/SemproCompleteHistory';
 
 import { uploadToCloudinary } from '@/src/lib/cloudinary';
 
@@ -312,11 +313,15 @@ export default function SemproSection() {
                        </div>
                        <p className="text-slate-600 text-xs leading-relaxed font-medium">
                           Anda sekarang dapat melakukan pendaftaran skripsi melalui menu Skripsi Pribadi. Pastikan tema proposal Anda sudah dimantapkan.
-                       </p>
-                    </div>
-                 </div>
-              </div>
-           )}
+                        </p>
+                     </div>
+                  </div>
+                  <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl text-slate-950">
+                     <SemproCompleteHistory registration={registration} />
+                  </div>
+               </div>
+            )}
+            {false && <></>}
 
         </AnimatePresence>
       )}

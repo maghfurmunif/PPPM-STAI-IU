@@ -12,6 +12,7 @@ import { kknService, KKNRegistration, KKNStatus, KKNLogbook } from '@/src/servic
 import { uploadToCloudinary } from '@/src/lib/cloudinary';
 import { supabase } from '@/src/lib/supabase';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import KKNCompleteHistory from '@/src/components/dashboard/KKNCompleteHistory';
 
 interface KKNSectionProps {
   type: 'REGULER' | 'MANDIRI';
@@ -989,6 +990,10 @@ function GradesPhase({ registration }: { registration: KKNRegistration }) {
                   </button>
                </div>
             </div>
+         </div>
+
+         <div className="card p-10 bg-white border border-slate-100 shadow-sm rounded-[40px]">
+            <KKNCompleteHistory registration={registration} />
          </div>
       </div>
    );

@@ -1,10 +1,24 @@
+const readFileAsBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
+  });
+};
+
 export const uploadToCloudinary = async (file: File) => {
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
   if (!cloudName || !uploadPreset) {
-    console.warn('Cloudinary config missing. Returning fake URL.');
-    return URL.createObjectURL(file);
+    console.warn('Cloudinary config missing. Reading file as Base64 Data URL.');
+    try {
+      return await readFileAsBase64(file);
+    } catch (e) {
+      console.error('Failed to read file as base64:', e);
+      return URL.createObjectURL(file);
+    }
   }
 
   const formData = new FormData();

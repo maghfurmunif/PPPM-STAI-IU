@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { cn, formatDate } from '@/src/lib/utils';
 import { penelitianService, PenelitianRegistration } from '@/src/services/penelitianService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import PenelitianCompleteHistory from '@/src/components/dashboard/PenelitianCompleteHistory';
 
 export default function AdminPenelitian() {
   const [registrations, setRegistrations] = useState<PenelitianRegistration[]>([]);
@@ -154,22 +155,27 @@ export default function AdminPenelitian() {
               )}
 
               {selectedReg.status === 'COMPLETED' && (
-                <div className="card p-12 text-center space-y-6 bg-slate-900 text-white relative overflow-hidden">
-                   <div className="absolute top-0 right-0 p-4 opacity-10"><FlaskConical size={120} /></div>
-                   <CheckCircle2 size={64} className="text-primary mx-auto" />
-                   <div>
-                     <h2 className="text-3xl font-black italic uppercase tracking-tighter">Penelitian Selesai</h2>
-                     <p className="text-slate-400 mt-2 font-medium">Seluruh tahapan telah dilalui. Terima kasih atas dedikasi dosen.</p>
-                   </div>
-                   {selectedReg.publication && (
-                     <div className="pt-6 border-t border-white/10 text-left">
-                        <p className="text-[10px] font-black uppercase text-primary tracking-widest mb-2">Metode Publikasi</p>
-                        <div className="flex items-center space-x-3 text-sm font-bold">
-                           <BookOpen size={16} />
-                           <span>{selectedReg.publication.method || 'PUBLIKASI MANDIRI'}</span>
-                        </div>
+                <div className="space-y-10">
+                  <div className="card p-12 text-center space-y-6 bg-slate-900 text-white relative overflow-hidden rounded-[40px] shadow-2xl">
+                     <div className="absolute top-0 right-0 p-4 opacity-10"><FlaskConical size={120} /></div>
+                     <CheckCircle2 size={64} className="text-primary mx-auto" />
+                     <div>
+                       <h2 className="text-3xl font-black italic uppercase tracking-tighter">Penelitian Selesai</h2>
+                       <p className="text-slate-400 mt-2 font-medium">Seluruh tahapan telah dilalui. Terima kasih atas dedikasi dosen.</p>
                      </div>
-                   )}
+                     {selectedReg.publication && (
+                       <div className="pt-6 border-t border-white/10 text-left">
+                          <p className="text-[10px] font-black uppercase text-primary tracking-widest mb-2">Metode Publikasi</p>
+                          <div className="flex items-center space-x-3 text-sm font-bold">
+                             <BookOpen size={16} />
+                             <span>{selectedReg.publication.method || 'PUBLIKASI MANDIRI'}</span>
+                          </div>
+                       </div>
+                     )}
+                  </div>
+                  <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl">
+                     <PenelitianCompleteHistory registration={selectedReg} />
+                  </div>
                 </div>
               )}
 

@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { cn, formatDate } from '@/src/lib/utils';
 import { skripsiService, SkripsiRegistration } from '@/src/services/skripsiService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
+import SkripsiCompleteHistory from '@/src/components/dashboard/SkripsiCompleteHistory';
 
 export default function AdminSkripsi() {
   const [registrations, setRegistrations] = useState<SkripsiRegistration[]>([]);
@@ -543,12 +544,17 @@ export default function AdminSkripsi() {
                  )}
 
                  {selectedReg.status === 'COMPLETED' && selectedReg.grades && (
-                    <div className="card p-12 bg-green-50 border-green-200 text-center space-y-4">
-                       <CheckCircle2 size={64} className="mx-auto text-green-600" />
-                       <h4 className="text-2xl font-black text-green-900 tracking-tighter uppercase italic">Skripsi Completed</h4>
-                       <p className="text-green-700 font-medium text-xs">Nilai akhir: <span className="font-black text-green-800">{selectedReg.grades?.gradeText ?? '-'} ({(selectedReg.grades?.total ?? 0).toFixed(0)})</span></p>
-                       <p className="text-slate-500 text-xs">Nilai Naskah (30%): {selectedReg.grades?.naskah ?? 0} | Nilai Sidang (70%): {selectedReg.grades?.sidang ?? 0}</p>
-                       <button onClick={() => setSelectedReg(null)} className="btn-primary bg-green-600 hover:bg-green-700 mt-4 px-10 text-[10px] uppercase tracking-widest text-white font-bold">Back to list</button>
+                    <div className="space-y-10 animate-in fade-in duration-500">
+                       <div className="card p-12 bg-green-50 border-green-200 text-center space-y-4">
+                          <CheckCircle2 size={64} className="mx-auto text-green-600" />
+                          <h4 className="text-2xl font-black text-green-900 tracking-tighter uppercase italic">Skripsi Completed</h4>
+                          <p className="text-green-700 font-medium text-xs">Nilai akhir: <span className="font-black text-green-800">{selectedReg.grades?.gradeText ?? '-'} ({(selectedReg.grades?.total ?? 0).toFixed(0)})</span></p>
+                          <p className="text-slate-500 text-xs">Nilai Naskah (30%): {selectedReg.grades?.naskah ?? 0} | Nilai Sidang (70%): {selectedReg.grades?.sidang ?? 0}</p>
+                          <button onClick={() => setSelectedReg(null)} className="btn-primary bg-green-600 hover:bg-green-700 mt-4 px-10 text-[10px] uppercase tracking-widest text-white font-bold">Back to list</button>
+                       </div>
+                       <div className="bg-white p-8 border border-slate-100 shadow-sm rounded-3xl">
+                          <SkripsiCompleteHistory registration={selectedReg} />
+                       </div>
                     </div>
                  )}
                </motion.div>

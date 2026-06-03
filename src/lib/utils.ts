@@ -23,3 +23,46 @@ export const formatDate = (dateString: string | null | undefined) => {
     return dateString;
   }
 };
+
+export const openDocument = (url: string | null | undefined, filename = 'dokumen') => {
+  if (!url) return;
+  
+  const isBase64 = url.startsWith('data:');
+  const isBlob = url.startsWith('blob:');
+
+  if (isBase64 || isBlob) {
+    let mimeType = 'application/pdf';
+    let ext = 'pdf';
+
+    if (isBase64) {
+      const match = url.match(/^data:([^;]+);/);
+      if (match) {
+        mimeType = match[1];
+        ext = mimeType.split('/')[1] || 'pdf';
+      }
+    } else if (isBlob) {
+      // For blobs, we cannot easily read MIME, we'll default to pdf or common extension
+      ext = 'pdf';
+    }
+
+    // Clean extension name if it has image flags
+    if (ext === 'jpeg') ext = 'jpg';
+    if (ext === 'svg+xml') ext = 'svg';
+
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Ensure filename ends with proper extension
+    const cleanFilename = filename.toLowerCase().endsWith('.' + ext) 
+      ? filename 
+      : `${filename}.${ext}`;
+      
+    link.download = cleanFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    // Standard HTTP/S URL can be opened safely
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+};
