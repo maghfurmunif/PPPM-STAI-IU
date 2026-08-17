@@ -89,7 +89,7 @@ export default function MahasiswaDashboard() {
         )}
       </AnimatePresence>
       {/* Sidebar */}
-      <aside className="w-72 hidden lg:flex flex-col sticky top-20 h-[calc(100vh-80px)] p-6 z-20">
+      <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
         <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
           <div className="mb-6 px-4">
              <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Student Portal</div>

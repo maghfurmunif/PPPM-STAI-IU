@@ -4,7 +4,7 @@ import {
   MessageSquare, Camera, GraduationCap, ChevronDown, BookOpen, Info
 } from 'lucide-react';
 import { SkripsiRegistration, SkripsiLogbook } from '@/src/services/skripsiService';
-import { cn } from '@/src/lib/utils';
+import { cn, openDocument } from '@/src/lib/utils';
 
 interface SkripsiCompleteHistoryProps {
   registration: SkripsiRegistration;
@@ -53,7 +53,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                     <span className="text-[11px] font-bold text-slate-700 truncate mr-2">{label}</span>
                     {typeof value === 'string' && value.startsWith('http') ? (
                       <button 
-                        onClick={() => window.open(value, '_blank')} 
+                        onClick={() => openDocument(value, label)}
                         className="px-3 py-1.5 bg-white border border-slate-200 hover:border-primary/50 text-slate-800 hover:text-primary rounded-lg text-[9px] font-black uppercase tracking-wider flex items-center space-x-1.5 shadow-sm transition-all"
                       >
                         <Eye size={12} />
@@ -176,7 +176,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
             </div>
             {registration.afterExamDocs?.finalSkripsiUrl ? (
               <button 
-                onClick={() => window.open(registration.afterExamDocs.finalSkripsiUrl, '_blank')}
+                onClick={() => openDocument(registration.afterExamDocs.finalSkripsiUrl, 'Skripsi_Final')}
                 className="px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center space-x-1.5 shadow-sm transition-all"
               >
                 <Eye size={12} />

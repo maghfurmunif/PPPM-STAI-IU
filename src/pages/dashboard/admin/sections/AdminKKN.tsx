@@ -8,7 +8,7 @@ import {
   Camera, Plus, Send
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { cn } from '@/src/lib/utils';
+import { cn, openDocument } from '@/src/lib/utils';
 import { kknService, KKNRegistration, KKNLogbook, KKNStatus } from '@/src/services/kknService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
 import KKNCompleteHistory from '@/src/components/dashboard/KKNCompleteHistory';
@@ -620,6 +620,13 @@ function LogbookApproval({ reg, onAction }: { reg: KKNRegistration, onAction: ()
 
 function LPKApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => void }) {
   const [actionLoading, setActionLoading] = useState(false);
+  const openReport = (fileUrl: string | undefined, filename: string) => {
+    if (!fileUrl) {
+      toast.error('Berkas PDF belum diunggah oleh mahasiswa.');
+      return;
+    }
+    openDocument(fileUrl, filename);
+  };
   const handleApprove = async () => {
     setActionLoading(true);
     try {
@@ -644,7 +651,7 @@ function LPKApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
        </div>
        
        <div className="grid md:grid-cols-2 gap-10">
-          <div className="card p-10 bg-slate-900 border-none space-y-8 group hover:scale-[1.02] transition-all relative overflow-hidden">
+          <div className="p-10 bg-slate-900 text-white border border-slate-700 space-y-8 group hover:scale-[1.02] transition-all relative overflow-hidden rounded-3xl shadow-xl">
              <div className="absolute -left-4 -bottom-4 opacity-5"><UserCircle size={100} className="text-white" /></div>
              <div className="flex items-center space-x-4">
                 <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all"><FileText size={32} /></div>
@@ -654,11 +661,11 @@ function LPKApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
                 </div>
              </div>
              <button 
-               onClick={() => reg.lpk?.fileIndividu && window.open(reg.lpk.fileIndividu, '_blank')}
-               className="w-full h-14 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"
+               onClick={() => openReport(reg.lpk?.fileIndividu, 'Laporan_LPK_Individu')}
+               className="w-full h-14 bg-white text-slate-900 hover:bg-slate-100 border border-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
              >AUDIT MANUSCRIPT</button>
           </div>
-          <div className="card p-10 bg-slate-900 border-none space-y-8 group hover:scale-[1.02] transition-all relative overflow-hidden">
+          <div className="p-10 bg-slate-900 text-white border border-slate-700 space-y-8 group hover:scale-[1.02] transition-all relative overflow-hidden rounded-3xl shadow-xl">
              <div className="absolute -left-4 -bottom-4 opacity-5"><Users size={100} className="text-white" /></div>
              <div className="flex items-center space-x-4">
                 <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all"><FileText size={32} /></div>
@@ -668,8 +675,8 @@ function LPKApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
                 </div>
              </div>
              <button 
-               onClick={() => reg.lpk?.fileKelompok && window.open(reg.lpk.fileKelompok, '_blank')}
-               className="w-full h-14 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"
+               onClick={() => openReport(reg.lpk?.fileKelompok, 'Laporan_LPK_Kelompok')}
+               className="w-full h-14 bg-white text-slate-900 hover:bg-slate-100 border border-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
              >AUDIT MANUSCRIPT</button>
           </div>
        </div>
@@ -768,4 +775,3 @@ function GradingBox({ reg, onAction }: { reg: KKNRegistration, onAction: () => v
     </div>
   );
 }
-

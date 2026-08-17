@@ -7,7 +7,7 @@ import {
   ArrowRight, MessageSquare, AlertCircle, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { cn, formatDate } from '@/src/lib/utils';
+import { cn, formatDate, openDocument } from '@/src/lib/utils';
 import { penelitianService, PenelitianRegistration } from '@/src/services/penelitianService';
 import StatusBadge from '@/src/components/ui/StatusBadge';
 import PenelitianCompleteHistory from '@/src/components/dashboard/PenelitianCompleteHistory';
@@ -186,19 +186,19 @@ export default function AdminPenelitian() {
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-slate-400 uppercase">Proposal</p>
                        {selectedReg.proposalFile ? (
-                         <a href={selectedReg.proposalFile} target="_blank" className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
+                         <button onClick={() => openDocument(selectedReg.proposalFile, `Proposal_Penelitian_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
                             <FileText size={14} />
                             <span>Buka Proposal</span>
-                         </a>
+                         </button>
                        ) : <span className="text-xs font-bold text-slate-400 italic">Belum diunggah</span>}
                     </div>
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-slate-400 uppercase">Hasil Akhir</p>
                        {selectedReg.resultFile ? (
-                         <a href={selectedReg.resultFile} target="_blank" className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
+                         <button onClick={() => openDocument(selectedReg.resultFile, `Laporan_Hasil_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
                             <FileText size={14} />
                             <span>Buka Hasil</span>
-                         </a>
+                         </button>
                        ) : <span className="text-xs font-bold text-slate-400 italic">Belum diunggah</span>}
                     </div>
                  </div>
@@ -595,7 +595,7 @@ function RevisionAction({ reg, onAction }: { reg: PenelitianRegistration, onActi
              <span className="text-sm font-bold text-slate-700 font-mono">REVISI_FINAL_PENELITIAN.pdf</span>
           </div>
           {reg.finalRevisionFile && (
-            <a href={reg.finalRevisionFile} target="_blank" className="btn-primary h-10 px-6 text-[10px] flex items-center">Download</a>
+            <button onClick={() => openDocument(reg.finalRevisionFile, `Revisi_Final_${reg.dosenName || 'Dosen'}`)} className="btn-primary h-10 px-6 text-[10px] flex items-center">Download</button>
           )}
        </div>
 

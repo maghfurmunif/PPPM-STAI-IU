@@ -195,7 +195,7 @@ export default function AdminUsers() {
               exit={{ opacity: 0, x: -20 }}
               className="space-y-8"
             >
-              <div className="card p-12 relative overflow-hidden bg-white border-none shadow-3xl rounded-[48px]">
+              <div className="card p-12 relative overflow-hidden bg-white border-none shadow-2xl rounded-[48px]">
                  <div className="absolute top-0 right-0 p-12 opacity-5"><User size={250} /></div>
                  
                  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -349,7 +349,7 @@ export default function AdminUsers() {
                    </div>
 
                    <div className="md:col-span-2 pt-10">
-                      <button type="submit" className="btn-primary w-full h-20 rounded-[28px] text-[13px] font-black uppercase tracking-[0.4em] shadow-3xl shadow-primary/40 italic">SIMPAN BIODATA PERMANEN</button>
+                      <button type="submit" className="btn-primary w-full h-20 rounded-[28px] text-[13px] font-black uppercase tracking-[0.4em] shadow-2xl shadow-primary/40 italic">SIMPAN BIODATA PERMANEN</button>
                    </div>
                 </form>
              </motion.div>

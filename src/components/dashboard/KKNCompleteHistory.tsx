@@ -5,7 +5,7 @@ import {
   ChevronDown, ChevronUp, CheckCircle, Info
 } from 'lucide-react';
 import { KKNRegistration, KKNLogbook } from '@/src/services/kknService';
-import { cn } from '@/src/lib/utils';
+import { cn, openDocument } from '@/src/lib/utils';
 
 interface KKNCompleteHistoryProps {
   registration: KKNRegistration;
@@ -57,7 +57,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                     <span className="text-[11px] font-bold text-slate-700 truncate mr-2">{label}</span>
                     {typeof value === 'string' && value.startsWith('http') ? (
                       <button 
-                        onClick={() => window.open(value, '_blank')} 
+                        onClick={() => openDocument(value, label)}
                         className="px-3 py-1.5 bg-white border border-slate-200 hover:border-primary/50 text-slate-800 hover:text-primary rounded-lg text-[9px] font-black uppercase tracking-wider flex items-center space-x-1.5 shadow-sm transition-all"
                       >
                         <Eye size={12} />
@@ -160,7 +160,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <div className="flex gap-2">
                 <button 
                   disabled={!registration.rkl?.fileIndividu}
-                  onClick={() => registration.rkl?.fileIndividu && window.open(registration.rkl.fileIndividu, '_blank')}
+                  onClick={() => registration.rkl?.fileIndividu && openDocument(registration.rkl.fileIndividu, 'RKL_Individu')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
                     registration.rkl?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
@@ -171,7 +171,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                 </button>
                 <button 
                   disabled={!registration.rkl?.fileKelompok}
-                  onClick={() => registration.rkl?.fileKelompok && window.open(registration.rkl.fileKelompok, '_blank')}
+                  onClick={() => registration.rkl?.fileKelompok && openDocument(registration.rkl.fileKelompok, 'RKL_Kelompok')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
                     registration.rkl?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
@@ -189,7 +189,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <div className="flex gap-2">
                 <button 
                   disabled={!registration.lpk?.fileIndividu}
-                  onClick={() => registration.lpk?.fileIndividu && window.open(registration.lpk.fileIndividu, '_blank')}
+                  onClick={() => registration.lpk?.fileIndividu && openDocument(registration.lpk.fileIndividu, 'Laporan_LPK_Individu')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
                     registration.lpk?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
@@ -200,7 +200,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                 </button>
                 <button 
                   disabled={!registration.lpk?.fileKelompok}
-                  onClick={() => registration.lpk?.fileKelompok && window.open(registration.lpk.fileKelompok, '_blank')}
+                  onClick={() => registration.lpk?.fileKelompok && openDocument(registration.lpk.fileKelompok, 'Laporan_LPK_Kelompok')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
                     registration.lpk?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"

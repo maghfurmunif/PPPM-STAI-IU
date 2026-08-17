@@ -25,15 +25,23 @@ export const uploadToCloudinary = async (file: File) => {
   formData.append('file', file);
   formData.append('upload_preset', uploadPreset);
 
+  // Cloudinary can otherwise classify a PDF as an image. Uploading it as `raw`
+  // preserves the original PDF response headers when it is downloaded later.
+  const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  formData.append('resource_type', isPdf ? 'raw' : 'auto');
+
   try {
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+      `https://api.cloudinary.com/v1_1/${cloudName}/${isPdf ? 'raw' : 'auto'}/upload`,
       {
         method: 'POST',
         body: formData,
       }
     );
     const data = await response.json();
+    if (!response.ok || !data.secure_url) {
+      throw new Error(data.error?.message || 'Cloudinary tidak mengembalikan URL berkas.');
+    }
     return data.secure_url;
   } catch (error) {
     console.error('Upload failed:', error);

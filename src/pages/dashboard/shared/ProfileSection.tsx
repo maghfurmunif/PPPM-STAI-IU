@@ -168,7 +168,7 @@ export default function ProfileSection() {
                  <button 
                   type="submit" 
                   disabled={saving}
-                  className="btn-primary w-full h-20 rounded-[28px] text-[12px] font-black uppercase tracking-[0.4em] shadow-3xl shadow-primary/40 italic flex items-center justify-center space-x-4"
+                  className="btn-primary w-full h-20 rounded-[28px] text-[12px] font-black uppercase tracking-[0.4em] shadow-2xl shadow-primary/40 italic flex items-center justify-center space-x-4"
                  >
                     {saving ? <Loader2 size={24} className="animate-spin" /> : (
                       <>

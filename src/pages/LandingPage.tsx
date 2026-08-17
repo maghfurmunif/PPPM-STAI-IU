@@ -41,8 +41,12 @@ export default function LandingPage() {
       setIsLoggedIn(!!localStorage.getItem('user_role'));
       setUserRole(localStorage.getItem('user_role') || 'MAHASISWA');
     };
-    const interval = setInterval(checkLogin, 2000);
-    return () => clearInterval(interval);
+    window.addEventListener('storage', checkLogin);
+    window.addEventListener('auth-change', checkLogin);
+    return () => {
+      window.removeEventListener('storage', checkLogin);
+      window.removeEventListener('auth-change', checkLogin);
+    };
   }, []);
 
   const getDashboardPath = () => `/dashboard/${userRole.toLowerCase()}`;
@@ -50,12 +54,12 @@ export default function LandingPage() {
   return (
     <div className="space-y-12 pb-20">
       {/* Hero Section */}
-      <section className="relative h-[650px] overflow-hidden rounded-[40px] shadow-2xl mx-4 mt-4">
+      <section className="relative min-h-[560px] md:h-[650px] overflow-hidden rounded-3xl md:rounded-[40px] shadow-2xl mx-3 md:mx-4 mt-3 md:mt-4">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 to-slate-900/10 backdrop-blur-[1px]"></div>
         </div>
         
-        <div className="relative h-full flex flex-col justify-center px-12 md:px-20 max-w-4xl space-y-8">
+        <div className="relative min-h-[560px] md:h-full flex flex-col justify-center px-6 sm:px-10 md:px-20 max-w-4xl space-y-6 md:space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,7 +73,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter"
+            className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter"
           >
             Portal Digital <br />
             <span className="text-primary italic underline underline-offset-8 decoration-white/30">PPPM</span> STAI <br />
@@ -94,7 +98,7 @@ export default function LandingPage() {
           >
             <Link 
               to={isLoggedIn ? getDashboardPath() : "/register"} 
-              className="px-10 py-5 bg-primary hover:bg-primary-dark text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_20px_50px_rgba(var(--primary-rgb),0.3)] transition-all hover:scale-105 active:scale-95 flex items-center group"
+              className="px-7 sm:px-10 py-4 sm:py-5 bg-primary hover:bg-primary-dark text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_20px_50px_rgba(var(--primary-rgb),0.3)] transition-all hover:scale-105 active:scale-95 flex items-center group"
             >
               {isLoggedIn ? 'Buka Dashboard' : 'Mari Bergabung'}
               <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" size={18} />
@@ -108,7 +112,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[40px] space-y-6 w-85 shadow-2xl"
+            className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[40px] space-y-6 w-80 shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <span className="text-white/60 font-black uppercase tracking-widest text-[10px]">Realtime Activity</span>
@@ -208,7 +212,7 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div className="card bg-slate-900 p-12 shadow-3xl relative overflow-hidden group">
+          <div className="card bg-slate-900 p-7 sm:p-12 shadow-2xl relative overflow-hidden group">
             <div className="relative z-10 space-y-6">
               <div className="inline-block px-4 py-1.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-2">Collaboration</div>
               <h3 className="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Bergabung dengan Kami</h3>
@@ -259,4 +263,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

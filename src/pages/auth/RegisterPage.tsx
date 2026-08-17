@@ -68,9 +68,9 @@ export default function RegisterPage() {
       localStorage.setItem('user_role', role);
       localStorage.setItem('user_id', authData.user.id);
       localStorage.setItem('user_name', formData.fullName);
+      window.dispatchEvent(new Event('auth-change'));
       
       navigate(`/dashboard/${role.toLowerCase()}`);
-      window.location.reload(); 
     } catch (err: any) {
       console.error('Registration error:', err);
       setError(err.message || 'Gagal mendaftar. Silakan coba lagi.');

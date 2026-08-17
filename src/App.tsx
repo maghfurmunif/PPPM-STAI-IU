@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Toaster } from 'sonner';
 import Navbar from '@/src/components/layout/Navbar';
@@ -23,9 +23,19 @@ const AdminDashboard = lazy(() => import('@/src/pages/dashboard/admin/AdminDashb
 export default function App() {
   return (
     <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
+  );
+}
+
+function AppShell() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard/');
+
+  return (
       <div className="min-h-screen flex flex-col">
         <Toaster position="top-right" richColors />
-        <Navbar />
+        {!isDashboard && <Navbar />}
         <main className="flex-grow">
           <Suspense fallback={<div className="flex items-center justify-center h-screen italic font-black text-slate-300">Loading Portal...</div>}>
             <Routes>
@@ -66,8 +76,7 @@ export default function App() {
             </Routes>
           </Suspense>
         </main>
-        <Footer />
+        {!isDashboard && <Footer />}
       </div>
-    </BrowserRouter>
   );
 }

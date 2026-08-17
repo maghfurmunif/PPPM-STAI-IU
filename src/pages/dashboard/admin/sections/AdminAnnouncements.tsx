@@ -169,7 +169,7 @@ export default function AdminAnnouncements() {
                initial={{ opacity: 0, scale: 0.9, y: 20 }}
                animate={{ opacity: 1, scale: 1, y: 0 }}
                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-               className="relative card bg-white p-10 w-full max-w-2xl shadow-3xl rounded-[40px] overflow-hidden"
+               className="relative card bg-white p-10 w-full max-w-2xl shadow-2xl rounded-[40px] overflow-hidden"
              >
                 <div className="flex items-center justify-between mb-10">
                    <h2 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase underline decoration-primary underline-offset-8">Buat Pengumuman</h2>

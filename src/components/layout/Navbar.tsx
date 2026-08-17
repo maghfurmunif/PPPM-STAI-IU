@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { LogOut, Menu, X, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { cn } from '@/src/lib/utils';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,23 +22,21 @@ export default function Navbar() {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    // Poll frequently to ensure UI stays in sync with localStorage even if not triggered by event
-    const interval = setInterval(handleStorageChange, 500);
+    window.addEventListener('auth-change', handleStorageChange);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
+      window.removeEventListener('auth-change', handleStorageChange);
     };
   }, []);
 
   const handleLogout = () => {
-    console.log('Logging out...');
     localStorage.removeItem('user_role');
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_id');
     setIsLoggedIn(false);
+    window.dispatchEvent(new Event('auth-change'));
     navigate('/login');
-    window.location.reload(); // Force a full reload to clear all states
   };
 
   return (
@@ -98,7 +95,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2 text-slate-600" onClick={() => setIsOpen(!isOpen)}>
+          <button aria-label={isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'} aria-expanded={isOpen} className="md:hidden p-2 text-slate-600 rounded-lg hover:bg-slate-100" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -113,6 +110,8 @@ export default function Navbar() {
         >
           <Link to="/" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Dashboard</Link>
           <Link to="/pengumuman" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Pengumuman</Link>
+          <Link to="/statistik" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Statistik</Link>
+          <Link to="/panduan" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Panduan</Link>
           <div className="pt-4 border-t border-slate-100 flex flex-col space-y-3">
             {isLoggedIn ? (
               <>

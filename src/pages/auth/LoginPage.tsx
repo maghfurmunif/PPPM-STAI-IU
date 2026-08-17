@@ -55,9 +55,9 @@ export default function LoginPage() {
       localStorage.setItem('user_role', userRole);
       localStorage.setItem('user_id', userId);
       localStorage.setItem('user_name', userName);
+      window.dispatchEvent(new Event('auth-change'));
       
       navigate(`/dashboard/${userRole.toLowerCase()}`);
-      window.location.reload(); 
     } catch (err: any) {
       console.error('Login error:', err);
       setError(err.message || 'Login gagal. Periksa kembali email dan password.');

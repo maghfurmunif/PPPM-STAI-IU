@@ -6,7 +6,7 @@ import {
   GraduationCap, BookOpen, FileText, Info, UserCheck, MessageSquare, Eye
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { cn, formatDate } from '@/src/lib/utils';
+import { cn, formatDate, openDocument } from '@/src/lib/utils';
 import { skripsiService, SkripsiRegistration, SkripsiLogbook } from '@/src/services/skripsiService';
 import { uploadToCloudinary } from '@/src/lib/cloudinary';
 import StatusBadge from '@/src/components/ui/StatusBadge';
@@ -315,7 +315,7 @@ export default function SkripsiSection() {
                        </p>
                        <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
                           <button 
-                             onClick={() => window.open(registration.afterExamDocs?.finalSkripsiUrl, '_blank')} 
+                             onClick={() => openDocument(registration.afterExamDocs?.finalSkripsiUrl, 'Skripsi_Final')}
                              className="p-4 bg-slate-50 hover:bg-slate-100 rounded-2xl flex items-center justify-between border border-slate-200 text-xs font-bold text-slate-700 transition-all"
                           >
                              <span>Dokumen Final Skripsi (PDF)</span>
