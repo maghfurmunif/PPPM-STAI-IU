@@ -63,7 +63,7 @@ export default function AdminSkripsi() {
   };
 
   if (loading) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Syncing Skripsi Portal...</p>
      </div>
@@ -76,7 +76,7 @@ export default function AdminSkripsi() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic underline decoration-primary underline-offset-8">Manajemen Skripsi</h1>
           <p className="text-slate-500 font-medium text-xs mt-2 italic">Validasi berkas munaqosyah, monitoring bimbingan, verifikasi revisi final dan pencairan nilai mahasiswa.</p>
         </div>
-        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+        <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
            {registrations.length} Mahasiswa Aktif
         </div>
       </div>
@@ -85,8 +85,8 @@ export default function AdminSkripsi() {
         <div className="space-y-3 max-h-[70vh] overflow-y-auto side-scrollbar pr-2">
             {registrations.length === 0 ? (
               <div className="card p-10 text-center border-dashed">
-                 <Users className="mx-auto text-slate-300 mb-2" />
-                 <p className="text-[9px] font-black text-slate-400 uppercase">No Data Found</p>
+                 <Users className="mx-auto text-slate-500 mb-2" />
+                 <p className="text-[9px] font-black text-slate-500 uppercase">No Data Found</p>
               </div>
             ) : (
               registrations.map(reg => (
@@ -100,7 +100,7 @@ export default function AdminSkripsi() {
                 >
                    <div className="flex justify-between items-center mb-2">
                       <StatusBadge status={reg.status} />
-                      <span className="text-[9px] font-bold text-slate-400 italic">#{reg.id.slice(0, 5)}</span>
+                      <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
                    </div>
                    <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.studentName}</h4>
                 </button>
@@ -118,7 +118,7 @@ export default function AdminSkripsi() {
                exit={{ opacity: 0, x: -20 }}
                className="space-y-6"
              >
-                <div className="card p-10 bg-slate-900 text-white flex justify-between items-center relative overflow-hidden">
+                <div className="card p-10 bg-slate-50 text-slate-900 flex justify-between items-center relative overflow-hidden">
                    <div className="relative z-10">
                       <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">Administrative Review</p>
                       <h2 className="text-3xl font-black italic tracking-tighter uppercase text-white">{selectedReg.studentName}</h2>
@@ -140,7 +140,7 @@ export default function AdminSkripsi() {
                         {Object.entries(selectedReg.registrationDocs || {}).map(([k, v]) => (
                           <div key={k} className="p-4 bg-slate-50 rounded-2xl flex items-center justify-between border border-slate-200 group hover:border-primary/30 transition-all">
                              <div className="flex flex-col">
-                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{k}</span>
+                                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{k}</span>
                                 <span className="text-[11px] font-bold text-slate-700 truncate max-w-[120px]">Document Provided</span>
                              </div>
                              {typeof v === 'string' && v.startsWith('http') ? (
@@ -211,7 +211,7 @@ export default function AdminSkripsi() {
                           </div>
                           <div className="text-right">
                              <p className="text-3xl font-black text-primary italic tracking-tighter">{selectedReg.logbooks.filter(l => l.status === 'APPROVED').length}</p>
-                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Approved Docs</p>
+                             <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Approved Docs</p>
                           </div>
                        </div>
                        <div className="space-y-4">
@@ -361,7 +361,7 @@ export default function AdminSkripsi() {
                           <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Aktivitas Tambahan Pasca-sidang & Revisi</span>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                              <div className="space-y-2">
-                                <span className="text-[9px] font-extrabold text-slate-400 uppercase">A. Bukti Sesi Pasca-Sidang (Sidang Docs)</span>
+                                <span className="text-[9px] font-extrabold text-slate-500 uppercase">A. Bukti Sesi Pasca-Sidang (Sidang Docs)</span>
                                 {selectedReg.afterExamDocs?.sidangDocs && selectedReg.afterExamDocs.sidangDocs.length > 0 ? (
                                    <div className="flex gap-2">
                                       {selectedReg.afterExamDocs.sidangDocs.map((url: string, i: number) => (
@@ -374,7 +374,7 @@ export default function AdminSkripsi() {
                              </div>
 
                              <div className="space-y-2">
-                                <span className="text-[9px] font-extrabold text-slate-400 uppercase">B. Bukti Bimbingan Revisi (Revision Docs)</span>
+                                <span className="text-[9px] font-extrabold text-slate-500 uppercase">B. Bukti Bimbingan Revisi (Revision Docs)</span>
                                 {selectedReg.afterExamDocs?.revisionDocs && selectedReg.afterExamDocs.revisionDocs.length > 0 ? (
                                    <div className="flex gap-2">
                                       {selectedReg.afterExamDocs.revisionDocs.map((url: string, i: number) => (
@@ -424,7 +424,7 @@ export default function AdminSkripsi() {
                                       placeholder="0" 
                                       max={100} 
                                    />
-                                   <p className="text-[9px] text-slate-400 font-medium mt-1 leading-normal">Kualitas draf skripsi, metodologi riset & penulisan.</p>
+                                   <p className="text-[9px] text-slate-500 font-medium mt-1 leading-normal">Kualitas draf skripsi, metodologi riset & penulisan.</p>
                                 </div>
 
                                 <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200">
@@ -436,7 +436,7 @@ export default function AdminSkripsi() {
                                       placeholder="0" 
                                       max={100} 
                                    />
-                                   <p className="text-[9px] text-slate-400 font-medium mt-1 leading-normal">Pertanggungjawaban, retorika presentasi & argumentasi.</p>
+                                   <p className="text-[9px] text-slate-500 font-medium mt-1 leading-normal">Pertanggungjawaban, retorika presentasi & argumentasi.</p>
                                 </div>
                              </div>
                           </div>
@@ -515,12 +515,12 @@ export default function AdminSkripsi() {
                           <div className="space-y-3 p-8 bg-slate-50 rounded-3xl border border-slate-200">
                              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">Naskah Skripsi (30%)</label>
                              <input id="naskah" type="number" className="input-field h-14 text-2xl font-black italic text-slate-900 bg-white shadow-inner border border-slate-300 pl-3 font-bold" placeholder="0" max={100} />
-                             <p className="text-[10px] text-slate-400 font-medium italic">Nilai kualitas penulisan dan orisinalitas.</p>
+                             <p className="text-[10px] text-slate-500 font-medium italic">Nilai kualitas penulisan dan orisinalitas.</p>
                           </div>
                           <div className="space-y-3 p-8 bg-slate-50 rounded-3xl border border-slate-200">
                              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">Sidang Munaqosyah (70%)</label>
                              <input id="sidang" type="number" className="input-field h-14 text-2xl font-black italic text-slate-900 bg-white shadow-inner border border-slate-300 pl-3 font-bold" placeholder="0" max={100} />
-                             <p className="text-[10px] text-slate-400 font-medium italic">Nilai penguasaan materi dan retorika.</p>
+                             <p className="text-[10px] text-slate-500 font-medium italic">Nilai penguasaan materi dan retorika.</p>
                           </div>
                        </div>
                        <button 
@@ -559,7 +559,7 @@ export default function AdminSkripsi() {
                  )}
                </motion.div>
            ) : (
-             <div className="card h-[500px] flex items-center justify-center text-slate-400 font-black uppercase tracking-widest italic border-dashed bg-white border-slate-200 shadow-sm text-center">Pilih Mahasiswa untuk Melakukan Verifikasi</div>
+             <div className="card h-[500px] flex items-center justify-center text-slate-500 font-black uppercase tracking-widest italic border-dashed bg-white border-slate-200 shadow-sm text-center">Pilih Mahasiswa untuk Melakukan Verifikasi</div>
            )}
            </AnimatePresence>
         </div>

@@ -95,7 +95,7 @@ export default function DosenDashboard() {
       <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
         <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
           <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Dosen Portal</div>
+             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Dosen Portal</div>
              <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
@@ -106,9 +106,9 @@ export default function DosenDashboard() {
                   href={menu.path}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest text-slate-400 hover:text-primary hover:bg-white/50"
+                  className="flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest text-slate-500 hover:text-primary hover:bg-white/50"
                 >
-                   <div className="p-2 rounded-xl bg-slate-100 text-slate-400">
+                   <div className="p-2 rounded-xl bg-slate-100 text-slate-500">
                     <menu.icon size={16} />
                    </div>
                    <span>{menu.name}</span>
@@ -121,14 +121,14 @@ export default function DosenDashboard() {
                     "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
                     (location.pathname === menu.path)
                       ? "bg-slate-900 text-white shadow-lg shadow-black/20 scale-[1.02]" 
-                      : "text-slate-400 hover:text-slate-900 hover:bg-slate-100"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
                   )}
                 >
                   <div className={cn(
                     "p-2 rounded-xl transition-colors",
                     (location.pathname === menu.path)
                       ? "bg-white/10 text-white"
-                      : "bg-slate-100 text-slate-400"
+                      : "bg-slate-100 text-slate-500"
                   )}>
                     <menu.icon size={16} />
                   </div>
@@ -167,7 +167,7 @@ export default function DosenDashboard() {
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
               <div className="w-16 h-16 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
-              <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Authorizing Faculty Access...</p>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Authorizing Faculty Access...</p>
             </div>
           }>
             <Routes>
@@ -176,7 +176,7 @@ export default function DosenDashboard() {
               <Route path="pengabdian" element={<PengabdianDosen />} />
               <Route path="dokumentasi" element={<DosenDokumentasi />} />
               <Route path="profile" element={<ProfileSection />} />
-              <Route path="*" element={<div className="card p-10 text-center text-slate-400 font-bold uppercase tracking-widest text-xs italic">Section Under Development</div>} />
+              <Route path="*" element={<div className="card p-10 text-center text-slate-500 font-bold uppercase tracking-widest text-xs italic">Section Under Development</div>} />
             </Routes>
           </Suspense>
         </div>
@@ -215,7 +215,7 @@ function DosenOverview() {
                    </div>
                    <div className="space-y-1">
                       <h3 className="text-xl font-bold italic tracking-tighter uppercase underline decoration-primary/30 underline-offset-4">{card.title}</h3>
-                      <p className="text-sm font-medium text-slate-400">{card.desc}</p>
+                      <p className="text-sm font-medium text-slate-500">{card.desc}</p>
                    </div>
                 </div>
                 <div className="pt-8 relative z-10 flex items-center text-[10px] font-black uppercase tracking-widest text-primary group-hover:translate-x-2 transition-transform">

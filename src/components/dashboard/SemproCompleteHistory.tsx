@@ -27,14 +27,14 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-50 text-slate-800 flex items-center justify-center font-bold">1</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Draft Registration</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Draft Registration</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Pengajuan & Naskah Proposal</h4>
             </div>
           </div>
 
           <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100/50 flex justify-between items-center text-xs">
             <div>
-               <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">File Outline / Proposal</span>
+               <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">File Outline / Proposal</span>
                <p className="text-[9px] text-slate-500 italic mt-0.5">Diserahkan pada pendaftaran akademik</p>
             </div>
             {registration.proposalFile ? (
@@ -46,7 +46,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
                 <span>LIHAT DRAF PDF</span>
               </button>
             ) : (
-              <span className="text-[9px] font-bold text-slate-300 italic">No File Found</span>
+              <span className="text-[9px] font-bold text-slate-500 italic">No File Found</span>
             )}
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-50 text-slate-800 flex items-center justify-center font-bold">2</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Committee Panel</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Committee Panel</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Jadwal Sidang Komite</h4>
             </div>
           </div>
@@ -65,16 +65,16 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
              <div className="space-y-3.5 text-xs">
                 <div className="grid grid-cols-2 gap-3">
                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                      <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Tanggal & Hari</span>
+                      <span className="text-[9px] text-slate-500 uppercase tracking-wider block">Tanggal & Hari</span>
                       <span className="text-slate-900 font-extrabold block mt-1">{registration.schedule.hari}, {registration.schedule.tanggal}</span>
                    </div>
                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                      <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Waktu / Pukul</span>
+                      <span className="text-[9px] text-slate-500 uppercase tracking-wider block">Waktu / Pukul</span>
                       <span className="text-slate-900 font-extrabold block mt-1">{registration.schedule.pukul} WIB</span>
                    </div>
                    <div className="col-span-2 p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
                       <div>
-                         <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Lokasi / Ruangan</span>
+                         <span className="text-[9px] text-slate-500 uppercase tracking-wider block">Lokasi / Ruangan</span>
                          <span className="text-slate-900 font-extrabold mt-0.5 block">{registration.schedule.ruang}</span>
                       </div>
                       <span className="px-2.5 py-1 bg-primary/15 text-primary text-[9px] font-black rounded-lg uppercase tracking-wider">
@@ -84,7 +84,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
                 </div>
              </div>
           ) : (
-             <div className="p-6 text-center text-xs italic text-slate-400 font-medium bg-slate-50 rounded-2xl">
+             <div className="p-6 text-center text-xs italic text-slate-500 font-medium bg-slate-50 rounded-2xl">
                 Jadwal seminar belum dipublikasi formal oleh komite akademik.
              </div>
           )}
@@ -99,7 +99,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-50 text-slate-800 flex items-center justify-center font-bold">3</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Photo Evidence</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Photo Evidence</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumentasi Jalannya Sidang</h4>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
                  </div>
                ))
              ) : (
-                <div className="col-span-3 py-10 bg-slate-50 text-xs italic text-slate-400 text-center rounded-2xl">
+                <div className="col-span-3 py-10 bg-slate-50 text-xs italic text-slate-500 text-center rounded-2xl">
                    Belum ada bukti foto diunggah.
                 </div>
              )}
@@ -130,7 +130,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-50 text-slate-800 flex items-center justify-center font-bold">4</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Correction Archives</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Correction Archives</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Naskah Catatan Koreksi & Revisi</h4>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function SemproCompleteHistory({ registration }: SemproCompleteHi
                  </div>
                ))
              ) : (
-                <div className="py-10 bg-slate-50 text-xs italic text-slate-400 text-center rounded-2xl">
+                <div className="py-10 bg-slate-50 text-xs italic text-slate-500 text-center rounded-2xl">
                    Belum ada naskah koreksi/catatan diarsipkan.
                 </div>
              )}

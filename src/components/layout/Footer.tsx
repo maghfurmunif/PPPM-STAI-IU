@@ -3,7 +3,7 @@ import { Mail, Phone, MessageCircle, MapPin, Facebook, Instagram, Youtube } from
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-20 pb-10">
+    <footer className="bg-slate-900 text-slate-500 pt-20 pb-10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
           {/* Section 1: Profile & Contact */}
@@ -16,10 +16,10 @@ export default function Footer() {
                />
                <div>
                  <span className="block font-black text-white leading-none text-xl tracking-tighter italic">PPPM</span>
-                 <span className="block text-[10px] text-slate-400 uppercase tracking-widest mt-1">STAI Ihyaul Ulum</span>
+                 <span className="block text-[10px] text-slate-500 uppercase tracking-widest mt-1">STAI Ihyaul Ulum</span>
                </div>
             </div>
-            <p className="text-sm leading-relaxed text-slate-400">
+            <p className="text-sm leading-relaxed text-slate-500">
               Pusat Penelitian dan Pengabdian kepada Masyarakat (PPPM) STAI Ihyaul Ulum Gresik berkomitmen untuk memajukan ilmu pengetahuan dan pemberdayaan masyarakat.
             </p>
             <div className="space-y-3">

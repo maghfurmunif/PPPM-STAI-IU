@@ -30,7 +30,7 @@ export default function StatistikPage() {
         </div>
 
         {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+            <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
                <Loader2 className="animate-spin text-primary" size={40} />
                <p>Mengkalkulasi Data Sistem...</p>
             </div>
@@ -48,7 +48,7 @@ export default function StatistikPage() {
                       <item.icon size={30} />
                    </div>
                    <div>
-                      <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{item.label}</p>
+                      <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{item.label}</p>
                       <p className="text-5xl font-black text-slate-900 tracking-tighter italic uppercase">{item.value}</p>
                    </div>
                 </div>
@@ -88,7 +88,7 @@ export default function StatistikPage() {
                   <div className="relative z-10 space-y-6">
                     <div className="inline-block px-4 py-1.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-2">Academic Transparency</div>
                     <h3 className="text-4xl font-black italic tracking-tighter uppercase leading-none">Integritas Data</h3>
-                    <p className="text-slate-400 font-medium leading-relaxed">Seluruh data yang ditampilkan bersifat realtime dan diambil langsung dari database terpusat STAI Ihyaul Ulum. Kami menjamin transparansi pelaporan akademik guna mendukung mutu pendidikan yang lebih baik.</p>
+                    <p className="text-slate-500 font-medium leading-relaxed">Seluruh data yang ditampilkan bersifat realtime dan diambil langsung dari database terpusat STAI Ihyaul Ulum. Kami menjamin transparansi pelaporan akademik guna mendukung mutu pendidikan yang lebih baik.</p>
                      <div className="grid grid-cols-2 gap-6 pt-6">
                         <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
                            <p className="text-3xl font-black italic tracking-tighter mb-1 text-primary">{stats.totalActivity}</p>

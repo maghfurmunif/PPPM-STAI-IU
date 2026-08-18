@@ -72,7 +72,7 @@ export default function PengabdianDosenSection() {
   };
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+    <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
       <Loader2 className="animate-spin text-primary" size={40} />
       <p>Syncing Community Services...</p>
     </div>
@@ -93,7 +93,7 @@ export default function PengabdianDosenSection() {
         </div>
         {registration && (
           <div className="flex items-center glass-morphism rounded-2xl px-6 py-3 border-white/40 shadow-lg">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-3">Current Status</span>
+             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mr-3">Current Status</span>
              <StatusBadge status={registration.status} />
           </div>
         )}
@@ -108,11 +108,11 @@ export default function PengabdianDosenSection() {
           exit={{ opacity: 0, scale: 1.05 }}
           className="grid lg:grid-cols-2 gap-10"
         >
-           <div className="card p-10 bg-slate-900 text-white space-y-8 shadow-2xl relative overflow-hidden">
+           <div className="card p-10 bg-slate-50 text-slate-900 space-y-8 shadow-2xl relative overflow-hidden">
               <div className="absolute -right-6 -bottom-6 opacity-10 rotate-12"><HeartHandshake size={200} /></div>
               <div className="space-y-2 relative z-10">
                  <h2 className="text-3xl font-black italic tracking-tighter uppercase">Mulai Program Pengabdian</h2>
-                 <p className="text-slate-400 text-sm font-medium">Ajukan program pengabdian Anda untuk mendapatkan Surat Tugas dan pendataan aktivitas.</p>
+                 <p className="text-slate-500 text-sm font-medium">Ajukan program pengabdian Anda untuk mendapatkan Surat Tugas dan pendataan aktivitas.</p>
               </div>
 
               <div className="space-y-6 relative z-10">
@@ -127,7 +127,7 @@ export default function PengabdianDosenSection() {
                         docs.proposal ? <div className="flex flex-col items-center space-y-2 text-primary">
                           <CheckCircle2 size={32} />
                           <span className="text-[9px] font-black uppercase tracking-widest">Proposal Uploaded</span>
-                        </div> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-slate-300">
+                        </div> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-slate-500">
                           <FileUp size={32} />
                           <span className="text-[9px] font-black uppercase tracking-widest">Select PDF File</span>
                         </div>}
@@ -140,12 +140,12 @@ export default function PengabdianDosenSection() {
                        "flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-[32px] cursor-pointer transition-all group",
                        docs.suratTugas ? "border-primary/50 bg-primary/10" : "border-white/10 hover:border-white/20 hover:bg-white/5"
                     )}>
-                       <input type="file" className="hidden" accept=".pdf" onChange={e => e.target.files?.[0] && handleUpload('suratTugas', e.target.files[0])} disabled={uploading} />
+                                  <div className="card p-10 bg-slate-50 text-slate-900 space-y-8 shadow-2xl relative overflow-hidden">
                        {uploading ? <Loader2 className="animate-spin text-primary" /> : 
                         docs.suratTugas ? <div className="flex flex-col items-center space-y-2 text-primary">
                           <CheckCircle2 size={32} />
                           <span className="text-[9px] font-black uppercase tracking-widest">Assigment Task Uploaded</span>
-                        </div> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-slate-300">
+                        </div> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-slate-500">
                           <FileUp size={32} />
                           <span className="text-[9px] font-black uppercase tracking-widest">Select Assignment File</span>
                         </div>}
@@ -177,7 +177,7 @@ export default function PengabdianDosenSection() {
                       <p className="text-sm font-bold text-slate-600 leading-tight pt-2.5">{t}</p>
                    </li>
                  ))}
-              </ul>
+                                  <div className="card p-10 bg-slate-50 text-slate-900 flex justify-between items-center relative overflow-hidden shadow-2xl">
            </div>
         </motion.div>
       ) : (
@@ -187,19 +187,19 @@ export default function PengabdianDosenSection() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-10"
         >
-           <div className="card p-10 bg-slate-900 text-white flex justify-between items-center relative overflow-hidden shadow-2xl">
+           <div className="card p-10 bg-slate-50 text-slate-900 flex justify-between items-center relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 right-0 p-10 opacity-10"><HeartHandshake size={120} /></div>
               <div className="relative z-10 space-y-1">
                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Program Profile</p>
                  <h2 className="text-4xl font-black italic uppercase tracking-tighter mt-1">{registration.dosenName}</h2>
                  <div className="flex items-center space-x-4 mt-4">
                     <StatusBadge status={registration.status} className="bg-white/10 border-white/20 text-white" />
-                    <span className="text-[10px] font-black text-slate-400">ID: {registration.id.slice(0, 8)}</span>
+                    <span className="text-[10px] font-black text-slate-500">ID: {registration.id.slice(0, 8)}</span>
                  </div>
               </div>
               <div className="text-right relative z-10 hidden md:block">
                  <div className="p-4 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Assignment Docs</p>
+                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Assignment Docs</p>
                     <button onClick={() => window.open(registration.docs?.proposalFile, '_blank')} className="text-xs font-black text-primary hover:underline flex items-center">
                       <Download size={14} className="mr-1" /> View Proposal
                     </button>
@@ -230,7 +230,7 @@ export default function PengabdianDosenSection() {
                         <CheckCircle2 size={64} className="mx-auto text-emerald-500 animate-bounce" />
                         <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] italic leading-none">Synergy outreach finalized</p>
                         <h2 className="text-4xl font-black italic text-white tracking-tighter uppercase leading-none">Pengabdian Selesai</h2>
-                        <p className="text-slate-400 max-w-md mx-auto text-xs font-semibold leading-relaxed">
+                        <p className="text-slate-500 max-w-md mx-auto text-xs font-semibold leading-relaxed">
                            Seluruh kewajiban jam pelaporan darmabakti pengabdian masyarakat telah diaudit dan disetujui secara institusional.
                         </p>
                      </div>
@@ -310,7 +310,7 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
             <div className="flex justify-between items-center bg-white p-8 rounded-[36px] shadow-sm border border-slate-100">
                <div>
                   <h3 className="text-2xl font-black italic uppercase tracking-tighter text-slate-900">Aktivitas Mingguan</h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Daftar Logbook Monitoring</p>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Daftar Logbook Monitoring</p>
                </div>
                <button 
                   onClick={() => setIsAdding(!isAdding)} 
@@ -329,7 +329,7 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
                  initial={{ opacity: 0, height: 0 }} 
                  animate={{ opacity: 1, height: 'auto' }} 
                  exit={{ opacity: 0, height: 0 }}
-                 className="card p-10 bg-slate-900 text-white space-y-8 overflow-hidden shadow-2xl relative"
+                 className="card p-10 bg-slate-50 text-slate-900 space-y-8 overflow-hidden shadow-2xl relative"
                >
                   <div className="absolute top-0 right-0 p-10 opacity-10"><Plus size={80} /></div>
                   <form onSubmit={handleAddLog} className="grid grid-cols-2 gap-8 relative z-10">
@@ -354,7 +354,7 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
                         <label className="flex items-center justify-center h-14 bg-white/5 border border-dashed border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-all">
                            <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handlePhoto(e.target.files[0])} />
                            {uploading ? <Loader2 className="animate-spin text-primary" /> : 
-                            photo ? <CheckCircle2 className="text-primary" /> : <Camera size={20} className="text-slate-400" />}
+                            photo ? <CheckCircle2 className="text-primary" /> : <Camera size={20} className="text-slate-500" />}
                         </label>
                      </div>
                      <button type="submit" disabled={actionLoading || uploading} className="col-span-2 h-16 btn-primary rounded-2xl shadow-xl uppercase font-black tracking-widest text-[11px] mt-2">
@@ -367,7 +367,7 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
 
             <div className="space-y-4">
                {registration.logbooks?.length === 0 ? (
-                 <div className="card p-20 text-center border-dashed border-2 text-slate-300 font-bold uppercase tracking-widest italic text-xs">Belum ada entry logbook.</div>
+                 <div className="card p-20 text-center border-dashed border-2 text-slate-500 font-bold uppercase tracking-widest italic text-xs">Belum ada entry logbook.</div>
                ) : (
                  registration.logbooks?.map(log => (
                     <div key={log.id} className="card p-6 bg-white flex justify-between items-center group hover:border-primary/30 transition-all border-slate-100 shadow-sm">
@@ -377,12 +377,12 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
                           </div>
                           <div>
                              <h4 className="font-bold text-slate-900 italic tracking-tight text-lg group-hover:text-primary transition-colors">{log.nama}</h4>
-                             <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">{log.date} • <span className="text-slate-700">{log.hours} Jam</span></p>
+                             <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mt-1">{log.date} • <span className="text-slate-700">{log.hours} Jam</span></p>
                           </div>
                        </div>
                        <div className="flex items-center space-x-8 text-right">
                           <div className="hidden md:block">
-                             <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1 italic">Desa Verify Accountable</p>
+                             <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1 italic">Desa Verify Accountable</p>
                              <div className="flex items-center justify-end space-x-2">
                                 <span className={cn("text-[10px] font-black", log.statusPihakDesa === 'VERIFIED' ? "text-green-500" : "text-orange-500")}>@{log.pihakDesa}</span>
                                 {log.statusPihakDesa === 'VERIFIED' ? <CheckCircle2 size={12} className="text-green-500" /> : <Clock size={12} className="text-orange-500" />}
@@ -402,11 +402,11 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
          </div>
 
          <div className="space-y-8">
-            <div className="card p-10 bg-slate-900 text-white text-center space-y-8 relative overflow-hidden shadow-2xl">
+            <div className="card p-10 bg-slate-50 text-slate-900 text-center space-y-8 relative overflow-hidden shadow-2xl">
                <div className="absolute -top-10 -right-10 opacity-10"><Clock size={160} /></div>
                <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] relative z-10">Logged Performance</p>
                <div className="text-7xl font-black italic relative z-10 leading-none">{registration.totalHours || 0} <span className="text-2xl text-slate-600">H</span></div>
-               <p className="text-xs text-slate-400 font-medium relative z-10 leading-relaxed max-w-[220px] mx-auto italic">Target 30 jam bimbingan pengabdian terverifikasi.</p>
+               <p className="text-xs text-slate-500 font-medium relative z-10 leading-relaxed max-w-[220px] mx-auto italic">Target 30 jam bimbingan pengabdian terverifikasi.</p>
                <div className="h-3 bg-white/10 rounded-full overflow-hidden relative z-10 border border-white/5">
                   <motion.div 
                     initial={{ width: 0 }}
@@ -417,14 +417,14 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
             </div>
             
             <div className="card p-10 bg-slate-50 space-y-6 border-none shadow-inner border-slate-100">
-               <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] border-b border-slate-200 pb-3 italic">Assignment Metadata</h4>
+               <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] border-b border-slate-200 pb-3 italic">Assignment Metadata</h4>
                <div className="space-y-5">
                   <div className="flex flex-col space-y-1">
-                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center"> <MapPin size={10} className="mr-1.5 text-primary" /> Target Region</span>
+                     <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest flex items-center"> <MapPin size={10} className="mr-1.5 text-primary" /> Target Region</span>
                      <span className="font-bold text-slate-900 text-sm italic">{registration.info?.lokasi || 'Belum Ditentukan'}</span>
                   </div>
                   <div className="flex flex-col space-y-1">
-                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center"> <Users size={10} className="mr-1.5 text-primary" /> Task Force Unit</span>
+                     <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest flex items-center"> <Users size={10} className="mr-1.5 text-primary" /> Task Force Unit</span>
                      <span className="font-bold text-slate-900 text-sm italic">{registration.info?.kelompok || 'Belum Ditentukan'}</span>
                   </div>
                </div>
@@ -435,7 +435,7 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
                         <Download size={16} className="text-primary mr-3" />
                         <span className="text-[10px] font-black uppercase tracking-widest">Proposal PDF</span>
                      </div>
-                     <ArrowRight size={14} className="text-slate-300 group-hover:translate-x-1 transition-transform" />
+                     <ArrowRight size={14} className="text-slate-500 group-hover:translate-x-1 transition-transform" />
                   </button>
                </div>
             </div>

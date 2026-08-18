@@ -39,7 +39,7 @@ export default function AdminPenelitian() {
   if (loading && registrations.length === 0) return (
     <div className="flex flex-col items-center justify-center h-[50vh] space-y-4">
       <Loader2 className="animate-spin text-primary" size={40} />
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading Penelitian...</p>
+      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Loading Penelitian...</p>
     </div>
   );
 
@@ -51,7 +51,7 @@ export default function AdminPenelitian() {
           <p className="text-slate-500 font-medium mt-2 text-xs">Kelola proposal, seminar, dan publikasi penelitian dosen.</p>
         </div>
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
           <input 
             type="text" 
             placeholder="Cari dosen..." 
@@ -67,7 +67,7 @@ export default function AdminPenelitian() {
           {filtered.length === 0 ? (
             <div className="card p-10 text-center space-y-3 border-dashed">
                <FlaskConical className="mx-auto text-slate-200" size={40} />
-               <p className="text-slate-400 font-bold uppercase tracking-widest text-[9px]">Belum ada pengajuan</p>
+               <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px]">Belum ada pengajuan</p>
             </div>
           ) : (
             filtered.map(reg => (
@@ -81,7 +81,7 @@ export default function AdminPenelitian() {
               >
                 <div className="flex justify-between items-start mb-2">
                    <StatusBadge status={reg.status} />
-                   <span className="text-[9px] font-bold text-slate-300 italic">#{reg.id.slice(0, 5)}</span>
+                   <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
                 </div>
                 <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.dosenName}</h4>
               </button>
@@ -99,15 +99,15 @@ export default function AdminPenelitian() {
               exit={{ opacity: 0, x: -20 }}
               className="space-y-8"
             >
-              <div className="card bg-slate-900 text-white p-8 relative overflow-hidden">
+              <div className="card bg-slate-50 text-slate-900 p-8 relative overflow-hidden">
                  <div className="absolute top-0 right-0 p-8 opacity-10">
                     <FlaskConical size={120} />
                  </div>
                  <div className="relative z-10 flex justify-between items-start">
                     <div>
-                       <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">Researcher Profile</p>
+                       <p className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em] mb-1">Researcher Profile</p>
                        <h2 className="text-3xl font-black italic tracking-tighter uppercase">{selectedReg.dosenName}</h2>
-                       <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">ID: {selectedReg.dosenId}</p>
+                       <p className="text-[10px] font-bold text-slate-900 mt-2 uppercase tracking-widest">ID: {selectedReg.dosenId}</p>
                     </div>
                     <StatusBadge status={selectedReg.status} className="bg-white/10 border-white/20 text-white" />
                  </div>
@@ -156,12 +156,12 @@ export default function AdminPenelitian() {
 
               {selectedReg.status === 'COMPLETED' && (
                 <div className="space-y-10">
-                  <div className="card p-12 text-center space-y-6 bg-slate-900 text-white relative overflow-hidden rounded-[40px] shadow-2xl">
+                  <div className="card p-12 text-center space-y-6 bg-slate-50 text-slate-900 relative overflow-hidden rounded-[40px] shadow-2xl">
                      <div className="absolute top-0 right-0 p-4 opacity-10"><FlaskConical size={120} /></div>
                      <CheckCircle2 size={64} className="text-primary mx-auto" />
                      <div>
                        <h2 className="text-3xl font-black italic uppercase tracking-tighter">Penelitian Selesai</h2>
-                       <p className="text-slate-400 mt-2 font-medium">Seluruh tahapan telah dilalui. Terima kasih atas dedikasi dosen.</p>
+                       <p className="text-slate-500 mt-2 font-medium">Seluruh tahapan telah dilalui. Terima kasih atas dedikasi dosen.</p>
                      </div>
                      {selectedReg.publication && (
                        <div className="pt-6 border-t border-white/10 text-left">
@@ -181,25 +181,25 @@ export default function AdminPenelitian() {
 
               {/* Status Log */}
               <div className="card p-8 bg-slate-50 border-none">
-                 <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-6">Informasi Proyek</h4>
+                 <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-6">Informasi Proyek</h4>
                  <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase">Proposal</p>
+                       <p className="text-[10px] font-black text-slate-500 uppercase">Proposal</p>
                        {selectedReg.proposalFile ? (
                          <button onClick={() => openDocument(selectedReg.proposalFile, `Proposal_Penelitian_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
                             <FileText size={14} />
                             <span>Buka Proposal</span>
                          </button>
-                       ) : <span className="text-xs font-bold text-slate-400 italic">Belum diunggah</span>}
+                       ) : <span className="text-xs font-bold text-slate-500 italic">Belum diunggah</span>}
                     </div>
                     <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase">Hasil Akhir</p>
+                       <p className="text-[10px] font-black text-slate-500 uppercase">Hasil Akhir</p>
                        {selectedReg.resultFile ? (
                          <button onClick={() => openDocument(selectedReg.resultFile, `Laporan_Hasil_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
                             <FileText size={14} />
                             <span>Buka Hasil</span>
                          </button>
-                       ) : <span className="text-xs font-bold text-slate-400 italic">Belum diunggah</span>}
+                       ) : <span className="text-xs font-bold text-slate-500 italic">Belum diunggah</span>}
                     </div>
                  </div>
               </div>
@@ -213,7 +213,7 @@ export default function AdminPenelitian() {
                className="card h-[400px] flex flex-col items-center justify-center text-center p-20 border-dashed"
             >
                <FlaskConical size={64} className="text-slate-100 mb-4" />
-               <h3 className="text-xl font-bold text-slate-300 uppercase italic tracking-widest">Pilih pengajuan penelitian</h3>
+               <h3 className="text-xl font-bold text-slate-500 uppercase italic tracking-widest">Pilih pengajuan penelitian</h3>
             </motion.div>
           )}
           </AnimatePresence>
@@ -263,14 +263,14 @@ function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onActi
        </div>
 
        <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Penjadwalan Seminar Proposal</p>
+          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Penjadwalan Seminar Proposal</p>
           <div className="grid grid-cols-2 gap-4">
              <div>
-                <label className="text-[9px] font-bold text-slate-400 block mb-1">Tanggal</label>
+                <label className="text-[9px] font-bold text-slate-500 block mb-1">Tanggal</label>
                 <input type="date" className="input-field text-xs" value={info.tanggal} onChange={e => setInfo({...info, tanggal: e.target.value})} />
              </div>
              <div>
-                <label className="text-[9px] font-bold text-slate-400 block mb-1">Waktu (WIB)</label>
+                <label className="text-[9px] font-bold text-slate-500 block mb-1">Waktu (WIB)</label>
                 <input type="time" className="input-field text-xs" value={info.pukul} onChange={e => setInfo({...info, pukul: e.target.value})} />
              </div>
           </div>
@@ -385,13 +385,13 @@ function LogbookAction({ reg, onAction }: { reg: PenelitianRegistration, onActio
   return (
     <div className="card p-8 bg-slate-50 border-none space-y-6">
        <div className="flex items-center justify-between">
-          <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Manajemen Logbook ({reg.logbooks.length})</h4>
+          <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Manajemen Logbook ({reg.logbooks.length})</h4>
           <span className="text-[9px] font-bold text-primary italic">{reg.logbooks.filter(l => l.status === 'APPROVED').length} Approved</span>
        </div>
 
        {pendingLogbooks.length === 0 ? (
           <div className="text-center p-8 bg-white rounded-2xl border border-slate-100">
-             <p className="text-xs text-slate-400 italic">Tidak ada logbook baru untuk direview.</p>
+             <p className="text-xs text-slate-500 italic">Tidak ada logbook baru untuk direview.</p>
           </div>
        ) : (
          <div className="space-y-4">
@@ -400,7 +400,7 @@ function LogbookAction({ reg, onAction }: { reg: PenelitianRegistration, onActio
                  <div className="flex justify-between items-start">
                     <div>
                        <h5 className="font-bold text-slate-900">{log.activity}</h5>
-                       <p className="text-xs text-slate-400">{log.date} • {log.time}</p>
+                       <p className="text-xs text-slate-500">{log.date} • {log.time}</p>
                     </div>
                     <div className="flex gap-2">
                        <button onClick={() => handleApproveLog(log.id)} className="p-2 hover:bg-green-50 text-green-500 rounded-lg transition-colors"><CheckCircle2 size={18} /></button>
@@ -465,7 +465,7 @@ function ResultAction({ reg, onAction }: { reg: PenelitianRegistration, onAction
        </div>
 
        <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Penjadwalan Seminar Hasil</p>
+          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Penjadwalan Seminar Hasil</p>
           <div className="grid grid-cols-2 gap-4">
              <input type="date" className="input-field text-xs" value={info.tanggal} onChange={e => setInfo({...info, tanggal: e.target.value})} />
              <input type="time" className="input-field text-xs" value={info.pukul} onChange={e => setInfo({...info, pukul: e.target.value})} />

@@ -88,7 +88,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
   };
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+    <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
        <Loader2 className="animate-spin text-primary" size={40} />
        <p>Syncing Community Mission Data...</p>
     </div>
@@ -109,7 +109,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
         </div>
         {registration && (
           <div className="flex items-center glass-morphism rounded-2xl px-6 py-3 border-white/40 shadow-lg">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-3">Current Status</span>
+             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mr-3">Current Status</span>
              <StatusBadge status={registration.status} />
           </div>
         )}
@@ -147,12 +147,12 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <RegistrationPhase reg={registration} onUpdate={updateRegistration} actionLoading={actionLoading} />
               )}
               {registration.status === 'SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
+                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
                    <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><Building2 size={160} /></div>
                    <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                    <div className="space-y-3 relative z-10">
                      <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Audit In Progress</h3>
-                     <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-medium">Pendaftaran Anda sedang ditinjau oleh Admin PPPM. Notifikasi akan muncul saat status berubah.</p>
+                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Pendaftaran Anda sedang ditinjau oleh Admin PPPM. Notifikasi akan muncul saat status berubah.</p>
                    </div>
                 </div>
               )}
@@ -170,7 +170,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
               )}
               {registration.status === 'APPROVED' && (
                 <div className="space-y-10">
-                   <div className="card bg-slate-900 text-white border-none p-12 relative overflow-hidden shadow-2xl">
+                   <div className="card bg-slate-50 text-slate-900 border-none p-12 relative overflow-hidden shadow-2xl">
                       <div className="absolute right-0 bottom-0 p-10 opacity-10 rotate-12"><MapPin size={180} className="text-primary" /></div>
                       <div className="flex items-start space-x-6 relative z-10">
                          <div className="p-6 bg-primary/20 rounded-[40px] shadow-sm text-primary backdrop-blur-md border border-primary/20">
@@ -178,7 +178,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                          </div>
                          <div className="space-y-2">
                             <h3 className="text-4xl font-black text-white italic tracking-tighter uppercase">Mission Authorized!</h3>
-                            <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-[10px]">Pendaftaran Anda telah divalidasi. Perhatikan detail penempatan di bawah.</p>
+                            <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px]">Pendaftaran Anda telah divalidasi. Perhatikan detail penempatan di bawah.</p>
                          </div>
                       </div>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-12 pt-10 border-t border-white/5 relative z-10">
@@ -212,7 +212,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                  <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Survey Audit</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Dokumentasi survey sedang ditinjau Admin PPPM.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Dokumentasi survey sedang ditinjau Admin PPPM.</p>
                  </div>
               )}
               {registration.status === 'RKL' && (
@@ -222,7 +222,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Strategic Review (RKL)</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Rencana Kegiatan Lapangan sedang diverifikasi Admin.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Rencana Kegiatan Lapangan sedang diverifikasi Admin.</p>
                  </div>
               )}
               {registration.status === 'DEPLOYMENT' && (
@@ -232,7 +232,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Departure Validation</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Bukti pemberangkatan sedang diverifikasi.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Bukti pemberangkatan sedang diverifikasi.</p>
                  </div>
               )}
               {registration.status === 'LOGBOOK' && (
@@ -245,14 +245,14 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Final Report Audit (LPK)</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Laporan akhir sedang diverifikasi Admin PPPM.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Laporan akhir sedang diverifikasi Admin PPPM.</p>
                  </div>
               )}
               {registration.status === 'GRADING' && (
                 <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Yudisium Pending</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Admin sedang menginput nilai akhir Anda.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Admin sedang menginput nilai akhir Anda.</p>
                  </div>
               )}
               {registration.status === 'COMPLETED' && (
@@ -297,13 +297,13 @@ function Stepper({ currentStatus }: { currentStatus: KKNStatus }) {
             <div className={cn(
               "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xs shadow-lg transition-all duration-500",
               currentIndex === i ? "bg-slate-900 text-white scale-110 shadow-slate-900/20 ring-4 ring-primary/20" : 
-              currentIndex > i ? "bg-primary text-white" : "bg-white border-2 border-slate-100 text-slate-300"
+              currentIndex > i ? "bg-primary text-white" : "bg-white border-2 border-slate-100 text-slate-500"
             )}>
               {currentIndex > i ? <CheckCircle2 size={24} /> : i + 1}
             </div>
             <p className={cn(
               "text-[10px] font-black uppercase tracking-[0.2em] text-center italic",
-              currentIndex >= i ? "text-slate-900" : "text-slate-400 opacity-50"
+              currentIndex >= i ? "text-slate-900" : "text-slate-500 opacity-50"
             )}>
               {step.label}
             </p>
@@ -355,7 +355,7 @@ function RegistrationPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistrat
               <div className="flex items-center space-x-5">
                 <div className={cn(
                   "w-12 h-12 rounded-2xl flex items-center justify-center transition-all",
-                  reg.docs[r.id] ? "bg-primary text-white" : "bg-slate-50 text-slate-400 group-hover:bg-primary/5 group-hover:text-primary"
+                  reg.docs[r.id] ? "bg-primary text-white" : "bg-slate-50 text-slate-500 group-hover:bg-primary/5 group-hover:text-primary"
                 )}>
                   {uploading === r.id ? <Loader2 className="animate-spin" size={20} /> : <FileUp size={20} />}
                 </div>
@@ -366,7 +366,7 @@ function RegistrationPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistrat
                   )}
                 </div>
               </div>
-              {reg.docs[r.id] ? <CheckCircle2 className="text-primary animate-in zoom-in" size={24} /> : <div className="text-[8px] font-black text-slate-300 uppercase tracking-widest border border-slate-100 px-3 py-1 rounded-lg">Action Required</div>}
+              {reg.docs[r.id] ? <CheckCircle2 className="text-primary animate-in zoom-in" size={24} /> : <div className="text-[8px] font-black text-slate-500 uppercase tracking-widest border border-slate-100 px-3 py-1 rounded-lg">Action Required</div>}
             </label>
           ))}
         </div>
@@ -377,7 +377,7 @@ function RegistrationPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistrat
            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary"><BookOpen size={20} /></div>
            <h3 className="text-2xl font-black text-slate-900 italic uppercase tracking-tighter underline decoration-primary/20 underline-offset-4">Strategic Archives</h3>
         </div>
-        <div className="card p-12 bg-slate-900 text-white overflow-hidden relative shadow-2xl border-none min-h-[500px] flex flex-col justify-between">
+      <div className="card p-12 bg-slate-50 text-slate-900 overflow-hidden relative shadow-2xl border-none min-h-[500px] flex flex-col justify-between">
            <div className="absolute -right-16 -top-16 opacity-5 rotate-12 text-primary"><BookOpen size={300} /></div>
            <div className="space-y-10 relative z-10">
               {[
@@ -443,7 +443,7 @@ function SurveyPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, o
              <div className="flex justify-between items-center border-b border-slate-50 pb-6">
                 <div>
                   <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-none">Induction Portofolio</h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2 italic pl-1">Capture field synchronization evidence</p>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-2 italic pl-1">Capture field synchronization evidence</p>
                 </div>
                 <Users size={40} className="text-primary opacity-20" />
              </div>
@@ -464,7 +464,7 @@ function SurveyPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, o
                            {sosialisasi[i] ? (
                               <img src={sosialisasi[i]} className="w-full h-full object-cover rounded-[28px] transition-transform group-hover:scale-110" referrerPolicy="no-referrer" />
                            ) : (
-                              uploading === 'sos' ? <Loader2 className="animate-spin text-primary" size={32} /> : <div className="flex flex-col items-center space-y-2 text-slate-300 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[9px] font-black uppercase">Attach</span></div>
+                              uploading === 'sos' ? <Loader2 className="animate-spin text-primary" size={32} /> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[9px] font-black uppercase">Attach</span></div>
                            )}
                            {sosialisasi[i] && (
                              <button onClick={(e) => { e.preventDefault(); setSosialisasi(s => s.filter((_, idx) => idx !== i)); }} className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
@@ -491,7 +491,7 @@ function SurveyPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, o
                            {survei[i] ? (
                               <img src={survei[i]} className="w-full h-full object-cover rounded-[28px] transition-transform group-hover:scale-110" referrerPolicy="no-referrer" />
                            ) : (
-                              uploading === 'sur' ? <Loader2 className="animate-spin text-primary" size={32} /> : <div className="flex flex-col items-center space-y-2 text-slate-300 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[9px] font-black uppercase">Attach</span></div>
+                              uploading === 'sur' ? <Loader2 className="animate-spin text-primary" size={32} /> : <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[9px] font-black uppercase">Attach</span></div>
                            )}
                            {survei[i] && (
                              <button onClick={(e) => { e.preventDefault(); setSurvei(s => s.filter((_, idx) => idx !== i)); }} className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
@@ -517,7 +517,7 @@ function SurveyPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, o
        </div>
 
        <div className="space-y-8">
-          <div className="card p-12 bg-slate-900 text-white space-y-8 relative overflow-hidden shadow-2xl border-none">
+          <div className="card p-12 bg-slate-50 text-slate-900 space-y-8 relative overflow-hidden shadow-2xl border-none">
              <div className="absolute -top-10 -right-10 opacity-5 rotate-45"><MapPin size={240} className="text-primary" /></div>
              <div className="space-y-2 relative z-10">
                 <h4 className="text-2xl font-black italic uppercase tracking-tighter">Strategic Protocol</h4>
@@ -532,7 +532,7 @@ function SurveyPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, o
                 ].map((t, i) => (
                   <li key={i} className="flex items-start space-x-4 group">
                      <div className="w-8 h-8 shrink-0 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-[11px] font-black text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">{i+1}</div>
-                     <p className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors leading-tight pt-1.5">{t}</p>
+                     <p className="text-sm font-medium text-slate-500 group-hover:text-white transition-colors leading-tight pt-1.5">{t}</p>
                   </li>
                 ))}
              </ul>
@@ -564,7 +564,7 @@ function RKLPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
     <div className="max-w-4xl mx-auto space-y-12">
        <div className="text-center space-y-3">
           <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic uppercase underline decoration-primary/30 underline-offset-8">Pelaporan RKL</h3>
-          <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em] italic mt-4">Drafting your strategic mission directives</p>
+          <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.4em] italic mt-4">Drafting your strategic mission directives</p>
        </div>
 
        <div className="grid md:grid-cols-2 gap-10">
@@ -573,12 +573,12 @@ function RKLPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
              individu ? "border-primary bg-primary/5 shadow-inner" : "border-slate-100 bg-white hover:border-primary/40 hover:bg-slate-50 shadow-xl"
           )}>
              <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleUpload('ind', e.target.files[0])} disabled={!!uploading} />
-             <div className={cn("w-20 h-20 rounded-[32px] flex items-center justify-center transition-all", individu ? "bg-primary text-white" : "bg-slate-50 text-slate-300 group-hover:scale-110 group-hover:text-primary")}>
+             <div className={cn("w-20 h-20 rounded-[32px] flex items-center justify-center transition-all", individu ? "bg-primary text-white" : "bg-slate-50 text-slate-500 group-hover:scale-110 group-hover:text-primary")}>
                 {uploading === 'ind' ? <Loader2 className="animate-spin" size={40} /> : <FileUp size={40} />}
              </div>
              <div className="text-center space-y-2">
                 <p className="font-black italic text-2xl uppercase tracking-tighter">Individual RKL</p>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{individu ? 'Document Secured' : 'Attach PDF Manuscript'}</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{individu ? 'Document Secured' : 'Attach PDF Manuscript'}</p>
              </div>
              {individu && <div className="absolute top-4 right-4"><CheckCircle2 className="text-primary animate-in zoom-in" size={24} /></div>}
           </label>
@@ -588,12 +588,12 @@ function RKLPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
              kelompok ? "border-primary bg-primary/5 shadow-inner" : "border-slate-100 bg-white hover:border-primary/40 hover:bg-slate-50 shadow-xl"
           )}>
              <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleUpload('kel', e.target.files[0])} disabled={!!uploading} />
-             <div className={cn("w-20 h-20 rounded-[32px] flex items-center justify-center transition-all", kelompok ? "bg-primary text-white" : "bg-slate-50 text-slate-300 group-hover:scale-110 group-hover:text-primary")}>
+             <div className={cn("w-20 h-20 rounded-[32px] flex items-center justify-center transition-all", kelompok ? "bg-primary text-white" : "bg-slate-50 text-slate-500 group-hover:scale-110 group-hover:text-primary")}>
                 {uploading === 'kel' ? <Loader2 className="animate-spin" size={40} /> : <Users size={40} />}
              </div>
              <div className="text-center space-y-2">
                 <p className="font-black italic text-2xl uppercase tracking-tighter">Group RKL</p>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{kelompok ? 'Document Secured' : 'Attach Team Directive'}</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{kelompok ? 'Document Secured' : 'Attach Team Directive'}</p>
              </div>
              {kelompok && <div className="absolute top-4 right-4"><CheckCircle2 className="text-primary animate-in zoom-in" size={24} /></div>}
           </label>
@@ -626,7 +626,7 @@ function DeploymentPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistratio
 
   return (
     <div className="max-w-2xl mx-auto space-y-12">
-       <div className="card p-20 text-center space-y-10 border-none bg-slate-900 text-white relative overflow-hidden shadow-2xl rounded-[60px]">
+      <div className="card p-20 text-center space-y-10 border-none bg-slate-50 text-slate-900 relative overflow-hidden shadow-2xl rounded-[60px]">
           <div className="absolute inset-0 bg-primary/5 animate-pulse" />
           <div className="absolute -left-10 -bottom-10 opacity-5 rotate-12"><Building2 size={240} className="text-white" /></div>
           
@@ -635,7 +635,7 @@ function DeploymentPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistratio
           </div>
           <div className="space-y-4 relative z-10">
              <h3 className="text-4xl font-black italic uppercase tracking-tighter">Pemberangkatan</h3>
-             <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] max-w-sm mx-auto leading-relaxed italic">
+             <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] max-w-sm mx-auto leading-relaxed italic">
                 Unggah dokumentasi resmi saat pelepasan atau pemberangkatan ke lokasi KKN untuk validasi operasional.
              </p>
           </div>
@@ -711,7 +711,7 @@ function LogbookPhase({ registration, onUpdate, actionLoading }: { registration:
           <div className="flex justify-between items-center bg-white p-10 rounded-[40px] shadow-sm border border-slate-100">
              <div>
                <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter leading-none">Mission Logs</h3>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-3 italic pl-1 italic">Real-time daily reporting stream</p>
+               <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-3 italic pl-1 italic">Real-time daily reporting stream</p>
              </div>
              {!isAdding && (
                <button onClick={() => setIsAdding(true)} className="btn-primary flex items-center space-x-3 px-10 py-4 rounded-[24px] shadow-2xl transition-all hover:scale-105 active:scale-95 group font-black uppercase text-[11px] tracking-widest">
@@ -763,7 +763,7 @@ function LogbookPhase({ registration, onUpdate, actionLoading }: { registration:
                             <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleUpload(e.target.files[0])} disabled={uploading || form.photos?.length === 3} />
                             {uploading ? <Loader2 className="animate-spin text-primary" size={32} /> : 
                              form.photos && form.photos.length > 0 ? <div className="flex flex-col items-center space-y-2 text-primary font-black uppercase text-[10px] tracking-widest"><CheckCircle2 size={24} /> <span>Assets Secured ({form.photos.length}/3)</span></div> :
-                             <div className="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[10px] font-black uppercase tracking-widest">Attach Manifest</span></div>}
+                             <div className="flex flex-col items-center space-y-2 text-slate-500 group-hover:text-primary transition-colors"><Camera size={28} /> <span className="text-[10px] font-black uppercase tracking-widest">Attach Manifest</span></div>}
                          </label>
                          <div className="flex gap-4 mt-6">
                             {form.photos?.map((p, i) => (
@@ -790,7 +790,7 @@ function LogbookPhase({ registration, onUpdate, actionLoading }: { registration:
                 <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.3em] italic">Historical Record of Activities</h4>
              </div>
              {registration.logbooks.length === 0 ? (
-               <div className="card p-32 text-center text-slate-300 font-black uppercase tracking-widest text-[11px] italic border-dashed border-2 bg-slate-50/30">Intelligence stream silent. No activities logged yet.</div>
+                 <div className="card p-32 text-center text-slate-500 font-black uppercase tracking-widest text-[11px] italic border-dashed border-2 bg-slate-50/30">Intelligence stream silent. No activities logged yet.</div>
              ) : (
                <div className="space-y-6 pr-2 max-h-[800px] overflow-y-auto side-scrollbar">
                  {registration.logbooks.map(log => (
@@ -806,7 +806,7 @@ function LogbookPhase({ registration, onUpdate, actionLoading }: { registration:
                                  {log.status}
                                </span>
                             </div>
-                            <div className="flex items-center space-x-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <div className="flex items-center space-x-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                <div className="flex items-center space-x-1.5"><Calendar size={12} className="text-primary" /> <span>{log.date}</span></div>
                                <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
                                <div className="flex items-center space-x-1.5"><Clock size={12} className="text-primary" /> <span>{(log.hours ?? 0).toFixed(1)} Hours Total</span></div>
@@ -904,7 +904,7 @@ function LPKPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
              <CheckCircle2 size={64} />
           </div>
           <h3 className="text-5xl font-black text-slate-900 tracking-tighter uppercase italic underline decoration-primary/20 underline-offset-8">Laporan Akhir (LPK)</h3>
-          <p className="text-slate-400 font-bold uppercase tracking-[0.4em] text-[10px] italic max-w-lg mx-auto leading-relaxed mt-6">
+          <p className="text-slate-500 font-bold uppercase tracking-[0.4em] text-[10px] italic max-w-lg mx-auto leading-relaxed mt-6">
              Congratulations! You have fulfilled the operational hours. Now, finalize and submit your synthesized mission reports.
           </p>
        </div>
@@ -915,7 +915,7 @@ function LPKPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
              files.individu ? "bg-primary/5 border-primary text-primary shadow-inner" : "bg-white border-slate-100 hover:border-primary/40 hover:bg-slate-50"
           )}>
              <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleUpload('ind', e.target.files[0])} disabled={!!uploading} />
-             {uploading === 'ind' ? <Loader2 className="animate-spin" size={32} /> : files.individu ? <CheckCircle2 size={40} className="animate-in zoom-in" /> : <FileUp size={40} className="text-slate-300 group-hover:text-primary transition-colors" />}
+             {uploading === 'ind' ? <Loader2 className="animate-spin" size={32} /> : files.individu ? <CheckCircle2 size={40} className="animate-in zoom-in" /> : <FileUp size={40} className="text-slate-500 group-hover:text-primary transition-colors" />}
              <span className="font-black text-[11px] uppercase tracking-widest">{uploading === 'ind' ? 'Archiving...' : files.individu ? 'Individu Archived' : 'Unggah LPK Individu'}</span>
           </label>
           <label className={cn(
@@ -923,7 +923,7 @@ function LPKPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
              files.kelompok ? "bg-primary/5 border-primary text-primary shadow-inner" : "bg-white border-slate-100 hover:border-primary/40 hover:bg-slate-50"
           )}>
              <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleUpload('kel', e.target.files[0])} disabled={!!uploading} />
-             {uploading === 'kel' ? <Loader2 className="animate-spin" size={32} /> : files.kelompok ? <CheckCircle2 size={40} className="animate-in zoom-in" /> : <Users size={40} className="text-slate-300 group-hover:text-primary transition-colors" />}
+             {uploading === 'kel' ? <Loader2 className="animate-spin" size={32} /> : files.kelompok ? <CheckCircle2 size={40} className="animate-in zoom-in" /> : <Users size={40} className="text-slate-500 group-hover:text-primary transition-colors" />}
              <span className="font-black text-[11px] uppercase tracking-widest">{uploading === 'kel' ? 'Archiving...' : files.kelompok ? 'Kelompok Archived' : 'Unggah LPK Kelompok'}</span>
           </label>
        </div>
@@ -946,7 +946,7 @@ function GradesPhase({ registration }: { registration: KKNRegistration }) {
      <div className="card p-20 text-center bg-slate-900 border-none shadow-2xl text-white">
         <Loader2 className="animate-spin text-primary mx-auto mb-8" size={60} />
         <h3 className="text-4xl font-black italic tracking-tighter uppercase">Audit Finalization</h3>
-        <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Admiral board is currently finalizing your yudisium record.</p>
+        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Admiral board is currently finalizing your yudisium record.</p>
      </div>
    );
 

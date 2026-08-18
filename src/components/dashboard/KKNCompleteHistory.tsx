@@ -44,7 +44,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <ClipboardCheck size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 1</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 1</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumen Pendaftaran</h4>
             </div>
           </div>
@@ -64,13 +64,13 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                         <span>LIHAT ARSIP</span>
                       </button>
                     ) : (
-                      <span className="text-[9px] font-medium text-slate-400 uppercase italic">Tdk Ada File</span>
+                      <span className="text-[9px] font-medium text-slate-500 uppercase italic">Tdk Ada File</span>
                     )}
                   </div>
                 );
               })
             ) : (
-              <div className="text-center py-6 text-slate-400 italic text-xs">Tidak ada dokumen pendaftaran terunggah.</div>
+              <div className="text-center py-6 text-slate-500 italic text-xs">Tidak ada dokumen pendaftaran terunggah.</div>
             )}
           </div>
         </div>
@@ -82,14 +82,14 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <MapPin size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 2 & 4</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 2 & 4</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Induksi & Pelepasan</h4>
             </div>
           </div>
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block pl-1">Dokumentasi Survei & Sosialisasi</span>
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block pl-1">Dokumentasi Survei & Sosialisasi</span>
               <div className="grid grid-cols-4 gap-2">
                 {[
                   ...(registration.surveyDocs?.sosialisasi || []),
@@ -109,7 +109,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   ...(registration.surveyDocs?.sosialisasi || []),
                   ...(registration.surveyDocs?.survei || [])
                 ].length === 0 && (
-                  <div className="col-span-full py-2 pl-1 italic text-slate-400 text-xs flex items-center space-x-1.5">
+                  <div className="col-span-full py-2 pl-1 italic text-slate-500 text-xs flex items-center space-x-1.5">
                     <Info size={12} />
                     <span>Tidak ada dokumentasi survei lapangan terlampir.</span>
                   </div>
@@ -119,7 +119,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
 
             <div className="pt-2 border-t border-slate-50 flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block pl-1">Foto Pelepasan KKN</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block pl-1">Foto Pelepasan KKN</span>
                 <span className="text-[9px] text-slate-500 font-medium italic pl-1">Departure & deployment validation</span>
               </div>
               {registration.deploymentPhoto ? (
@@ -131,7 +131,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   <span>LIHAT FOTO</span>
                 </button>
               ) : (
-                <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest pr-2">BELUM DIUNGGAH</span>
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pr-2">BELUM DIUNGGAH</span>
               )}
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <FileText size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 3 & 6</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 3 & 6</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumen Akademik KKN (RKL & LPK)</h4>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   onClick={() => registration.rkl?.fileIndividu && openDocument(registration.rkl.fileIndividu, 'RKL_Individu')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
-                    registration.rkl?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
+                    registration.rkl?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-500 cursor-not-allowed"
                   )}
                 >
                   <FileText size={12} />
@@ -174,7 +174,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   onClick={() => registration.rkl?.fileKelompok && openDocument(registration.rkl.fileKelompok, 'RKL_Kelompok')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
-                    registration.rkl?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
+                    registration.rkl?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-500 cursor-not-allowed"
                   )}
                 >
                   <Users size={12} />
@@ -192,7 +192,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   onClick={() => registration.lpk?.fileIndividu && openDocument(registration.lpk.fileIndividu, 'Laporan_LPK_Individu')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
-                    registration.lpk?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
+                    registration.lpk?.fileIndividu ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-500 cursor-not-allowed"
                   )}
                 >
                   <FileText size={12} />
@@ -203,7 +203,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                   onClick={() => registration.lpk?.fileKelompok && openDocument(registration.lpk.fileKelompok, 'Laporan_LPK_Kelompok')}
                   className={cn(
                     "flex-grow py-2 px-3 border rounded-xl text-[9px] font-black uppercase tracking-wider flex items-center justify-center space-x-1 transition-all",
-                    registration.lpk?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-400 cursor-not-allowed"
+                    registration.lpk?.fileKelompok ? "bg-white border-slate-200 text-slate-800 hover:border-primary/40 hover:text-primary" : "bg-slate-100/50 border-transparent text-slate-500 cursor-not-allowed"
                   )}
                 >
                   <Users size={12} />
@@ -221,26 +221,26 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <Building2 size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Program Detail</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Program Detail</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Staf & Penempatan Pelaksana</h4>
             </div>
           </div>
 
           <div className="space-y-3.5 text-xs font-bold text-slate-700">
             <div className="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider">Lokasi Penempatan KKN</span>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Lokasi Penempatan KKN</span>
               <span className="text-slate-900 font-extrabold italic uppercase">{registration.info?.lokasi || 'BELUM DIATUR'}</span>
             </div>
             <div className="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider">Kelompok / Regu Skuad</span>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Kelompok / Regu Skuad</span>
               <span className="text-slate-900 font-extrabold italic uppercase">{registration.info?.kelompok || 'BELUM DIATUR'}</span>
             </div>
             <div className="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider">Dosen Pembimbing Lapangan</span>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Dosen Pembimbing Lapangan</span>
               <span className="text-slate-900 font-extrabold italic uppercase">{registration.info?.dpl || 'BELUM DIATUR'}</span>
             </div>
             <div className="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider">Hari & Tgl Sosialisasi Akhir</span>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Hari & Tgl Sosialisasi Akhir</span>
               <span className="text-slate-900 font-extrabold italic uppercase">{registration.info?.tglSosialisasi || 'BELUM DIATUR'}</span>
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
               <ChevronDown className={cn("transition-transform duration-300", logbookOpen && "rotate-180")} size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 5</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 5</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1 flex items-center">
                 Logbook Aktivitas Lapangan 
                 <span className="ml-3 px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-black rounded-lg">
@@ -285,13 +285,13 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                     <div className="flex items-center space-x-3">
                       <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[8px] font-black uppercase tracking-wider">{log.date}</span>
                       <span className="text-[9px] font-black text-primary uppercase tracking-wider">{log.hours} JAM</span>
-                      <span className="text-[9px] font-bold text-slate-400">• {log.jenis || 'INDIVIDU'}</span>
+                      <span className="text-[9px] font-bold text-slate-500">• {log.jenis || 'INDIVIDU'}</span>
                     </div>
                     <div className="space-y-1">
                       <h5 className="font-extrabold text-sm text-slate-800 uppercase italic truncate">{log.nama}</h5>
                       <p className="text-xs text-slate-500 italic font-medium">"{log.catatan || 'Tidak ada uraian tertulis.'}"</p>
                     </div>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider flex items-center">
+                    <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider flex items-center">
                       <MapPin size={10} className="mr-1 text-primary" /> {log.lokasi} 
                       <span className="mx-2">•</span> 
                       <Building2 size={10} className="mr-1 text-primary" /> {log.pihakDesa} ({log.statusPihakDesa})
@@ -319,7 +319,7 @@ export default function KKNCompleteHistory({ registration }: KKNCompleteHistoryP
                 </div>
               ))
             ) : (
-              <div className="text-center py-10 text-slate-400 italic text-xs">Belum ada catatan logbook yang diajukan.</div>
+              <div className="text-center py-10 text-slate-500 italic text-xs">Belum ada catatan logbook yang diajukan.</div>
             )}
           </div>
         )}

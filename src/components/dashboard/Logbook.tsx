@@ -34,15 +34,15 @@ export default function LogbookForm({ type, isMandiri, onSubmit }: LogbookFormPr
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tanggal Kegiatan</label>
+          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Tanggal Kegiatan</label>
           <input type="date" className="input-field bg-white/50" required />
         </div>
         {(type === 'KKN' || type === 'RESEARCH') && (
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Pukul Kegiatan</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Pukul Kegiatan</label>
             <div className="flex items-center space-x-3">
               <input type="time" className="input-field bg-white/50" required />
-              <span className="text-[10px] font-bold text-slate-300">S/D</span>
+              <span className="text-[10px] font-bold text-slate-500">S/D</span>
               <input type="time" className="input-field bg-white/50" required />
             </div>
           </div>
@@ -50,24 +50,24 @@ export default function LogbookForm({ type, isMandiri, onSubmit }: LogbookFormPr
       </div>
 
       <div className="space-y-2 relative z-10">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nama/Judul Kegiatan</label>
+        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Nama/Judul Kegiatan</label>
         <input className="input-field bg-white/50" placeholder="Contoh: Sosialisasi Pendidikan..." required />
       </div>
 
       {type === 'KKN' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Jenis Kegiatan</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Jenis Kegiatan</label>
             <select className="input-field bg-white/50 appearance-none">
               <option>Individu</option>
               <option>Kelompok</option>
             </select>
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Lokasi</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Lokasi</label>
             <div className="relative">
               <input className="input-field bg-white/50 pl-10" placeholder="Dusun/Balai Desa" />
-              <MapPin size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+              <MapPin size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
             </div>
           </div>
         </div>
@@ -75,19 +75,19 @@ export default function LogbookForm({ type, isMandiri, onSubmit }: LogbookFormPr
 
       {isMandiri && (
         <div className="space-y-2 relative z-10">
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Jumlah Orang Terlibat (Mandat Kuantitatif)</label>
+          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Jumlah Orang Terlibat (Mandat Kuantitatif)</label>
           <input type="number" className="input-field bg-white/50" placeholder="0" />
         </div>
       )}
 
       <div className="space-y-2 relative z-10">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Uraian/Catatan Kegiatan</label>
+        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Uraian/Catatan Kegiatan</label>
         <textarea className="input-field bg-white/50 min-h-[120px] resize-none" placeholder="Jabarkan detail kegiatan..." />
       </div>
 
       {/* Photo Uploads */}
       <div className="space-y-4 relative z-10">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Dokumentasi (Maks 3 Foto)</label>
+        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 block">Dokumentasi (Maks 3 Foto)</label>
         <div className="flex flex-wrap gap-4">
           {previews.map((url, i) => (
             <motion.div 
@@ -107,7 +107,7 @@ export default function LogbookForm({ type, isMandiri, onSubmit }: LogbookFormPr
             </motion.div>
           ))}
           {previews.length < 3 && (
-            <label className="w-24 h-24 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all cursor-pointer">
+            <label className="w-24 h-24 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-500 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all cursor-pointer">
               <Camera size={24} />
               <span className="text-[9px] font-black mt-2 tracking-widest uppercase">UPLOAD</span>
               <input type="file" className="hidden" accept="image/*" onChange={handlePhotoChange} multiple />
@@ -142,7 +142,7 @@ export function LogbookList({ entries }: { entries: any[] }) {
             </div>
             <div className="min-w-0">
               <div className="flex items-center space-x-3">
-                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">{entry.date} • {entry.time || entry.duration}</span>
+                <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{entry.date} • {entry.time || entry.duration}</span>
                 <span className={cn(
                   "text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-tighter",
                   entry.status === 'APPROVED' ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"

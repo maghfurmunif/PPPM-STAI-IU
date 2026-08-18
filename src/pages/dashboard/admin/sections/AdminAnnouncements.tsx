@@ -80,7 +80,7 @@ export default function AdminAnnouncements() {
         </div>
         <div className="flex gap-4">
            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={16} />
               <input 
                 type="text" 
                 placeholder="Cari Berita..." 
@@ -100,7 +100,7 @@ export default function AdminAnnouncements() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+        <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
            <Loader2 className="animate-spin text-primary" size={40} />
            <p>Menyelaraskan Pengumuman...</p>
         </div>
@@ -109,7 +109,7 @@ export default function AdminAnnouncements() {
            {filtered.length === 0 ? (
              <div className="card p-20 text-center border-dashed border-2 m-4 rounded-[40px]">
                 <Megaphone size={48} className="mx-auto text-slate-200 mb-4" />
-                <p className="text-slate-300 font-black uppercase tracking-widest text-xs">Belum ada pengumuman aktif.</p>
+                <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Belum ada pengumuman aktif.</p>
              </div>
            ) : (
              filtered.map((ann, idx) => (
@@ -125,8 +125,8 @@ export default function AdminAnnouncements() {
                     <div className="space-y-4 flex-grow">
                        <div className="flex items-center space-x-4">
                           <span className="px-4 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-lg border border-primary/20">{ann.tag}</span>
-                          <span className="flex items-center space-x-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                             <Calendar size={14} className="text-slate-300" />
+                          <span className="flex items-center space-x-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                             <Calendar size={14} className="text-slate-500" />
                              <span>{new Date(ann.created_at).toLocaleDateString('id-ID', { dateStyle: 'long' })}</span>
                           </span>
                        </div>
@@ -136,7 +136,7 @@ export default function AdminAnnouncements() {
                     <div className="flex items-center space-x-3">
                        <button 
                          onClick={() => { setEditingAnn(ann); setIsModalOpen(true); }}
-                         className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-primary hover:border-primary hover:shadow-lg transition-all active:scale-95"
+                         className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-500 hover:text-primary hover:border-primary hover:shadow-lg transition-all active:scale-95"
                        >
                           <Edit2 size={18} />
                        </button>
@@ -178,7 +178,7 @@ export default function AdminAnnouncements() {
 
                 <form onSubmit={handleSave} className="space-y-6">
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Judul Pengumuman</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Judul Pengumuman</label>
                       <input 
                         className="input-field py-5 px-6 font-bold uppercase tracking-widest italic" 
                         placeholder="Judul Pengumuman..."
@@ -189,7 +189,7 @@ export default function AdminAnnouncements() {
 
                    <div className="grid grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Klasifikasi / Kategori</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Klasifikasi / Kategori</label>
                         <select 
                           className="input-field py-5 px-6 font-bold uppercase tracking-widest"
                           value={editingAnn?.tag || 'Umum'}
@@ -203,7 +203,7 @@ export default function AdminAnnouncements() {
                         </select>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Tanggal Terbit</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Tanggal Terbit</label>
                         <input 
                           type="date"
                           className="input-field py-5 px-6 font-bold uppercase tracking-widest"
@@ -214,7 +214,7 @@ export default function AdminAnnouncements() {
                    </div>
 
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Konten / Isi Pengumuman</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Konten / Isi Pengumuman</label>
                       <textarea 
                         className="input-field py-6 px-6 h-48 font-medium leading-relaxed" 
                         placeholder="Deskripsi detail pengumuman..."

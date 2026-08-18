@@ -92,9 +92,9 @@ export default function LoginPage() {
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Email Institusi</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Email Institusi</label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
                   <input 
                     type="email" 
                     value={email}
@@ -108,11 +108,11 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex justify-between items-center ml-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block">Password</label>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block">Password</label>
                   <button type="button" className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Lupa?</button>
                 </div>
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
                   <input 
                     type="password" 
                     value={password}

@@ -76,7 +76,7 @@ export default function DosenDokumentasiSection() {
   };
 
   if (loading) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Opening Digital Archives...</p>
      </div>
@@ -117,7 +117,7 @@ export default function DosenDokumentasiSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="card p-10 bg-slate-900 text-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-none relative overflow-hidden"
+          className="card p-10 bg-slate-50 text-slate-900 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.04)] border-none relative overflow-hidden"
         >
            <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><Save size={120} /></div>
            <form onSubmit={handleSave} className="grid md:grid-cols-2 gap-10 relative z-10">
@@ -217,7 +217,7 @@ export default function DosenDokumentasiSection() {
                      <div className="p-4 bg-slate-900 text-white rounded-2xl flex items-center justify-center group-hover:bg-primary transition-all shadow-lg group-hover:scale-110">
                         <Layers size={22} />
                      </div>
-                     <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black text-slate-400 uppercase tracking-widest italic">{doc.jenisKarya}</span>
+                     <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black text-slate-500 uppercase tracking-widest italic">{doc.jenisKarya}</span>
                   </div>
                   <h3 className="text-xl font-black text-slate-900 leading-tight mb-4 group-hover:text-primary transition-colors italic tracking-tighter uppercase">{doc.judul}</h3>
                   
@@ -240,11 +240,11 @@ export default function DosenDokumentasiSection() {
                </div>
 
                <div className="pt-8 border-t border-slate-100 flex items-center justify-between">
-                  <button onClick={() => window.open(doc.fileUrl, '_blank')} className="text-[10px] font-black text-slate-400 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
+                  <button onClick={() => window.open(doc.fileUrl, '_blank')} className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
                     <Download size={14} className="mr-2 group-hover/btn:-translate-y-1 transition-transform" />
                     <span>Download</span>
                   </button>
-                  <button className="text-[10px] font-black text-slate-400 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
+                  <button className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
                     <ExternalLink size={14} className="mr-2 group-hover/btn:translate-x-1 transition-transform" />
                     <span>Reference</span>
                   </button>
@@ -252,7 +252,7 @@ export default function DosenDokumentasiSection() {
             </div>
           ))
         ) : (
-          <div className="col-span-full card p-32 text-center text-slate-300 font-bold uppercase tracking-widest italic border-dashed border-2 flex flex-col items-center space-y-4">
+          <div className="col-span-full card p-32 text-center text-slate-500 font-bold uppercase tracking-widest italic border-dashed border-2 flex flex-col items-center space-y-4">
              <Layers size={48} className="opacity-20" />
              <p className="text-xs">Digital archives empty. Please register your academic work.</p>
           </div>

@@ -37,7 +37,7 @@ function AppShell() {
         <Toaster position="top-right" richColors />
         {!isDashboard && <Navbar />}
         <main className="flex-grow">
-          <Suspense fallback={<div className="flex items-center justify-center h-screen italic font-black text-slate-300">Loading Portal...</div>}>
+          <Suspense fallback={<div className="flex items-center justify-center h-screen italic font-black text-slate-500">Loading Portal...</div>}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -79,10 +80,10 @@ button, a, input, select, textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Accessible default contrast for text placed on the application's light surfaces. */
-.text-slate-300 { color: #64748b; }
-.text-slate-400 { color: #475569; }
-.text-slate-500 { color: #334155; }
+/* Accessible default contrast for text placed on the application's light surfaces. (Adjusted for WCAG AA) */
+.text-slate-300 { color: #475569; }
+.text-slate-400 { color: #334155; }
+.text-slate-500 { color: #0f172a; }
 
 /* Keep secondary copy legible when a component uses a dark surface. */
 .bg-slate-900 .text-slate-700,
@@ -104,3 +105,5 @@ textarea:focus-visible {
 @media (max-width: 640px) {
   .card { @apply rounded-2xl p-5; }
 }
+
+@tailwind utilities;

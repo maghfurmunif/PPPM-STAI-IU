@@ -32,7 +32,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-primary font-bold italic">P1</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 1</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 1</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Proposal & Seminar Awal</h4>
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="space-y-3.5 text-xs">
             <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
                <div>
-                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Draft Proposal Penelitian</span>
+                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Draft Proposal Penelitian</span>
                  <p className="text-[9px] text-slate-500 mt-0.5 italic">Awal pengajuan program riset</p>
                </div>
                {registration.proposalFile ? (
@@ -52,7 +52,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
                    <span>Proposal</span>
                  </button>
                ) : (
-                 <span className="text-[9px] font-bold text-slate-300 italic">Tdk Ada File</span>
+                 <span className="text-[9px] font-bold text-slate-500 italic">Tdk Ada File</span>
                )}
             </div>
 
@@ -83,7 +83,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-primary font-bold italic">P2</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 2</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 2</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Laporan Hasil & Seminar Akhir</h4>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="space-y-3.5 text-xs">
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/30">
                <div>
-                  <span className="text-[10px] font-black text-slate-400 tracking-wider block uppercase">Laporan Hasil Riset</span>
+                  <span className="text-[10px] font-black text-slate-500 tracking-wider block uppercase">Laporan Hasil Riset</span>
                   <p className="text-[9px] text-slate-500 italic mt-0.5">Naskah komprehensif penelitian</p>
                </div>
                {registration.resultFile ? (
@@ -103,7 +103,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
                    <span>Laporan</span>
                  </button>
                ) : (
-                 <span className="text-[9px] font-bold text-slate-300 italic">Belum Diunggah</span>
+                 <span className="text-[9px] font-bold text-slate-500 italic">Belum Diunggah</span>
                )}
             </div>
 
@@ -138,14 +138,14 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-primary font-bold italic">P3</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 3</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 3</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Revisi Final & Validasi</h4>
             </div>
           </div>
 
           <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center text-xs">
             <div>
-               <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Naskah Revisi Akhir</span>
+               <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Naskah Revisi Akhir</span>
                <p className="text-[9px] text-slate-500 italic mt-0.5">Sudah disempurnakan sesuai feedback panelis</p>
             </div>
             {registration.finalRevisionFile ? (
@@ -157,7 +157,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
                 <span>NASKAH FIX</span>
               </button>
             ) : (
-              <span className="text-[9px] font-bold text-slate-300 italic">BELUM DIUNGGAH</span>
+              <span className="text-[9px] font-bold text-slate-500 italic">BELUM DIUNGGAH</span>
             )}
           </div>
         </div>
@@ -167,18 +167,18 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-primary font-bold italic">P4</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Phase 4</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Phase 4</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Penerbitan & Publikasi Jurnal</h4>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3.5 text-xs font-bold text-slate-700">
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider">Model Publikasi</span>
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider">Model Publikasi</span>
               <span className="text-slate-900 font-extrabold italic mt-1.5">{registration.publication?.type || 'MANDIRI'}</span>
             </div>
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider">Target Luaran</span>
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider">Target Luaran</span>
               <span className="text-slate-900 font-extrabold italic mt-1.5">{registration.publication?.method || 'Jurnal Terakreditasi'}</span>
             </div>
           </div>
@@ -197,7 +197,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
               <ChevronDown className={cn("transition-transform duration-300", logbookOpen && "rotate-180")} size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Progress Jurnal</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Progress Jurnal</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1 flex items-center">
                 Logbook Aktivitas Penelitian
                 <span className="ml-3 px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-black rounded-lg">
@@ -248,7 +248,7 @@ export default function PenelitianCompleteHistory({ registration }: PenelitianCo
                 </div>
               ))
             ) : (
-              <div className="text-center py-10 text-slate-400 italic text-xs">Belum ada jurnal bimbingan terdaftar.</div>
+              <div className="text-center py-10 text-slate-500 italic text-xs">Belum ada jurnal bimbingan terdaftar.</div>
             )}
           </div>
         )}

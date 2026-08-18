@@ -125,10 +125,10 @@ export default function RegisterPage() {
                       "group relative flex flex-col items-center p-8 rounded-[32px] border-2 transition-all duration-300",
                       role === 'MAHASISWA' 
                         ? "border-primary bg-primary/5 text-primary shadow-lg shadow-primary/10" 
-                        : "border-slate-100 hover:border-slate-200 bg-white/50 text-slate-400"
+                        : "border-slate-100 hover:border-slate-200 bg-white/50 text-slate-500"
                     )}
                   >
-                    <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors", role === 'MAHASISWA' ? "bg-primary text-white" : "bg-slate-100 text-slate-400 group-hover:bg-slate-200")}>
+                    <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors", role === 'MAHASISWA' ? "bg-primary text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200")}>
                       <GraduationCap size={32} />
                     </div>
                     <span className="font-bold tracking-tight">Mahasiswa</span>
@@ -140,10 +140,10 @@ export default function RegisterPage() {
                       "group relative flex flex-col items-center p-8 rounded-[32px] border-2 transition-all duration-300",
                       role === 'DOSEN' 
                         ? "border-primary bg-primary/5 text-primary shadow-lg shadow-primary/10" 
-                        : "border-slate-100 hover:border-slate-200 bg-white/50 text-slate-400"
+                        : "border-slate-100 hover:border-slate-200 bg-white/50 text-slate-500"
                     )}
                   >
-                    <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors", role === 'DOSEN' ? "bg-primary text-white" : "bg-slate-100 text-slate-400 group-hover:bg-slate-200")}>
+                    <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors", role === 'DOSEN' ? "bg-primary text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200")}>
                       <BookOpen size={32} />
                     </div>
                     <span className="font-bold tracking-tight">Dosen</span>
@@ -152,9 +152,9 @@ export default function RegisterPage() {
 
                 <div className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Full Name</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Full Name</label>
                     <div className="relative group">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
                       <input 
                         className="input-field input-with-icon bg-white/50" 
                         placeholder="Your full name" 
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">
                         {role === 'MAHASISWA' ? 'NIM' : 'NIDN'}
                       </label>
                       <input 
@@ -179,7 +179,7 @@ export default function RegisterPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Faculty</label>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Faculty</label>
                       <input 
                         className="input-field bg-white/50" 
                         placeholder="Fakultas" 
@@ -203,17 +203,17 @@ export default function RegisterPage() {
                   {role === 'MAHASISWA' ? (
                     <>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Jurusan</label>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Jurusan</label>
                         <input className="input-field bg-white/50" placeholder="Program Studi" required value={formData.jurusan} onChange={(e) => setFormData({...formData, jurusan: e.target.value})} />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Semester</label>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Semester</label>
                         <input type="number" className="input-field bg-white/50" placeholder="1-14" required value={formData.semester} onChange={(e) => setFormData({...formData, semester: e.target.value})} />
                       </div>
                     </>
                   ) : (
                     <div className="space-y-2 md:col-span-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Nomor Yayasan</label>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Nomor Yayasan</label>
                       <input className="input-field bg-white/50" placeholder="Nomor SK Yayasan" required value={formData.nomorYayasan} onChange={(e) => setFormData({...formData, nomorYayasan: e.target.value})} />
                     </div>
                   )}
@@ -221,16 +221,16 @@ export default function RegisterPage() {
 
                 <div className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Portal Email</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Portal Email</label>
                     <div className="relative group">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
                       <input type="email" className="input-field input-with-icon bg-white/50" placeholder="name@portal.ac.id" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] block ml-1">Password Keamanan</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block ml-1">Password Keamanan</label>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors pointer-events-none" size={18} />
                       <input type="password" className="input-field input-with-icon bg-white/50" placeholder="••••••••" required value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} />
                     </div>
                   </div>

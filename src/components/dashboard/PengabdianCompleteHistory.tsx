@@ -30,7 +30,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">1</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Assignment Task</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Assignment Task</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumen Kerjasama & Tugas</h4>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
           <div className="space-y-3.5 text-xs">
             <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100/50">
                <div>
-                  <span className="text-[10px] font-black text-slate-400 tracking-wider block uppercase">Proposal Pengabdian</span>
+                  <span className="text-[10px] font-black text-slate-500 tracking-wider block uppercase">Proposal Pengabdian</span>
                   <p className="text-[9px] text-slate-500 italic mt-0.5">Detail program pengabdian diajukan</p>
                </div>
                {registration.docs?.proposalFile || registration.docs?.proposal ? (
@@ -50,13 +50,13 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
                    <span>View PDF</span>
                  </button>
                ) : (
-                 <span className="text-[9px] font-bold text-slate-300 italic">No File</span>
+                 <span className="text-[9px] font-bold text-slate-500 italic">No File</span>
                )}
             </div>
 
             <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100/50">
                <div>
-                  <span className="text-[10px] font-black text-slate-400 tracking-wider block uppercase font-bold">SK Formal / Surat Tugas</span>
+                  <span className="text-[10px] font-black text-slate-500 tracking-wider block uppercase font-bold">SK Formal / Surat Tugas</span>
                   <p className="text-[9px] text-slate-500 italic mt-0.5">Diterbitkan oleh PPPM</p>
                </div>
                {registration.docs?.suratTugas ? (
@@ -68,7 +68,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
                    <span>Download SK</span>
                  </button>
                ) : (
-                 <span className="text-[9px] font-bold text-slate-300 italic">Selesai via Mandiri</span>
+                 <span className="text-[9px] font-bold text-slate-500 italic">Selesai via Mandiri</span>
                )}
             </div>
           </div>
@@ -79,21 +79,21 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
           <div className="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">2</div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Activity Profile</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Activity Profile</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Sertifikasi & Daerah Binaan</h4>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 text-xs font-bold text-slate-700">
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider flex items-center">
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider flex items-center">
                  <MapPin className="text-emerald-500 mr-1 shrink-0" size={10} /> Wilayah Target
               </span>
               <span className="text-slate-900 font-extrabold italic block truncate pt-1">{registration.info?.lokasi || 'Daerah Binaan Mandiri'}</span>
             </div>
 
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider flex items-center">
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider flex items-center">
                  <Users className="text-emerald-500 mr-1 shrink-0" size={10} /> Unit / Kelompok
               </span>
               <span className="text-slate-900 font-extrabold italic block truncate pt-1">{registration.info?.kelompok || 'Gugus Dosen Mandiri'}</span>
@@ -102,7 +102,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
             <div className="col-span-2 p-3 bg-slate-900 text-white rounded-xl flex items-center justify-between">
               <div className="flex items-center space-x-2">
                  <Clock size={16} className="text-emerald-400" />
-                 <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Total Ter-audit:</span>
+                 <span className="text-[10px] uppercase font-black tracking-wider text-slate-500">Total Ter-audit:</span>
               </div>
               <span className="text-lg font-black italic text-emerald-400">{registration.totalHours || 0} Jam Pengabdian</span>
             </div>
@@ -122,7 +122,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
               <ChevronDown className={cn("transition-transform duration-300", logbookOpen && "rotate-180")} size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Field Evidence</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Field Evidence</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1 flex items-center">
                 Logbook Pelaksanaan Lapangan
                 <span className="ml-3 px-2 py-0.5 bg-emerald-500/10 text-emerald-600 text-[10px] font-black rounded-lg">
@@ -149,7 +149,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
                     <div className="space-y-1">
                       <h5 className="font-extrabold text-sm text-slate-800 uppercase italic truncate">{log.nama}</h5>
                       <div className="flex items-center text-[10px] text-slate-500 space-x-1.5">
-                         <span className="font-black text-slate-400">Pihak Desa:</span>
+                         <span className="font-black text-slate-500">Pihak Desa:</span>
                          <span className="italic font-bold bg-white px-2 py-0.5 rounded-md border border-slate-150">@{log.pihakDesa}</span>
                          <span className={cn(
                            "px-1.5 py-0.5 rounded text-[8px] font-black uppercase",
@@ -174,7 +174,7 @@ export default function PengabdianCompleteHistory({ registration }: PengabdianCo
                 </div>
               ))
             ) : (
-              <div className="text-center py-10 text-slate-400 italic text-xs">Belum ada entri logbook terdaftar.</div>
+              <div className="text-center py-10 text-slate-500 italic text-xs">Belum ada entri logbook terdaftar.</div>
             )}
           </div>
         )}

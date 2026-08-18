@@ -45,7 +45,7 @@ export default function AdminKKN() {
   });
 
   if (loading) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Menyelaraskan Data KKN...</p>
      </div>
@@ -66,7 +66,7 @@ export default function AdminKKN() {
         </div>
         <div className="flex items-center space-x-3">
            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={16} />
               <input 
                 type="text" 
                 placeholder="Cari Mahasiswa..." 
@@ -88,7 +88,7 @@ export default function AdminKKN() {
                   onClick={() => setFilter(f)}
                   className={cn(
                     "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all border snap-start",
-                    filter === f ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-400 border-slate-100 hover:border-primary/40 hover:text-primary"
+                    filter === f ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-500 border-slate-100 hover:border-primary/40 hover:text-primary"
                   )}
                 >
                   {f === 'SUBMITTED' ? 'Inbox Pendaftaran' : f.replace('_', ' ')}
@@ -98,7 +98,7 @@ export default function AdminKKN() {
            
            <div className="space-y-4 max-h-[700px] overflow-y-auto pr-2 side-scrollbar">
               {filtered.length === 0 ? (
-                <div className="card p-20 text-center text-slate-300 italic font-black uppercase tracking-widest text-[10px] border-dashed border-2">No active records found.</div>
+                <div className="card p-20 text-center text-slate-500 italic font-black uppercase tracking-widest text-[10px] border-dashed border-2">No active records found.</div>
               ) : (
                 filtered.map(reg => (
                   <button 
@@ -114,7 +114,7 @@ export default function AdminKKN() {
                         <StatusBadge status={reg.status} />
                      </div>
                      <h4 className="font-black text-lg text-slate-900 truncate tracking-tight uppercase italic">{reg.studentName}</h4>
-                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">ID: {reg.id.slice(0, 8)}</p>
+                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">ID: {reg.id.slice(0, 8)}</p>
                      
                      <div className="absolute -right-4 -bottom-4 opacity-0 group-hover:opacity-5 transition-opacity">
                         <GraduationCap size={80} />
@@ -137,15 +137,15 @@ export default function AdminKKN() {
                   transition={{ type: 'spring', damping: 20 }}
                   className="space-y-8"
                 >
-                  <div className="card bg-slate-900 text-white p-10 overflow-hidden relative shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] border-none">
+                  <div className="card bg-slate-50 text-slate-900 p-10 overflow-hidden relative shadow-[0_30px_60px_-15px_rgba(0,0,0,0.04)] border-none">
                      <div className="absolute -right-10 -bottom-10 opacity-10 rotate-12"><Building2 size={240} className="text-primary" /></div>
                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                         <div className="space-y-4">
                            <div className="inline-flex px-3 py-1 bg-primary text-white text-[9px] font-black uppercase tracking-[0.3em] rounded-lg">Operational Profile</div>
                            <div className="space-y-1">
-                              <h2 className="text-4xl font-black italic tracking-tighter text-white uppercase underline decoration-primary/50 underline-offset-8">{selectedReg.studentName}</h2>
-                              <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] flex items-center pt-2">
-                                 <Hash size={14} className="mr-2 text-primary" /> {selectedReg.studentId} 
+                              <h2 className="text-4xl font-black italic tracking-tighter text-slate-900 uppercase underline decoration-primary/50 underline-offset-8">{selectedReg.studentName}</h2>
+                              <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.3em] flex items-center pt-2">
+                                 <Hash size={14} className="mr-2 text-primary" /> <span className="text-slate-900">{selectedReg.studentId}</span>
                                  <span className="mx-3 text-slate-700">•</span>
                                  <Calendar size={14} className="mr-2 text-primary" /> {new Date().getFullYear()} SESSION
                               </p>
@@ -185,11 +185,11 @@ export default function AdminKKN() {
                     )}
                     {selectedReg.status === 'COMPLETED' && (
                       <div className="space-y-10 animate-in fade-in duration-500">
-                         <div className="card p-20 text-center bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
+                         <div className="card p-20 text-center bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
                             <div className="absolute inset-0 bg-green-500/5" />
                             <CheckCircle2 size={80} className="text-primary mx-auto mb-8 animate-in zoom-in spin-in duration-700" />
                             <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">Yudisium Selesai</h3>
-                            <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Mahasiswa telah memenuhi dan mempertahankan semua persyaratan akademik.</p>
+                            <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Mahasiswa telah memenuhi dan mempertahankan semua persyaratan akademik.</p>
                             
                             <div className="mt-12 grid grid-cols-2 gap-6 relative z-10">
                                <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
@@ -219,7 +219,7 @@ export default function AdminKKN() {
                          <div key={i} className="space-y-3">
                             <div className="flex items-center space-x-2">
                                <item.icon size={14} className="text-primary" />
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</p>
+                               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.label}</p>
                             </div>
                             <p className="text-md font-black text-slate-900 italic tracking-tight">{item.value || 'BELUM DIATUR'}</p>
                          </div>
@@ -234,8 +234,8 @@ export default function AdminKKN() {
                       <Users size={80} className="text-slate-200 scale-125" />
                       <Search size={32} className="text-primary absolute -right-2 -bottom-2 bg-white rounded-full p-1 shadow-lg" />
                    </div>
-                   <h3 className="text-2xl font-black text-slate-300 uppercase tracking-[0.4em] italic leading-tight">Menunggu Pemilihan <br/> Mahasiswa</h3>
-                   <p className="text-slate-400 text-xs font-bold mt-6 max-w-xs leading-relaxed">Pilih mahasiswa dari daftar eksplorer untuk melakukan audit administrasi.</p>
+                   <h3 className="text-2xl font-black text-slate-500 uppercase tracking-[0.4em] italic leading-tight">Menunggu Pemilihan <br/> Mahasiswa</h3>
+                   <p className="text-slate-500 text-xs font-bold mt-6 max-w-xs leading-relaxed">Pilih mahasiswa dari daftar eksplorer untuk melakukan audit administrasi.</p>
                 </div>
               )}
            </AnimatePresence>
@@ -288,14 +288,14 @@ function RegistrationApproval({ reg, onAction }: { reg: KKNRegistration, onActio
        <div className="flex items-center justify-between border-b border-slate-100 pb-6">
           <div className="space-y-1">
              <h3 className="text-2xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">Admission Audit</h3>
-             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 italic">Verify student eligibility documents</p>
+             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1 italic">Verify student eligibility documents</p>
           </div>
           <StatusBadge status="SUBMITTED" />
        </div>
 
        <div className="grid md:grid-cols-2 gap-12">
           <div className="space-y-6">
-             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Manifest Dokumen</p>
+             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Manifest Dokumen</p>
              <div className="grid grid-cols-1 gap-3">
                 {Object.entries(reg.docs).map(([key, ok]) => (
                   <div key={key} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors group">
@@ -305,7 +305,7 @@ function RegistrationApproval({ reg, onAction }: { reg: KKNRegistration, onActio
                           <Eye size={18} />
                        </button>
                      ) : (
-                       <span className="text-[9px] font-black text-slate-300 uppercase tracking-tighter">Missing Proof</span>
+                       <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Missing Proof</span>
                      )}
                   </div>
                 ))}
@@ -313,7 +313,7 @@ function RegistrationApproval({ reg, onAction }: { reg: KKNRegistration, onActio
           </div>
           <div className="flex flex-col justify-between space-y-8">
              <div className="space-y-6">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic underline decoration-primary/30 underline-offset-4">Strategic Deployment Config</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic underline decoration-primary/30 underline-offset-4">Strategic Deployment Config</p>
                 <div className="grid grid-cols-1 gap-5">
                    <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-primary uppercase tracking-widest pl-1">Assign Location</label>
@@ -399,25 +399,25 @@ function SurveyApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () 
 
        <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-4">
-             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 italic">Foto Sosialisasi Lapangan</p>
+             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1 italic">Foto Sosialisasi Lapangan</p>
              <div className="grid grid-cols-3 gap-3 p-4 bg-slate-50 rounded-[32px] border border-slate-100 min-h-[120px]">
                 {reg.surveyDocs?.sosialisasi?.map((url, i) => (
                    <div key={i} className="aspect-square bg-white rounded-2xl border flex items-center justify-center p-1 group relative overflow-hidden shadow-sm">
                       <img src={url} className="w-full h-full object-cover rounded-xl transition-transform group-hover:scale-110" referrerPolicy="no-referrer" />
                       <button onClick={() => window.open(url, '_blank')} className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all"><Eye className="text-white" /></button>
                    </div>
-                )) || <div className="col-span-full flex items-center justify-center italic text-slate-300 font-bold uppercase text-[9px]">Missing Assets</div>}
+                )) || <div className="col-span-full flex items-center justify-center italic text-slate-500 font-bold uppercase text-[9px]">Missing Assets</div>}
              </div>
           </div>
           <div className="space-y-4">
-             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 italic">Bukti Survei Lapangan</p>
+             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1 italic">Bukti Survei Lapangan</p>
              <div className="grid grid-cols-3 gap-3 p-4 bg-slate-50 rounded-[32px] border border-slate-100 min-h-[120px]">
                 {reg.surveyDocs?.survei?.map((url, i) => (
                    <div key={i} className="aspect-square bg-white rounded-2xl border flex items-center justify-center p-1 group relative overflow-hidden shadow-sm">
                       <img src={url} className="w-full h-full object-cover rounded-xl transition-transform group-hover:scale-110" referrerPolicy="no-referrer" />
                       <button onClick={() => window.open(url, '_blank')} className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all"><Eye className="text-white" /></button>
                    </div>
-                )) || <div className="col-span-full flex items-center justify-center italic text-slate-300 font-bold uppercase text-[9px]">Missing Assets</div>}
+                )) || <div className="col-span-full flex items-center justify-center italic text-slate-500 font-bold uppercase text-[9px]">Missing Assets</div>}
              </div>
           </div>
        </div>
@@ -462,7 +462,7 @@ function RKLApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
        <div className="absolute -top-10 -right-10 opacity-5 rotate-12"><FileText size={240} className="text-primary" /></div>
        <div className="text-center space-y-3 relative z-10">
           <h3 className="text-4xl font-black italic tracking-tighter uppercase text-slate-900 leading-none">Operational Directives (RKL)</h3>
-          <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Auditing individual and group mission plans</p>
+          <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Auditing individual and group mission plans</p>
        </div>
 
        <div className="grid md:grid-cols-2 gap-8 relative z-10">
@@ -470,7 +470,7 @@ function RKLApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
              <div className="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center text-primary group-hover:scale-110 transition-transform"><FileText size={40} /></div>
              <div className="text-center">
                 <p className="font-black italic text-xl uppercase tracking-tighter">Individual Plan</p>
-                <p className="text-[10px] font-black text-slate-400 mt-1 uppercase tracking-widest">Manuscript.pdf</p>
+                <p className="text-[10px] font-black text-slate-500 mt-1 uppercase tracking-widest">Manuscript.pdf</p>
              </div>
              <button onClick={() => reg.rkl?.fileIndividu && window.open(reg.rkl.fileIndividu, '_blank')} className="btn-primary px-8 h-12 text-[9px] uppercase font-black bg-slate-900 border-none rounded-xl">Review Manuscript</button>
           </div>
@@ -478,7 +478,7 @@ function RKLApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
              <div className="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center text-primary group-hover:scale-110 transition-transform"><Users size={40} /></div>
              <div className="text-center">
                 <p className="font-black italic text-xl uppercase tracking-tighter">Squad Tactical Plan</p>
-                <p className="text-[10px] font-black text-slate-400 mt-1 uppercase tracking-widest">Team_RKL.pdf</p>
+                <p className="text-[10px] font-black text-slate-500 mt-1 uppercase tracking-widest">Team_RKL.pdf</p>
              </div>
              <button onClick={() => reg.rkl?.fileKelompok && window.open(reg.rkl.fileKelompok, '_blank')} className="btn-primary px-8 h-12 text-[9px] uppercase font-black bg-slate-900 border-none rounded-xl">Review Manuscript</button>
           </div>
@@ -517,14 +517,14 @@ function DeploymentApproval({ reg, onAction }: { reg: KKNRegistration, onAction:
   };
 
   return (
-    <div className="card p-20 text-center space-y-10 border-none bg-slate-900 text-white relative overflow-hidden shadow-2xl rounded-[50px]">
+                         <div className="card p-20 text-center space-y-10 border-none bg-slate-50 text-slate-900 relative overflow-hidden shadow-2xl rounded-[50px]">
        <div className="absolute inset-0 bg-primary/5 animate-pulse" />
        <div className="relative z-10 w-32 h-32 bg-primary/20 rounded-[44px] flex items-center justify-center text-primary mx-auto border border-primary/20 backdrop-blur-md">
           {actionLoading ? <Loader2 className="animate-spin" size={60} /> : <ClipboardCheck size={60} />}
        </div>
        <div className="space-y-4 relative z-10">
           <h3 className="text-4xl font-black italic uppercase tracking-tighter">Mission Deployment</h3>
-          <p className="text-slate-400 font-bold uppercase tracking-[0.25em] text-[10px] max-w-sm mx-auto leading-relaxed">Validate the departure rituals and candidate readiness for field work.</p>
+          <p className="text-slate-500 font-bold uppercase tracking-[0.25em] text-[10px] max-w-sm mx-auto leading-relaxed">Validate the departure rituals and candidate readiness for field work.</p>
        </div>
        <div className="flex gap-4 relative z-10 max-w-md mx-auto">
           {reg.deploymentPhoto && (
@@ -562,11 +562,11 @@ function LogbookApproval({ reg, onAction }: { reg: KKNRegistration, onAction: ()
        <div className="flex justify-between items-end bg-white p-10 rounded-[40px] shadow-sm border border-slate-100">
           <div>
             <h3 className="text-3xl font-black italic text-slate-900 uppercase tracking-tighter leading-none">Activity Stream</h3>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-3 italic pl-1">Live monitoring of candidate logbooks</p>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-3 italic pl-1">Live monitoring of candidate logbooks</p>
           </div>
           <div className="text-right">
              <div className="text-6xl font-black italic text-primary tracking-tighter leading-none">{(reg.totalHours ?? 0).toFixed(1)}</div>
-             <span className="text-[10px] text-slate-400 uppercase tracking-widest font-black italic">Accumulated Hours</span>
+             <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black italic">Accumulated Hours</span>
           </div>
        </div>
 
@@ -586,14 +586,14 @@ function LogbookApproval({ reg, onAction }: { reg: KKNRegistration, onAction: ()
                      <p className="text-sm text-slate-500 font-medium italic border-l-4 border-slate-100 pl-4 py-2 mt-4 bg-slate-50/50 rounded-r-2xl">"{log.note || 'No specific narrative provided.'}"</p>
                   </div>
                   <div className="flex items-center space-x-4">
-                     <div className="flex items-center space-x-1.5 text-[9px] font-black text-slate-400 uppercase tracking-widest"><MapPin size={12} className="text-primary" /> {log.lokasi}</div>
-                     <div className="flex items-center space-x-1.5 text-[9px] font-black text-slate-400 uppercase tracking-widest"><Building2 size={12} className="text-primary" /> {log.pihakDesa} ({log.statusPihakDesa})</div>
+                     <div className="flex items-center space-x-1.5 text-[9px] font-black text-slate-500 uppercase tracking-widest"><MapPin size={12} className="text-primary" /> {log.lokasi}</div>
+                     <div className="flex items-center space-x-1.5 text-[9px] font-black text-slate-500 uppercase tracking-widest"><Building2 size={12} className="text-primary" /> {log.pihakDesa} ({log.statusPihakDesa})</div>
                   </div>
                </div>
                
                <div className="flex flex-col items-center space-y-6">
                   {log.photos && log.photos[0] && (
-                    <button onClick={() => window.open(log.photos[0], '_blank')} className="p-5 bg-slate-50 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-[28px] transition-all border border-slate-100 group-hover:scale-110">
+                    <button onClick={() => window.open(log.photos[0], '_blank')} className="p-5 bg-slate-50 text-slate-500 hover:text-primary hover:bg-primary/5 rounded-[28px] transition-all border border-slate-100 group-hover:scale-110">
                        <Camera size={24} />
                     </button>
                   )}
@@ -647,7 +647,7 @@ function LPKApproval({ reg, onAction }: { reg: KKNRegistration, onAction: () => 
        <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><ClipboardCheck size={180} /></div>
        <div className="text-center space-y-4">
           <h3 className="text-4xl font-black italic text-slate-900 uppercase tracking-tighter underline decoration-primary/30 underline-offset-8">Final Mission Report (LPK)</h3>
-          <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] italic">Summative verification of academic activities</p>
+          <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] italic">Summative verification of academic activities</p>
        </div>
        
        <div className="grid md:grid-cols-2 gap-10">
@@ -731,7 +731,7 @@ function GradingBox({ reg, onAction }: { reg: KKNRegistration, onAction: () => v
        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-100 pb-8">
           <div className="space-y-1">
              <h3 className="text-4xl font-black italic tracking-tighter uppercase text-slate-900 leading-none">Judicial Review (Grading)</h3>
-             <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic pl-1">Input final academic performance weights</p>
+             <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic pl-1">Input final academic performance weights</p>
           </div>
           <div className="text-right">
              <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 pr-1 leading-none">Simulated Result</p>
@@ -747,7 +747,7 @@ function GradingBox({ reg, onAction }: { reg: KKNRegistration, onAction: () => v
             { id: 'responsi', label: 'Strategic Defense (10%)', value: scores.responsi },
           ].map(comp => (
             <div key={comp.id} className="space-y-4">
-               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block text-center italic">{comp.label}</label>
+               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block text-center italic">{comp.label}</label>
                <input 
                  type="number" 
                  className="input-field h-20 text-3xl font-black italic text-center p-0 focus:scale-105 transition-transform" 

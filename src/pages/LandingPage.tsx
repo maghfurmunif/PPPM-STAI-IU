@@ -151,7 +151,7 @@ export default function LandingPage() {
           <h3 className="text-xl font-black text-slate-900 mb-4 tracking-tight uppercase italic">Penelitian Dosen</h3>
           <p className="text-slate-500 leading-relaxed text-sm font-medium">Akses dan kelola publikasi ilmiah, penelitian inovatif, dan karya akademik dosen dalam satu wadah.</p>
           <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stats?.penelitian || 0} Terdaftar</span>
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stats?.penelitian || 0} Terdaftar</span>
             <ArrowRight size={16} className="text-primary" />
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function LandingPage() {
             <Globe size={32} />
           </div>
           <h3 className="text-xl font-black text-white mb-4 tracking-tight uppercase italic">Pengabdian KKN</h3>
-          <p className="text-slate-400 leading-relaxed text-sm font-medium">Jembatani pengetahuan akademik dengan dampak sosial langsung bagi masyarakat melalui program KKN.</p>
+          <p className="text-slate-500 leading-relaxed text-sm font-medium">Jembatani pengetahuan akademik dengan dampak sosial langsung bagi masyarakat melalui program KKN.</p>
           <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stats?.kkn || 0} Proyek</span>
             <ArrowRight size={16} className="text-primary" />
@@ -175,7 +175,7 @@ export default function LandingPage() {
           <h3 className="text-xl font-black text-slate-900 mb-4 tracking-tight uppercase italic">Tugas Akhir</h3>
           <p className="text-slate-500 leading-relaxed text-sm font-medium">Manajemen Seminar Proposal dan Skripsi yang efektif guna mempercepat kelulusan mahasiswa.</p>
           <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Digitalized</span>
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Digitalized</span>
             <ArrowRight size={16} className="text-primary" />
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function LandingPage() {
           <div className="flex items-center justify-between border-b border-slate-100 pb-8">
             <div>
                <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">Laman Statistik</h2>
-               <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mt-2">Data Realtime dari Database Supabase</p>
+               <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-2">Data Realtime dari Database Supabase</p>
             </div>
             <div className="px-5 py-2 bg-slate-900 text-white rounded-full text-[9px] font-black uppercase tracking-[0.2em] animate-pulse">Live Sync</div>
           </div>
@@ -202,7 +202,7 @@ export default function LandingPage() {
                 <div className={`w-12 h-12 ${stat.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                   <stat.icon size={22} />
                 </div>
-                <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
+                <p className="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
                 <p className="text-5xl font-black text-slate-900 tracking-tighter mb-1 uppercase italic">{stat.value}</p>
                 <div className="flex items-center space-x-2">
                    <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
@@ -216,7 +216,7 @@ export default function LandingPage() {
             <div className="relative z-10 space-y-6">
               <div className="inline-block px-4 py-1.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-2">Collaboration</div>
               <h3 className="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Bergabung dengan Kami</h3>
-              <p className="text-slate-400 max-w-lg font-medium">Berdampingan membangun ekosistem akademik yang unggul dan berkontribusi nyata bagi bangsa.</p>
+              <p className="text-slate-500 max-w-lg font-medium">Berdampingan membangun ekosistem akademik yang unggul dan berkontribusi nyata bagi bangsa.</p>
               <div className="pt-6">
                 <Link 
                   to={isLoggedIn ? getDashboardPath() : "/register"} 
@@ -241,17 +241,17 @@ export default function LandingPage() {
             {announcements.length === 0 ? (
                <div className="card p-10 text-center border-dashed border-2">
                   <Calendar className="mx-auto text-slate-200 mb-4" size={40} />
-                  <p className="text-xs text-slate-300 font-black uppercase tracking-widest">Belum ada pengumuman</p>
+                  <p className="text-xs text-slate-500 font-black uppercase tracking-widest">Belum ada pengumuman</p>
                </div>
             ) : (
               announcements.map((item, i) => (
                 <div key={i} className="card p-8 border-slate-100 hover:border-primary/30 transition-all flex group cursor-pointer bg-white">
                   <div className="text-center pr-8 mr-8 border-r border-slate-100 min-w-[80px]">
                     <p className="text-2xl font-black text-slate-900 leading-none">{new Date(item.created_at).getDate()}</p>
-                    <p className="text-[10px] text-slate-400 uppercase font-black mt-2 tracking-widest">{new Date(item.created_at).toLocaleString('id-ID', { month: 'short' })}</p>
+                    <p className="text-[10px] text-slate-500 uppercase font-black mt-2 tracking-widest">{new Date(item.created_at).toLocaleString('id-ID', { month: 'short' })}</p>
                   </div>
                   <div className="space-y-2">
-                    <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[9px] font-black uppercase tracking-widest rounded-lg border border-slate-100">{item.tag}</span>
+                    <span className="px-3 py-1 bg-slate-50 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-lg border border-slate-100">{item.tag}</span>
                     <p className="text-base font-black text-slate-800 leading-tight group-hover:text-primary transition-colors italic uppercase">{item.title}</p>
                   </div>
                 </div>

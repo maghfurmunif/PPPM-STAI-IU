@@ -112,7 +112,7 @@ export default function AdminDashboard() {
       <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
         <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
           <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Admin Panel</div>
+             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Admin Panel</div>
              <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
@@ -124,14 +124,14 @@ export default function AdminDashboard() {
                   "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
                   (location.pathname === menu.path)
                     ? "bg-slate-900 text-white shadow-lg shadow-black/20 scale-[1.02]" 
-                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-100"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
                 )}
               >
                 <div className={cn(
                   "p-2 rounded-xl transition-colors",
                   (location.pathname === menu.path)
                     ? "bg-white/10 text-white"
-                    : "bg-slate-100 text-slate-400"
+                    : "bg-slate-100 text-slate-500"
                 )}>
                   <menu.icon size={16} />
                 </div>
@@ -173,7 +173,7 @@ export default function AdminDashboard() {
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
               <div className="w-16 h-16 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
-              <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Authorizing Admin Access...</p>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Authorizing Admin Access...</p>
             </div>
           }>
             <Routes>
@@ -253,7 +253,7 @@ function AdminOverview() {
           <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Konsol Utama <span className="text-primary italic">Admin</span></h1>
           <p className="text-slate-500 font-medium">Monitoring sistem portal akademik secara menyeluruh.</p>
         </div>
-        <div className="flex items-center space-x-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
+        <div className="flex items-center space-x-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
            Sinkronisasi: Baru Saja
         </div>
       </div>
@@ -262,14 +262,14 @@ function AdminOverview() {
         {stats.map((stat, i) => (
           <div key={i} className="card p-8 group hover:-translate-y-1 transition-all">
             <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
+              <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors">
                 <stat.icon size={20} />
               </div>
               <span className={cn("text-[10px] font-black px-2 py-0.5 rounded-full", stat.trend.includes('+') ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
                 {stat.trend}
               </span>
             </div>
-            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{stat.label}</p>
+            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">{stat.label}</p>
             <p className="text-3xl font-bold text-slate-900 tracking-tight mb-1 uppercase italic">{stat.value}</p>
           </div>
         ))}
@@ -292,7 +292,7 @@ function AdminOverview() {
                  { label: 'Kelola Panduan', path: '/dashboard/admin/guides', icon: Layers, color: 'hover:border-amber-500' },
                ].map((mod, idx) => (
                  <Link key={idx} to={mod.path} className={cn("card p-6 flex flex-col items-center justify-center space-y-3 transition-all border-transparent border-2 shadow-sm", mod.color)}>
-                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-primary">
+                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-500 group-hover:text-primary">
                        <mod.icon size={20} />
                     </div>
                     <span className="text-[10px] font-black uppercase text-center tracking-tight text-slate-600">{mod.label}</span>
@@ -334,13 +334,13 @@ function AdminOverview() {
                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     </div>
                     <div className="space-y-1">
-                       <p className="text-xs font-bold text-slate-700">{act.name} <span className="font-medium text-slate-400 italic">{act.action}</span></p>
+                       <p className="text-xs font-bold text-slate-700">{act.name} <span className="font-medium text-slate-500 italic">{act.action}</span></p>
                        <p className="text-[9px] font-black text-primary uppercase tracking-widest opacity-60">{act.time ? new Date(act.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : ''} • {act.category} • {act.statusText}</p>
                     </div>
                  </div>
                ))}
             </div>
-            <div className="card p-6 bg-slate-900 text-white text-center cursor-pointer hover:bg-slate-800 transition-colors">
+            <div className="card p-6 bg-slate-50 text-slate-900 text-center cursor-pointer hover:bg-slate-100 transition-colors">
                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Log Audit Lengkap</span>
             </div>
          </div>

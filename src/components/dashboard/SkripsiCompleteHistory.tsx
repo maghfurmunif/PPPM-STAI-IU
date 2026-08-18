@@ -40,7 +40,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
               <FileText size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Draft & Dokumen</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Draft & Dokumen</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumen Pendaftaran</h4>
             </div>
           </div>
@@ -60,13 +60,13 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                         <span>LIHAT ARSIP</span>
                       </button>
                     ) : (
-                      <span className="text-[9px] font-medium text-slate-400 uppercase italic">Tdk Ada File</span>
+                      <span className="text-[9px] font-medium text-slate-500 uppercase italic">Tdk Ada File</span>
                     )}
                   </div>
                 );
               })
             ) : (
-              <div className="text-center py-6 text-slate-400 italic text-xs">Tidak ada dokumen pendaftaran terunggah.</div>
+              <div className="text-center py-6 text-slate-500 italic text-xs">Tidak ada dokumen pendaftaran terunggah.</div>
             )}
           </div>
         </div>
@@ -78,21 +78,21 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
               <User size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Designation</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Designation</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dosen Pembimbing Skripsi</h4>
             </div>
           </div>
 
           <div className="space-y-3 font-semibold text-xs text-slate-700">
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100/50 flex justify-between items-center">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider">Pembimbing Utama (I)</span>
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider">Pembimbing Utama (I)</span>
               <span className="text-slate-900 font-extrabold flex items-center italic">
                 <User size={12} className="mr-1.5 text-primary" />
                 {registration.advisor?.dosenSatuNama || 'Belum ditunjuk'}
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100/50 flex justify-between items-center">
-              <span className="text-[9px] text-slate-400 uppercase tracking-wider">Pembimbing Pendamping (II)</span>
+              <span className="text-[9px] text-slate-500 uppercase tracking-wider">Pembimbing Pendamping (II)</span>
               <span className="text-slate-900 font-extrabold flex items-center italic">
                 <User size={12} className="mr-1.5 text-primary" />
                 {registration.advisor?.dosenDuaNama || 'Belum ditunjuk'}
@@ -101,7 +101,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
             
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block pl-1">Jadwal Munaqosyah</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block pl-1">Jadwal Munaqosyah</span>
                 <span className="text-[9px] text-slate-500 font-medium italic pl-1">
                   {registration.examSchedule?.hari ? `${registration.examSchedule.hari}, ${registration.examSchedule.tanggal}` : 'Jadwal belum dipromosikan'}
                 </span>
@@ -111,7 +111,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                   {registration.examSchedule.ruang} • {registration.examSchedule.pukul}
                 </span>
               ) : (
-                <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest pr-2">NO SCHEDULE</span>
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pr-2">NO SCHEDULE</span>
               )}
             </div>
           </div>
@@ -128,13 +128,13 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
               <Camera size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Munaqosyah Proof</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Munaqosyah Proof</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Dokumentasi Sidang</h4>
             </div>
           </div>
 
           <div className="space-y-2">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block pl-1">Foto Bukti Pelaksanaan Sidang</span>
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block pl-1">Foto Bukti Pelaksanaan Sidang</span>
             <div className="grid grid-cols-3 gap-2">
               {registration.afterExamDocs?.munaqosyahPhotos?.map((url: string, index: number) => (
                 <div key={index} className="aspect-square bg-slate-50 rounded-xl relative overflow-hidden group border border-slate-100">
@@ -148,7 +148,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                 </div>
               ))}
               {(!registration.afterExamDocs?.munaqosyahPhotos || registration.afterExamDocs.munaqosyahPhotos.length === 0) && (
-                <div className="col-span-full py-4 pl-1 italic text-slate-400 text-xs flex items-center space-x-1.5">
+                <div className="col-span-full py-4 pl-1 italic text-slate-500 text-xs flex items-center space-x-1.5">
                   <Info size={12} />
                   <span>Tidak ada bukti foto pelaksanaan sidang.</span>
                 </div>
@@ -164,15 +164,15 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
               <BookOpen size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Final Archives</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Final Archives</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1">Skripsi Final & Pengesahan</h4>
             </div>
           </div>
 
           <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center">
             <div className="space-y-0.5">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Naskah Skripsi Final Resmi</span>
-              <p className="text-[9px] text-slate-400 font-medium italic mt-0.5">Sudah dilengkapi lembar persetujuan dewan penguji</p>
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Naskah Skripsi Final Resmi</span>
+              <p className="text-[9px] text-slate-500 font-medium italic mt-0.5">Sudah dilengkapi lembar persetujuan dewan penguji</p>
             </div>
             {registration.afterExamDocs?.finalSkripsiUrl ? (
               <button 
@@ -183,7 +183,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                 <span>LIHAT NASKAH</span>
               </button>
             ) : (
-              <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest">BELUM DIUNGGAH</span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">BELUM DIUNGGAH</span>
             )}
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
               <ChevronDown className={cn("transition-transform duration-300", bimbinganOpen && "rotate-180")} size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Progress Jurnal</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Progress Jurnal</p>
               <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 mt-1 flex items-center">
                 Logbook Jurnal Bimbingan Skripsi
                 <span className="ml-3 px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-black rounded-lg">
@@ -251,7 +251,7 @@ export default function SkripsiCompleteHistory({ registration }: SkripsiComplete
                 </div>
               ))
             ) : (
-              <div className="text-center py-10 text-slate-400 italic text-xs">Belum ada sesi bimbingan yang terdaftar.</div>
+              <div className="text-center py-10 text-slate-500 italic text-xs">Belum ada sesi bimbingan yang terdaftar.</div>
             )}
           </div>
         )}

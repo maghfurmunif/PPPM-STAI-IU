@@ -75,7 +75,7 @@ export default function AdminGuides() {
         </div>
         <div className="flex gap-4">
            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={16} />
               <input 
                 type="text" 
                 placeholder="Cari Panduan..." 
@@ -95,7 +95,7 @@ export default function AdminGuides() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+        <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
            <Loader2 className="animate-spin text-primary" size={40} />
            <p>Mengindeks Ruang Panduan...</p>
         </div>
@@ -104,7 +104,7 @@ export default function AdminGuides() {
            {filtered.length === 0 ? (
              <div className="col-span-full card p-20 text-center border-dashed border-2 m-4 rounded-[40px]">
                 <FileText size={48} className="mx-auto text-slate-200 mb-4" />
-                <p className="text-slate-300 font-black uppercase tracking-widest text-xs">Tidak ada panduan dalam basis data.</p>
+                <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Tidak ada panduan dalam basis data.</p>
              </div>
            ) : (
              filtered.map((guide, idx) => (
@@ -121,26 +121,26 @@ export default function AdminGuides() {
                     </div>
                     <div>
                        <h3 className="font-black text-slate-900 leading-tight tracking-tight uppercase italic group-hover:text-primary transition-colors">{guide.title}</h3>
-                       <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest italic">{new Date(guide.created_at).toLocaleDateString()}</p>
+                       <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest italic">{new Date(guide.created_at).toLocaleDateString()}</p>
                     </div>
                  </div>
                  <div className="flex items-center space-x-3">
                     <a 
                       href={guide.file_url} 
                       target="_blank" 
-                      className="p-3.5 bg-slate-50 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-2xl transition-all"
+                      className="p-3.5 bg-slate-50 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-2xl transition-all"
                     >
                        <Download size={18} />
                     </a>
                     <button 
                       onClick={() => { setEditingGuide(guide); setIsModalOpen(true); }}
-                      className="p-3.5 bg-slate-50 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 rounded-2xl transition-all"
+                      className="p-3.5 bg-slate-50 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-2xl transition-all"
                     >
                        <Edit2 size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(guide.id)}
-                      className="p-3.5 bg-slate-50 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                      className="p-3.5 bg-slate-50 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
                     >
                        <Trash2 size={18} />
                     </button>
@@ -175,7 +175,7 @@ export default function AdminGuides() {
 
                 <form onSubmit={handleSave} className="space-y-6">
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Nama Panduan Kantor / SOP</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Nama Panduan Kantor / SOP</label>
                       <input 
                         className="input-field py-5 px-6 font-bold uppercase tracking-widest italic" 
                         placeholder="Judul Panduan (mis: SOP KKN 2024)..."
@@ -185,9 +185,9 @@ export default function AdminGuides() {
                    </div>
 
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-4">Tautan Unduh File / Panduan</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Tautan Unduh File / Panduan</label>
                       <div className="relative group">
-                         <LinkIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                         <LinkIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
                          <input 
                            className="input-field py-5 pl-16 pr-6 font-bold uppercase tracking-widest" 
                            placeholder="https://cloud.stai.ac.id/file.pdf"

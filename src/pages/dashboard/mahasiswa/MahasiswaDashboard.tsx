@@ -92,7 +92,7 @@ export default function MahasiswaDashboard() {
       <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
         <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
           <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Student Portal</div>
+             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Student Portal</div>
              <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
@@ -104,14 +104,14 @@ export default function MahasiswaDashboard() {
                   "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
                   (location.pathname === menu.path)
                     ? "bg-primary text-white shadow-lg shadow-primary/30 scale-[1.02]" 
-                    : "text-slate-400 hover:text-primary hover:bg-primary/5"
+                    : "text-slate-500 hover:text-primary hover:bg-primary/5"
                 )}
               >
                  <div className={cn(
                     "p-2 rounded-xl transition-colors",
                     (location.pathname === menu.path)
                       ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-400"
+                      : "bg-slate-100 text-slate-500"
                  )}>
                    <menu.icon size={16} />
                  </div>
@@ -147,7 +147,7 @@ export default function MahasiswaDashboard() {
               <div className="relative">
                 <div className="w-16 h-16 border-4 border-slate-100 border-t-primary rounded-full animate-spin" />
               </div>
-              <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Loading Workspace...</p>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Loading Workspace...</p>
             </div>
           }>
             <Routes>
@@ -311,18 +311,18 @@ function DashboardOverview() {
             <div className="flex justify-between items-start mb-8 relative z-10">
               <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:scale-110", 
                 stat.color === 'primary' ? "bg-primary text-white shadow-primary/20" : 
-                "bg-slate-100 text-slate-400 group-hover:bg-primary/10 group-hover:text-primary")}>
+                "bg-slate-100 text-slate-500 group-hover:bg-primary/10 group-hover:text-primary")}>
                 <stat.icon size={24} />
               </div>
               <div className="text-right">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">Status</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Status</p>
                 <p className="text-sm font-bold text-slate-900">{stat.status}</p>
               </div>
             </div>
             <h3 className="font-bold text-slate-800 text-xl mb-4 tracking-tight relative z-10">{stat.label}</h3>
             <div className="space-y-3 relative z-10">
                <div className="flex justify-between items-end">
-                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Completion</span>
+                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Completion</span>
                  <span className="text-sm font-bold text-primary">{stat.value}%</span>
                </div>
                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -347,7 +347,7 @@ function DashboardOverview() {
           </div>
           <div className="space-y-4">
              {activities.length === 0 ? (
-               <div className="card p-10 text-center text-slate-400 italic text-xs">Belum ada aktivitas tercatat.</div>
+               <div className="card p-10 text-center text-slate-500 italic text-xs">Belum ada aktivitas tercatat.</div>
              ) : (
                activities.map((activity, i) => (
                  <div key={i} className="card p-6 flex items-center space-x-5 hover:border-primary/20 transition-all cursor-pointer group">
@@ -356,7 +356,7 @@ function DashboardOverview() {
                    </div>
                    <div className="flex-grow min-w-0">
                       <p className="text-sm font-bold text-slate-800 truncate">{activity.activity}</p>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{new Date(activity.created_at).toLocaleDateString()}</p>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">{new Date(activity.created_at).toLocaleDateString()}</p>
                    </div>
                    <ArrowRight size={16} className="text-slate-200 group-hover:text-primary transition-colors" />
                  </div>
@@ -367,7 +367,7 @@ function DashboardOverview() {
         
         <div className="space-y-6">
           <h2 className="text-xl font-bold text-slate-900 italic">Pusat Unduhan & Panduan</h2>
-          <div className="card p-8 bg-slate-900 text-white overflow-hidden relative">
+          <div className="card p-8 bg-slate-50 text-slate-900 overflow-hidden relative">
              <div className="relative z-10 space-y-6">
                 {[
                   { name: 'Template RKL (Rencana Kegiatan)', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' },
@@ -375,7 +375,7 @@ function DashboardOverview() {
                   { name: 'Buku Panduan KKN 2024/2025', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between group">
-                     <span className="text-sm font-bold text-slate-300">{item.name}</span>
+                     <span className="text-sm font-bold text-slate-500">{item.name}</span>
                      <button 
                        onClick={() => window.open(item.link, '_blank')}
                        className="p-2 bg-primary/20 text-primary rounded-xl hover:bg-primary hover:text-white transition-all font-bold text-[10px]"

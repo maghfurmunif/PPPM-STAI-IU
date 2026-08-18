@@ -54,7 +54,7 @@ export default function AdminSempro() {
   if (loading) return (
     <div className="flex flex-col items-center justify-center h-[50vh] space-y-4">
       <Loader2 className="animate-spin text-primary" size={40} />
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading Sempro Data...</p>
+      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Loading Sempro Data...</p>
     </div>
   );
 
@@ -65,7 +65,7 @@ export default function AdminSempro() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic decoration-primary underline-offset-8 underline">Manajemen Sempro</h1>
           <p className="text-slate-500 font-medium text-xs mt-2">Validasi proposal dan penjadwalan seminar mahasiswa.</p>
         </div>
-        <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest">
+        <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
           {registrations.length} Total Registrasi
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function AdminSempro() {
       {registrations.length === 0 ? (
         <div className="card p-20 text-center space-y-4 border-dashed">
           <BookOpen className="mx-auto text-slate-200" size={64} />
-          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Belum ada pengajuan sempro</p>
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Belum ada pengajuan sempro</p>
         </div>
       ) : (
         <div className="grid lg:grid-cols-3 gap-10">
@@ -89,7 +89,7 @@ export default function AdminSempro() {
                >
                   <div className="flex justify-between items-start mb-2">
                     <StatusBadge status={reg.status} />
-                    <span className="text-[9px] font-bold text-slate-400 italic">2026</span>
+                    <span className="text-[9px] font-bold text-slate-500 italic">2026</span>
                   </div>
                   <h4 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{reg.studentName}</h4>
                </button>
@@ -106,7 +106,7 @@ export default function AdminSempro() {
                  exit={{ opacity: 0, x: -20 }}
                  className="space-y-6"
                >
-                  <div className="card p-8 bg-slate-900 text-white relative overflow-hidden">
+                  <div className="card p-8 bg-slate-50 text-slate-900 relative overflow-hidden">
                      <div className="absolute top-0 right-0 p-8 opacity-10">
                         <BookOpen size={120} />
                      </div>
@@ -157,19 +157,19 @@ export default function AdminSempro() {
                        <h3 className="font-bold italic flex items-center"><Calendar size={18} className="mr-2 text-primary" /> Plotting Jadwal Seminar</h3>
                        <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-1">
-                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Tanggal</label>
+                             <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest pl-1">Tanggal</label>
                              <input type="date" className="input-field text-xs" id="tgl" />
                           </div>
                           <div className="space-y-1">
-                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Jam Pelaksanaan</label>
+                             <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest pl-1">Jam Pelaksanaan</label>
                              <input type="text" placeholder="Jam (08:00 WIB)" className="input-field text-xs" id="jam" />
                           </div>
                           <div className="space-y-1">
-                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Hari</label>
+                             <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest pl-1">Hari</label>
                              <input type="text" placeholder="Hari (Senin)" className="input-field text-xs" id="hari" />
                           </div>
                           <div className="space-y-1">
-                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Lokasi/Ruang</label>
+                             <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest pl-1">Lokasi/Ruang</label>
                              <input type="text" placeholder="Ruangan" className="input-field text-xs" id="ruang" />
                           </div>
                        </div>
@@ -210,7 +210,7 @@ export default function AdminSempro() {
                        </div>
 
                        <div className="p-5 bg-slate-50 rounded-[20px] space-y-3">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Catatan Perbaikan (File)</p>
+                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Catatan Perbaikan (File)</p>
                           <div className="flex gap-2 flex-wrap">
                              {(selectedReg.postSeminar?.catatan || []).map((url, i) => (
                                 <button key={i} onClick={() => window.open(url, '_blank')} className="flex items-center space-x-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black text-primary hover:bg-primary/5 transition-all border border-slate-200 shadow-sm">
@@ -253,7 +253,7 @@ export default function AdminSempro() {
                   <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-200">
                     <Users size={32} />
                   </div>
-                  <p className="text-slate-300 italic font-bold uppercase tracking-widest text-xs">Pilih data mahasiswa untuk memproses pengajuan</p>
+                  <p className="text-slate-500 italic font-bold uppercase tracking-widest text-xs">Pilih data mahasiswa untuk memproses pengajuan</p>
                </div>
              )}
              </AnimatePresence>

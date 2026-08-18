@@ -96,7 +96,7 @@ export default function SkripsiSection() {
   };
 
   if (loading) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Authorizing Skripsi Portal...</p>
      </div>
@@ -139,7 +139,7 @@ export default function SkripsiSection() {
               >
                  <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                  <h3 className="text-2xl font-bold text-slate-900 italic tracking-tighter underline decoration-primary/30 underline-offset-8">Verifikasi Pendaftaran Skripsi</h3>
-                 <p className="text-slate-400 font-medium">Biro Skripsi STAI Ihyaul Ulum sedang memvalidasi berkas administrasi dan IPK Anda.</p>
+                 <p className="text-slate-500 font-medium">Biro Skripsi STAI Ihyaul Ulum sedang memvalidasi berkas administrasi dan IPK Anda.</p>
               </motion.div>
             )}
 
@@ -149,12 +149,12 @@ export default function SkripsiSection() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-10"
               >
-                <div className="card bg-slate-900 text-white p-10 overflow-hidden relative">
+                <div className="card bg-slate-50 text-slate-900 p-10 overflow-hidden relative">
                    <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="space-y-1">
                          <p className="text-[10px] font-black text-primary uppercase tracking-widest">Dosen Pembimbing Utama</p>
                          <h3 className="text-3xl font-black italic tracking-tighter text-white">{registration.advisor.name}</h3>
-                         <p className="text-xs text-slate-400 font-medium italic">Silakan lakukan bimbingan minimal 10 kali sebelum pendaftaran munaqosyah.</p>
+                         <p className="text-xs text-slate-500 font-medium italic">Silakan lakukan bimbingan minimal 10 kali sebelum pendaftaran munaqosyah.</p>
                       </div>
                       <button 
                          disabled={actionLoading}
@@ -181,7 +181,7 @@ export default function SkripsiSection() {
                >
                  <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                  <h3 className="text-2xl font-bold text-slate-900 italic">Validasi Pendaftaran Munaqosyah</h3>
-                 <p className="text-slate-400 font-medium">Berkas syarat ujian skripsi Anda sedang diverifikasi admin.</p>
+                 <p className="text-slate-500 font-medium">Berkas syarat ujian skripsi Anda sedang diverifikasi admin.</p>
                </motion.div>
             )}
 
@@ -227,7 +227,7 @@ export default function SkripsiSection() {
                                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Slot Foto {idx + 1} *</span>
                                 <label className={cn(
                                    "h-48 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center transition-all cursor-pointer overflow-hidden bg-slate-50 relative group",
-                                   currentPhoto ? "border-primary" : "border-slate-300 hover:border-primary/50 text-slate-400 font-bold"
+                                   currentPhoto ? "border-primary" : "border-slate-300 hover:border-primary/50 text-slate-500 font-bold"
                                 )}>
                                    <input 
                                       type="file" 
@@ -257,7 +257,7 @@ export default function SkripsiSection() {
                                       <img src={currentPhoto} className="w-full h-full object-cover" referrerPolicy="no-referrer" alt={`Munaqosyah ${idx + 1}`} />
                                    ) : (
                                       <div className="flex flex-col items-center p-4 text-center">
-                                         <Camera size={28} className="text-slate-300 group-hover:text-primary transition-colors" />
+                                         <Camera size={28} className="text-slate-500 group-hover:text-primary transition-colors" />
                                          <span className="text-[9px] font-black uppercase mt-2 text-slate-500">Pilih berkas gambar</span>
                                       </div>
                                    )}
@@ -329,11 +329,11 @@ export default function SkripsiSection() {
                     </div>
                  ) : (
                     <div className="space-y-10">
-                       <div className="card bg-slate-900 text-white p-10 relative overflow-hidden shadow-2xl">
+                       <div className="card bg-slate-50 text-slate-900 p-10 relative overflow-hidden shadow-2xl">
                           <div className="relative z-10">
                              <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">Tahap Akhir Sidang Munaqosyah</p>
                              <h3 className="text-3xl font-black italic tracking-tighter text-white">PASCA-SIDANG & UNGGAH REVISI FINAL</h3>
-                             <p className="text-xs text-slate-300 font-medium mt-2 leading-relaxed max-w-2xl">
+                             <p className="text-xs text-slate-500 font-medium mt-2 leading-relaxed max-w-2xl">
                                 Selamat atas pelaksanaan Sidang Munaqosyah Anda. Silakan selesaikan perbaikan draf dengan bimbingan dewan penguji, lalu unggah dokumen wajib berikut untuk pencairan nilai kelulusan Anda.
                              </p>
                           </div>
@@ -354,7 +354,7 @@ export default function SkripsiSection() {
                                       return (
                                          <label key={idx} className={cn(
                                             "h-32 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center transition-all cursor-pointer overflow-hidden bg-slate-50 relative group",
-                                            currentPhoto ? "border-primary" : "border-slate-200 hover:border-primary/50 text-slate-400"
+                                            currentPhoto ? "border-primary" : "border-slate-200 hover:border-primary/50 text-slate-500"
                                          )}>
                                             <input 
                                                type="file" 
@@ -384,7 +384,7 @@ export default function SkripsiSection() {
                                                <img src={currentPhoto} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                             ) : (
                                                <div className="flex flex-col items-center p-2 text-center text-slate-500">
-                                                  <Camera size={20} className="text-slate-300 group-hover:text-primary" />
+                                                  <Camera size={20} className="text-slate-500 group-hover:text-primary" />
                                                   <span className="text-[8px] font-black uppercase mt-1">Upload Foto</span>
                                                </div>
                                             )}
@@ -402,7 +402,7 @@ export default function SkripsiSection() {
                                       return (
                                          <label key={idx} className={cn(
                                             "h-32 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center transition-all cursor-pointer overflow-hidden bg-slate-50 relative group",
-                                            currentPhoto ? "border-primary" : "border-slate-200 hover:border-primary/50 text-slate-400"
+                                            currentPhoto ? "border-primary" : "border-slate-200 hover:border-primary/50 text-slate-500"
                                          )}>
                                             <input 
                                                type="file" 
@@ -432,7 +432,7 @@ export default function SkripsiSection() {
                                                <img src={currentPhoto} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                             ) : (
                                                <div className="flex flex-col items-center p-2 text-center text-slate-500 font-bold">
-                                                  <Camera size={20} className="text-slate-300 group-hover:text-primary" />
+                                                  <Camera size={20} className="text-slate-500 group-hover:text-primary" />
                                                   <span className="text-[8px] font-black uppercase mt-1">Upload Foto</span>
                                                </div>
                                             )}
@@ -525,7 +525,7 @@ export default function SkripsiSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="max-w-4xl mx-auto space-y-10"
               >
-                 <div className="card p-12 bg-slate-900 text-white text-center relative overflow-hidden shadow-2xl bg-gradient-to-tr from-slate-950 via-slate-900 to-slate-950">
+               <div className="card p-12 bg-slate-50 text-slate-900 text-center relative overflow-hidden shadow-2xl">
                     <div className="relative z-10 space-y-4">
                        <CheckCircle2 size={64} className="mx-auto text-primary" />
                        <h2 className="text-4xl font-black italic tracking-tighter text-white">SKRIPSI SELESAI</h2>
@@ -630,7 +630,7 @@ function SkripsiEnrollment({ onEnroll, actionLoading }: { onEnroll: (docs: any) 
   return (
     <div className="grid lg:grid-cols-2 gap-10">
       <div className="space-y-8">
-        <div className="card p-8 bg-slate-900 text-white space-y-6">
+      <div className="card p-8 bg-slate-50 text-slate-900 space-y-6">
            <h3 className="text-2xl font-black italic flex items-center">
              <FileUp className="mr-3 text-primary" size={24} />
              Syarat Akademik
@@ -671,7 +671,7 @@ function SkripsiEnrollment({ onEnroll, actionLoading }: { onEnroll: (docs: any) 
                             <span>File Terupload ✓</span>
                          </div>
                        ) : (
-                         <div className="flex items-center space-x-2 text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-slate-300">
+                         <div className="flex items-center space-x-2 text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-slate-500">
                             <FileUp size={14} />
                             <span>Ambil File Berkas</span>
                          </div>
@@ -689,7 +689,7 @@ function SkripsiEnrollment({ onEnroll, actionLoading }: { onEnroll: (docs: any) 
          </div>
          <div className="space-y-4">
             <h4 className="text-2xl font-black text-slate-900 italic underline decoration-primary/30 underline-offset-8">Daftar Skripsi</h4>
-            <p className="text-sm text-slate-400 max-w-xs mx-auto font-medium">Upload semua berkas pendukung di samping untuk mengaktifkan pendaftaran Anda.</p>
+            <p className="text-sm text-slate-500 max-w-xs mx-auto font-medium">Upload semua berkas pendukung di samping untuk mengaktifkan pendaftaran Anda.</p>
          </div>
          <button 
            disabled={!allReady || !!uploading || actionLoading}
@@ -776,7 +776,7 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
                 <div>
                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Foto Bukti Bimbingan</label>
                    <div className="flex items-center gap-6">
-                      <label className={cn("flex-grow h-32 rounded-2xl border-2 border-dashed flex items-center justify-center transition-all cursor-pointer overflow-hidden group/f", form.photo ? "border-primary" : "border-slate-200 text-slate-300 hover:border-primary/50")}>
+                      <label className={cn("flex-grow h-32 rounded-2xl border-2 border-dashed flex items-center justify-center transition-all cursor-pointer overflow-hidden group/f", form.photo ? "border-primary" : "border-slate-200 text-slate-500 hover:border-primary/50")}>
                          <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handleLogPhoto(e.target.files[0])} disabled={uploading} />
                          {uploading ? (
                            <Loader2 className="animate-spin text-primary" size={32} />
@@ -784,7 +784,7 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
                            <img src={form.photo} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                          ) : (
                            <div className="flex flex-col items-center">
-                              <Camera size={32} className="group-hover/f:text-primary transition-colors text-slate-400" />
+                              <Camera size={32} className="group-hover/f:text-primary transition-colors text-slate-500" />
                               <span className="text-[9px] font-black uppercase mt-2 text-slate-500">Upload Foto</span>
                            </div>
                          )}
@@ -802,8 +802,8 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
           <div className="space-y-4">
              {registration.logbooks.length === 0 ? (
                 <div className="card p-20 text-center space-y-3 border-dashed opacity-50 bg-white border-slate-200">
-                   <BookOpen className="mx-auto text-slate-300" size={48} />
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Belum ada jurnal bimbingan</p>
+                   <BookOpen className="mx-auto text-slate-500" size={48} />
+                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Belum ada jurnal bimbingan</p>
                 </div>
              ) : (
                 registration.logbooks.map(log => (
@@ -814,7 +814,7 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
                   >
                      <div className="flex items-start space-x-5">
                         <div className="flex flex-col items-center justify-center p-3 px-4 bg-slate-50 rounded-2xl border border-slate-200 min-w-[70px]">
-                           <span className="text-[9px] font-black text-slate-400 uppercase">{log.date.split('-')[0]}</span>
+                           <span className="text-[9px] font-black text-slate-500 uppercase">{log.date.split('-')[0]}</span>
                            <span className="text-sm font-black text-primary">{log.date.split('-').slice(1).reverse().join('/')}</span>
                         </div>
                         <div className="space-y-1">
@@ -833,7 +833,7 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
                        "text-[9px] font-black uppercase px-4 py-1.5 rounded-full",
                        log.status === 'APPROVED' ? "bg-green-50 text-green-600 border border-green-100" : 
                        log.status === 'REJECTED' ? "bg-red-50 text-red-600 border border-red-100" :
-                       "bg-slate-50 text-slate-400 border border-slate-100"
+                       "bg-slate-50 text-slate-500 border border-slate-100"
                      )}>
                        {log.status === 'APPROVED' ? 'Diverifikasi' : 
                         log.status === 'REJECTED' ? 'Ditolak' : 'Pending'}
@@ -845,20 +845,20 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
        </div>
 
        <div className="space-y-8 text-center lg:text-left text-slate-900">
-          <div className="card p-10 bg-slate-900 text-white relative overflow-hidden group shadow-2xl shadow-slate-900/20">
+          <div className="card p-10 bg-slate-50 text-slate-900 relative overflow-hidden group shadow-2xl">
              <div className="relative z-10 space-y-8">
                 <div>
                    <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">Bimbingan Tracker</p>
                    <div className="text-6xl font-black italic tracking-tighter flex items-end text-white">
                      {bimbinganCount} 
-                     <span className="text-base font-black opacity-20 ml-3 mb-2 uppercase tracking-widest text-slate-400">/ 10</span>
+                     <span className="text-base font-black opacity-20 ml-3 mb-2 uppercase tracking-widest text-slate-500">/ 10</span>
                    </div>
                 </div>
                 <div className="space-y-2">
                    <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/5 p-0.5">
                       <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, (bimbinganCount / 10) * 100)}%` }} className="h-full bg-primary rounded-full shadow-lg shadow-primary/40" />
                    </div>
-                   <div className="flex justify-between text-[9px] font-black text-slate-400 uppercase tracking-widest italic">
+                   <div className="flex justify-between text-[9px] font-black text-slate-500 uppercase tracking-widest italic">
                       <span>Progress</span>
                       <span>{Math.min(100, Math.round((bimbinganCount / 10) * 100))}%</span>
                    </div>
@@ -904,7 +904,7 @@ function SkripsiBimbingan({ registration, onUpdate, actionLoading }: { registrat
           <div className="card p-8 bg-slate-50 border-none">
              <div className="flex items-center space-x-3 mb-4">
                 <Info size={16} className="text-primary" />
-                <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Pemberitahuan</h5>
+                <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Pemberitahuan</h5>
              </div>
              <p className="text-xs text-slate-600 font-medium leading-relaxed italic text-left">
                Setiap input bimbingan wajib melampirkan foto dokumentasi sebagai bukti otentik kegiatan akademik.

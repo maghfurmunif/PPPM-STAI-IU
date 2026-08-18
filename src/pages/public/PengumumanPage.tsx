@@ -34,7 +34,7 @@ export default function PengumumanPage() {
         ) : announcements.length === 0 ? (
           <div className="card p-20 text-center bg-white border-none shadow-xl rounded-[40px]">
              <Megaphone className="mx-auto text-slate-200 mb-6" size={60} />
-             <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Belum ada pengumuman untuk ditampilkan.</p>
+             <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Belum ada pengumuman untuk ditampilkan.</p>
           </div>
         ) : (
           <div className="grid gap-6">
@@ -49,7 +49,7 @@ export default function PengumumanPage() {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-4">
                     <span className="px-4 py-1.5 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest rounded-lg">{ann.tag}</span>
-                    <span className="flex items-center space-x-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <span className="flex items-center space-x-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                        <Calendar size={14} />
                        <span>{new Date(ann.created_at).toLocaleDateString('id-ID', { dateStyle: 'long' })}</span>
                     </span>

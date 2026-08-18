@@ -67,7 +67,7 @@ export default function PenelitianDosen() {
   };
 
   if (loading) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Syncing Research Pipeline...</p>
      </div>
@@ -88,7 +88,7 @@ export default function PenelitianDosen() {
         </div>
         {registration && (
           <div className="flex items-center glass-morphism rounded-2xl px-6 py-3 border-white/40 shadow-lg">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-3">Current Mode</span>
+             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mr-3">Current Mode</span>
              <StatusBadge status={registration.status} />
           </div>
         )}
@@ -100,7 +100,7 @@ export default function PenelitianDosen() {
            <FlaskConical size={64} className="mx-auto text-primary" />
            <div className="space-y-2 relative z-10">
               <h3 className="text-3xl font-black italic tracking-tighter uppercase">Inisiasi Riset Akademik</h3>
-              <p className="text-slate-400 font-medium max-w-sm mx-auto leading-relaxed">Ajukan proposal penelitian Anda ke PPPM untuk mendapatkan pendanaan, monitoring, dan dukungan publikasi.</p>
+              <p className="text-slate-500 font-medium max-w-sm mx-auto leading-relaxed">Ajukan proposal penelitian Anda ke PPPM untuk mendapatkan pendanaan, monitoring, dan dukungan publikasi.</p>
            </div>
            <button onClick={handleEnroll} disabled={actionLoading} className="btn-primary px-12 py-5 shadow-2xl relative z-10 transition-all hover:scale-105 active:scale-95">
              {actionLoading ? <Loader2 className="animate-spin" /> : 'Buat Pengajuan Penelitian Baru'}
@@ -132,12 +132,12 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
+                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><ClipboardList size={140} /></div>
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3 relative z-10">
                     <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Under Review</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-medium">Admin PPPM sedang mengaudit proposal penelitian Anda. Jadwal seminar proposal akan segera dipublikasikan di dashboard ini.</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Admin PPPM sedang mengaudit proposal penelitian Anda. Jadwal seminar proposal akan segera dipublikasikan di dashboard ini.</p>
                   </div>
                   <button onClick={() => window.location.reload()} className="btn-primary bg-white/10 text-white border border-white/20 py-2 px-8 text-[10px] relative z-10 backdrop-blur-sm">Sync Status</button>
                 </div>
@@ -148,11 +148,11 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'SEMPRO_SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 text-white border-none shadow-2xl">
+                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl">
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3">
                      <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Validasi Bukti Seminar</h3>
-                     <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-medium">Laporan dokumentasi & berita acara seminar proposal sedang diverifikasi oleh PPPM. </p>
+                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Laporan dokumentasi & berita acara seminar proposal sedang diverifikasi oleh PPPM. </p>
                   </div>
                 </div>
               )}
@@ -162,12 +162,12 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'RESULT_SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
+                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
                   <div className="absolute bottom-0 left-0 p-10 opacity-10 -rotate-12"><FlaskConical size={140} /></div>
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3 relative z-10">
                     <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Audit Laporan Hasil</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto leading-relaxed font-medium">Hasil penelitian Anda akan segera dinilai untuk penjadwalan Seminar Hasil (Munaqosyah Dosen).</p>
+                    <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Hasil penelitian Anda akan segera dinilai untuk penjadwalan Seminar Hasil (Munaqosyah Dosen).</p>
                   </div>
                 </div>
               )}
@@ -186,11 +186,11 @@ export default function PenelitianDosen() {
 
               {registration.status === 'COMPLETED' && (
                  <div className="max-w-4xl mx-auto space-y-10">
-                    <div className="card p-12 bg-slate-900 text-white text-center relative overflow-hidden shadow-2xl border-none rounded-[40px]">
+                    <div className="card p-12 bg-slate-50 text-slate-900 text-center relative overflow-hidden shadow-2xl border-none rounded-[40px]">
                        <div className="absolute -right-10 -bottom-10 opacity-10 rotate-12 text-primary"><FlaskConical size={240} /></div>
                        <CheckCircle2 size={80} className="mx-auto mb-8 text-primary" />
                        <h2 className="text-5xl font-black italic mb-4 uppercase tracking-tighter">RISER ACHIEVED</h2>
-                       <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] italic">Research Completed successfully</p>
+                       <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] italic">Research Completed successfully</p>
                        
                        <div className="mt-12 grid grid-cols-2 gap-6 text-left relative z-10">
                           <div className="p-6 bg-white/5 rounded-3xl backdrop-blur-md border border-white/10">
@@ -231,11 +231,11 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
 
   return (
     <div className="grid lg:grid-cols-2 gap-10">
-       <div className="card p-10 bg-slate-900 text-white space-y-8 shadow-2xl relative overflow-hidden">
+      <div className="card p-10 bg-slate-50 text-slate-900 space-y-8 shadow-2xl relative overflow-hidden">
           <div className="absolute -right-6 -bottom-6 opacity-10"><FileText size={160} /></div>
           <div className="space-y-2 relative z-10">
             <h3 className="text-3xl font-black italic uppercase tracking-tighter">Proposal Submission</h3>
-            <p className="text-slate-400 text-sm leading-relaxed font-medium">Unggah draf proposal penelitian terbaru dalam format PDF untuk diverifikasi dewan pakar.</p>
+            <p className="text-slate-500 text-sm leading-relaxed font-medium">Unggah draf proposal penelitian terbaru dalam format PDF untuk diverifikasi dewan pakar.</p>
           </div>
           
           <div className="space-y-4 relative z-10">
@@ -247,7 +247,7 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
                 <input type="file" className="hidden" accept=".pdf" onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} disabled={uploading} />
                 {uploading ? <Loader2 size={40} className="animate-spin text-primary" /> : 
                  reg.proposalFile ? <div className="flex flex-col items-center space-y-3"><CheckCircle2 size={40} className="text-primary animate-in zoom-in" /> <span className="text-[10px] font-black uppercase tracking-widest text-primary">Proposal Cached</span></div> :
-                 <div className="flex flex-col items-center space-y-3 text-slate-500 group-hover:text-slate-300"><FileUp size={40} /> <span className="text-[10px] font-black uppercase tracking-widest font-bold">Select PDF File</span></div>}
+                 <div className="flex flex-col items-center space-y-3 text-slate-500 group-hover:text-slate-500"><FileUp size={40} /> <span className="text-[10px] font-black uppercase tracking-widest font-bold">Select PDF File</span></div>}
              </label>
           </div>
 
@@ -270,7 +270,7 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
                "Publikasi Jurnal / Buku & Finalisasi Berkas."
              ].map((t, i) => (
                <li key={i} className="flex items-start space-x-4 group">
-                  <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-[11px] font-black text-slate-400 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">{i+1}</div>
+                  <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-[11px] font-black text-slate-500 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">{i+1}</div>
                   <p className="text-sm font-bold text-slate-600 py-1 leading-tight">{t}</p>
                </li>
              ))}
@@ -310,7 +310,7 @@ function SemproSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
 
   return (
     <div className="space-y-10">
-       <div className="card bg-slate-900 text-white p-10 relative overflow-hidden shadow-2xl">
+      <div className="card bg-slate-50 text-slate-900 p-10 relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><Calendar size={160} /></div>
           <div className="flex justify-between items-center mb-10 relative z-10">
              <h3 className="text-3xl font-black italic uppercase tracking-tighter underline decoration-primary underline-offset-8">Seminar Proposal Presentation</h3>
@@ -331,7 +331,7 @@ function SemproSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
              {reg.semproInfo?.catatan && (
                <div className="space-y-1 col-span-2 md:col-span-1 border-l border-white/10 pl-8">
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Remarks</p>
-                  <p className="text-sm text-slate-400 italic leading-relaxed font-medium">"{reg.semproInfo.catatan}"</p>
+                  <p className="text-sm text-slate-500 italic leading-relaxed font-medium">"{reg.semproInfo.catatan}"</p>
                </div>
              )}
           </div>
@@ -341,7 +341,7 @@ function SemproSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-8">
              <div className="space-y-1">
                 <h4 className="text-2xl font-black italic tracking-tighter uppercase text-slate-900">Upload Evidence</h4>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Min 3 High-res Images & 1 Written Record (BA)</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Min 3 High-res Images & 1 Written Record (BA)</p>
              </div>
              <div className="flex gap-4">
                 <label className="flex items-center space-x-2 px-6 py-3 bg-slate-50 hover:bg-primary/5 cursor-pointer rounded-2xl border border-slate-200 transition-all group">
@@ -452,7 +452,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
           <div className="flex justify-between items-center bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
              <div>
                 <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter">Activity Logbook</h3>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1 italic pl-1">Research in progress Monitoring</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-1 italic pl-1">Research in progress Monitoring</p>
              </div>
              {!isAdding && (
                <button onClick={() => setIsAdding(true)} className="btn-primary flex items-center space-x-2 px-10 py-3.5 rounded-2xl shadow-xl hover:scale-105 transition-transform group">
@@ -503,7 +503,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
 
           <div className="space-y-6">
              {registration.logbooks.length === 0 ? (
-               <div className="card p-20 text-center border-dashed border-2 text-slate-300 font-bold uppercase text-[11px] tracking-widest italic">Timeline empty. Start logging your progress.</div>
+               <div className="card p-20 text-center border-dashed border-2 text-slate-500 font-bold uppercase text-[11px] tracking-widest italic">Timeline empty. Start logging your progress.</div>
              ) : (
                registration.logbooks.map(log => (
                  <motion.div key={log.id} layout className="card p-8 bg-white flex flex-col space-y-6 hover:shadow-2xl transition-all border-slate-100 group">
@@ -518,14 +518,14 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
                                {log.status}
                              </span>
                           </div>
-                          <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center space-x-3"> 
+                          <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] flex items-center space-x-3"> 
                              <div className="flex items-center space-x-1"><Calendar size={12} className="text-primary" /> <span>{log.date}</span> </div>
                              <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
                              <div className="flex items-center space-x-1"><Clock size={12} className="text-primary" /> <span>{log.time}</span></div>
                           </p>
                        </div>
                        {log.photo && (
-                         <a href={log.photo} target="_blank" className="p-4 bg-slate-50 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-[20px] transition-all border border-slate-100 shadow-sm">
+                         <a href={log.photo} target="_blank" className="p-4 bg-slate-50 text-slate-500 hover:text-primary hover:bg-primary/5 rounded-[20px] transition-all border border-slate-100 shadow-sm">
                             <Camera size={24} />
                          </a>
                        )}
@@ -538,14 +538,14 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
        </div>
 
        <div className="space-y-8">
-          <div className="card p-12 bg-slate-900 text-white text-center space-y-10 relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]">
+          <div className="card p-12 bg-slate-50 text-slate-900 text-center space-y-10 relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.04)]">
              <div className="absolute -top-10 -right-10 opacity-10 rotate-45"><FlaskConical size={200} className="text-primary" /></div>
              <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] relative z-10 italic">Performance Index</p>
              <div className="flex items-end justify-center space-x-3 relative z-10 leading-none">
                 <span className="text-[100px] font-black italic text-white tracking-tighter">{approvedCount}</span>
                 <span className="text-4xl font-black text-slate-700 pb-4">/ 5</span>
              </div>
-             <p className="text-xs text-slate-400 font-medium relative z-10 max-w-[200px] mx-auto leading-relaxed italic border-t border-white/10 pt-6">Admin harus memvalidasi minimal 5 logbook aktif untuk membuka gerbang laporan hasil.</p>
+             <p className="text-xs text-slate-500 font-medium relative z-10 max-w-[200px] mx-auto leading-relaxed italic border-t border-white/10 pt-6">Admin harus memvalidasi minimal 5 logbook aktif untuk membuka gerbang laporan hasil.</p>
              
              {isReadyForResults && (
                 <div className="pt-8 space-y-6 relative z-10">
@@ -558,7 +558,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
                         {uploadingResult ? <Loader2 className="animate-spin text-primary" /> : 
                          <div className="flex flex-col items-center space-y-3">
                            <FileUp size={40} className="text-primary group-hover:scale-125 transition-transform" />
-                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">Publish Results (.PDF)</span>
+                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">Publish Results (.PDF)</span>
                          </div>}
                         <input type="file" className="hidden" accept=".pdf" onChange={e => e.target.files?.[0] && handleResultFile(e.target.files[0])} disabled={uploadingResult} />
                       </label>
@@ -568,7 +568,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
           </div>
           
           <div className="card p-8 bg-white border-slate-100 shadow-sm space-y-5">
-             <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] italic border-b border-slate-50 pb-3">Strategic Protocol</h4>
+             <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] italic border-b border-slate-50 pb-3">Strategic Protocol</h4>
              <div className="space-y-5">
                 {[
                   "Submit final Research Manuscript (PDF).",
@@ -618,7 +618,7 @@ function ResultSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
 
   return (
     <div className="space-y-10">
-       <div className="card bg-slate-900 text-white p-12 relative overflow-hidden shadow-2xl">
+      <div className="card bg-slate-50 text-slate-900 p-12 relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12 -translate-y-10"><Users size={200} /></div>
           <div className="flex justify-between items-center mb-12 relative z-10">
              <div>
@@ -632,7 +632,7 @@ function ResultSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
                 <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] pl-1">Venue & Platform</p>
                 <div className="space-y-0.5">
                    <p className="font-bold text-xl">{reg.finalSemproInfo?.lokasi}</p>
-                   <p className="text-xs text-slate-400 font-bold italic tracking-tight">{reg.finalSemproInfo?.tanggal}</p>
+                   <p className="text-xs text-slate-500 font-bold italic tracking-tight">{reg.finalSemproInfo?.tanggal}</p>
                 </div>
              </div>
              <div className="space-y-2">
@@ -641,7 +641,7 @@ function ResultSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
              </div>
              <div className="space-y-2 col-span-2 border-l border-white/10 pl-10">
                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Administrative Note</p>
-                <p className="text-sm text-slate-400 italic leading-relaxed font-medium">"{reg.finalSemproInfo?.infoLain || 'Harap membawa naskah revisi hardcopy sebanyak 3 rangkap.'}"</p>
+                <p className="text-sm text-slate-500 italic leading-relaxed font-medium">"{reg.finalSemproInfo?.infoLain || 'Harap membawa naskah revisi hardcopy sebanyak 3 rangkap.'}"</p>
              </div>
           </div>
        </div>
@@ -650,7 +650,7 @@ function ResultSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-slate-100 pb-10">
              <div className="space-y-1">
                 <h4 className="text-3xl font-black italic tracking-tighter uppercase text-slate-900 leading-none">Record of Activity</h4>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em] italic pl-1">Validation of final public Defense and Exam</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em] italic pl-1">Validation of final public Defense and Exam</p>
              </div>
              <div className="flex gap-4">
                 <label className="flex items-center space-x-3 px-8 py-4 bg-slate-50 hover:bg-primary/5 cursor-pointer rounded-3xl border border-slate-200 transition-all font-black uppercase text-[11px] tracking-widest group">
@@ -718,7 +718,7 @@ function RevisionPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegist
           <div className="absolute -top-10 -left-10 opacity-5 rotate-12 shadow-inner"><BookOpen size={240} className="text-primary" /></div>
           <div className="space-y-3 relative z-10">
             <h3 className="text-4xl font-black italic uppercase tracking-tighter leading-none text-slate-900 underline decoration-primary/20 underline-offset-8">Pelaporan Hasil Final</h3>
-            <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Submission of post-defense revised manuscript</p>
+            <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Submission of post-defense revised manuscript</p>
           </div>
           
           <label className={cn(
@@ -728,7 +728,7 @@ function RevisionPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegist
              <input type="file" className="hidden" accept=".pdf" onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} disabled={uploading} />
              {uploading ? <Loader2 size={64} className="animate-spin text-primary" /> : 
               reg.finalRevisionFile ? <div className="flex flex-col items-center space-y-4 animate-in zoom-in h-40 justify-center"><CheckCircle size={80} className="text-primary" /> <span className="font-black uppercase text-primary text-xs tracking-[0.3em]">MANUSCRIPT READY</span></div> :
-              <div className="flex flex-col items-center space-y-4 text-slate-300 group-hover:text-primary transition-colors h-40 justify-center"><FileUp size={80} /> <span className="font-black uppercase text-slate-400 group-hover:text-primary text-xs tracking-[0.3em] transition-colors">Select Final Laporan (.PDF)</span></div>}
+              <div className="flex flex-col items-center space-y-4 text-slate-500 group-hover:text-primary transition-colors h-40 justify-center"><FileUp size={80} /> <span className="font-black uppercase text-slate-500 group-hover:text-primary text-xs tracking-[0.3em] transition-colors">Select Final Laporan (.PDF)</span></div>}
           </label>
 
           {reg.rejectionReason && (
@@ -780,7 +780,7 @@ function PublicationChoicePhase({ reg, onUpdate, actionLoading }: { reg: Penelit
     <div className="max-w-3xl mx-auto space-y-12 animate-in fade-in zoom-in-95 duration-500">
        <div className="text-center space-y-3">
           <h2 className="text-5xl font-black italic tracking-tighter uppercase text-slate-900 leading-none">Rencana Publikasi Luaran</h2>
-          <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] italic">Post-research publication strategy selection</p>
+          <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] italic">Post-research publication strategy selection</p>
        </div>
 
        <div className="grid grid-cols-2 gap-10">
@@ -791,12 +791,12 @@ function PublicationChoicePhase({ reg, onUpdate, actionLoading }: { reg: Penelit
               choice === 'MANDIRI' ? "border-primary bg-primary/5 shadow-2xl scale-[1.05]" : "border-transparent bg-white hover:border-slate-100 hover:shadow-xl"
             )}
           >
-             <div className={cn("w-20 h-20 rounded-3xl flex items-center justify-center transition-all", choice === 'MANDIRI' ? "bg-primary text-white" : "bg-slate-50 text-slate-300 group-hover:bg-slate-100")}>
+             <div className={cn("w-20 h-20 rounded-3xl flex items-center justify-center transition-all", choice === 'MANDIRI' ? "bg-primary text-white" : "bg-slate-50 text-slate-500 group-hover:bg-slate-100")}>
                 <User size={40} />
              </div>
              <div className="text-center space-y-2">
                 <h4 className="font-black italic text-2xl uppercase tracking-tighter">MANDIRI</h4>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Dosen menerbitkan secara personal <br/> & memelihara arsip pribadi</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">Dosen menerbitkan secara personal <br/> & memelihara arsip pribadi</p>
              </div>
           </button>
           
@@ -807,12 +807,12 @@ function PublicationChoicePhase({ reg, onUpdate, actionLoading }: { reg: Penelit
               choice === 'PPPM' ? "border-primary bg-primary/5 shadow-2xl scale-[1.05]" : "border-transparent bg-white hover:border-slate-100 hover:shadow-xl"
             )}
           >
-             <div className={cn("w-20 h-20 rounded-3xl flex items-center justify-center transition-all", choice === 'PPPM' ? "bg-primary text-white" : "bg-slate-50 text-slate-300 group-hover:bg-slate-100")}>
+             <div className={cn("w-20 h-20 rounded-3xl flex items-center justify-center transition-all", choice === 'PPPM' ? "bg-primary text-white" : "bg-slate-50 text-slate-500 group-hover:bg-slate-100")}>
                 <FlaskConical size={40} />
              </div>
              <div className="text-center space-y-2">
                 <h4 className="font-black italic text-2xl uppercase tracking-tighter">ARCHIVE PPPM</h4>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Diterbitkan institusi, didampingi proses <br/> & masuk database jurnal STAI IU</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">Diterbitkan institusi, didampingi proses <br/> & masuk database jurnal STAI IU</p>
              </div>
           </button>
        </div>
@@ -820,7 +820,7 @@ function PublicationChoicePhase({ reg, onUpdate, actionLoading }: { reg: Penelit
        <AnimatePresence>
        {choice === 'PPPM' && (
          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="card p-12 space-y-10 bg-slate-50 border-none shadow-inner rounded-[48px]">
-            <p className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] text-center italic">Selection: Media of Dissemination</p>
+            <p className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] text-center italic">Selection: Media of Dissemination</p>
             <div className="grid grid-cols-2 gap-6">
                {methods.map(m => (
                  <button 
@@ -828,7 +828,7 @@ function PublicationChoicePhase({ reg, onUpdate, actionLoading }: { reg: Penelit
                    onClick={() => setMethod(m as any)}
                    className={cn(
                      "h-16 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] transition-all border shadow-sm",
-                     method === m ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" : "bg-white text-slate-400 border-slate-100 hover:border-primary/40 hover:text-primary"
+                     method === m ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" : "bg-white text-slate-500 border-slate-100 hover:border-primary/40 hover:text-primary"
                    )}
                  >{m}</button>
                ))}

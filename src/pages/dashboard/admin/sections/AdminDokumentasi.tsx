@@ -41,7 +41,7 @@ export default function AdminDokumentasi() {
   const types = ['ALL', ...new Set(docs.map(d => d.jenisKarya))];
 
   if (loading && docs.length === 0) return (
-     <div className="flex flex-col items-center justify-center py-20 italic text-slate-400 font-bold uppercase tracking-widest text-xs space-y-4">
+     <div className="flex flex-col items-center justify-center py-20 italic text-slate-500 font-bold uppercase tracking-widest text-xs space-y-4">
         <Loader2 className="animate-spin text-primary" size={40} />
         <p>Indexing Digital Asset Repository...</p>
      </div>
@@ -60,7 +60,7 @@ export default function AdminDokumentasi() {
         </div>
         <div className="flex flex-col md:flex-row gap-4">
            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={16} />
               <input 
                 type="text" 
                 placeholder="Search Archive..." 
@@ -79,7 +79,7 @@ export default function AdminDokumentasi() {
               onClick={() => setFilterType(t)}
               className={cn(
                 "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all border snap-start",
-                filterType === t ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-400 border-slate-100 hover:border-primary/40 hover:text-primary"
+                filterType === t ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-500 border-slate-100 hover:border-primary/40 hover:text-primary"
               )}
             >
               {t}
@@ -100,7 +100,7 @@ export default function AdminDokumentasi() {
           <tbody className="divide-y divide-slate-100">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-10 py-32 text-center text-slate-300 italic font-black uppercase tracking-widest text-[11px] bg-slate-50/50 border-dashed border-2 m-4 rounded-[32px]">
+                <td colSpan={4} className="px-10 py-32 text-center text-slate-500 italic font-black uppercase tracking-widest text-[11px] bg-slate-50/50 border-dashed border-2 m-4 rounded-[32px]">
                    Search query returned no archived assets.
                 </td>
               </tr>
@@ -123,7 +123,7 @@ export default function AdminDokumentasi() {
                         )}>
                           {doc.jenisKarya}
                         </span>
-                        <div className="flex items-center space-x-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                        <div className="flex items-center space-x-2 text-[9px] font-bold text-slate-500 uppercase tracking-widest">
                            {doc.jenisKarya.includes('Penelitian') ? <FlaskConical size={12} /> : <HeartHandshake size={12} />}
                            <span>Resource Module</span>
                         </div>
@@ -132,12 +132,12 @@ export default function AdminDokumentasi() {
                   <td className="px-10 py-8 max-w-lg">
                      <p className="font-black text-slate-900 text-lg leading-tight mb-2 tracking-tight uppercase italic group-hover:text-primary transition-colors">{doc.judul}</p>
                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        <div className="flex items-center space-x-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                            <Calendar size={12} className="text-primary" />
                            <span>Archived {doc.tanggal}</span>
                         </div>
                         <div className="w-1 h-1 rounded-full bg-slate-200" />
-                        <div className="flex items-center space-x-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        <div className="flex items-center space-x-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                            <Hash size={12} className="text-primary" />
                            <span>REF-{doc.id.slice(0, 8)}</span>
                         </div>
@@ -166,7 +166,7 @@ export default function AdminDokumentasi() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-         <div className="card p-10 bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden group">
+        <div className="card p-10 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden group">
             <div className="absolute -right-6 -bottom-6 opacity-10 group-hover:scale-110 transition-transform"><Archive size={120} /></div>
             <h4 className="text-4xl font-black italic tracking-tighter text-white mb-2">{docs.length}</h4>
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Total Archived Assets</p>
@@ -174,12 +174,12 @@ export default function AdminDokumentasi() {
          <div className="card p-10 bg-white shadow-xl border-slate-100 relative overflow-hidden group">
             <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:scale-110 transition-transform"><Globe size={120} className="text-primary" /></div>
             <h4 className="text-4xl font-black italic tracking-tighter text-slate-900 mb-2">99.8%</h4>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Institutional Sync Index</p>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Institutional Sync Index</p>
          </div>
          <div className="card p-10 bg-white shadow-xl border-slate-100 relative overflow-hidden group">
             <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:scale-110 transition-transform"><Activity size={120} className="text-primary" /></div>
             <h4 className="text-4xl font-black italic tracking-tighter text-slate-900 mb-2">ACTIVE</h4>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Repository Health Status</p>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Repository Health Status</p>
          </div>
       </div>
     </div>

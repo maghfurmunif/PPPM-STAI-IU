@@ -34,7 +34,7 @@ export default function PanduanPage() {
         ) : guides.length === 0 ? (
           <div className="card p-20 text-center bg-white border-none shadow-xl rounded-[40px]">
              <BookOpen className="mx-auto text-slate-200 mb-6" size={60} />
-             <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Belum ada panduan yang dipublikasi.</p>
+             <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Belum ada panduan yang dipublikasi.</p>
           </div>
         ) : (
           <div className="grid gap-6">
@@ -52,7 +52,7 @@ export default function PanduanPage() {
                    </div>
                    <div className="space-y-1">
                       <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic group-hover:text-primary transition-colors">{guide.title}</h3>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">{new Date(guide.created_at).toLocaleDateString('id-ID', { dateStyle: 'long' })}</p>
+                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">{new Date(guide.created_at).toLocaleDateString('id-ID', { dateStyle: 'long' })}</p>
                    </div>
                 </div>
                 <a 

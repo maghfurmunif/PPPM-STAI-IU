@@ -27,10 +27,10 @@ export default function AdminManagement({ module }: { module: string }) {
         </div>
         <div className="flex items-center space-x-2">
            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
               <input className="input-field pl-9 py-2 text-xs w-64" placeholder="Cari nama atau ID..." />
            </div>
-           <button className="p-2 border border-slate-200 rounded-lg text-slate-400"><Filter size={18} /></button>
+           <button className="p-2 border border-slate-200 rounded-lg text-slate-500"><Filter size={18} /></button>
         </div>
       </div>
 
@@ -41,7 +41,7 @@ export default function AdminManagement({ module }: { module: string }) {
              onClick={() => setActiveTab(t)}
              className={cn(
                "pb-4 px-6 text-xs font-black uppercase tracking-widest transition-all relative",
-               activeTab === t ? "text-primary" : "text-slate-400 hover:text-slate-600"
+               activeTab === t ? "text-primary" : "text-slate-500 hover:text-slate-600"
              )}
            >
              {t}
@@ -59,19 +59,19 @@ export default function AdminManagement({ module }: { module: string }) {
                className="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-shadow group"
             >
                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                  <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-500 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                      <User size={24} />
                   </div>
                   <div>
                      <h4 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{item.name}</h4>
-                     <p className="text-xs text-slate-400 font-medium">{item.subtitle} • {item.info}</p>
+                     <p className="text-xs text-slate-500 font-medium">{item.subtitle} • {item.info}</p>
                   </div>
                </div>
 
                <div className="flex items-center space-x-3">
                   <div className="text-right hidden md:block">
-                     <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Terakhir Online</div>
-                     <div className="text-xs text-slate-400 font-bold">{item.time}</div>
+                     <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Terakhir Online</div>
+                     <div className="text-xs text-slate-500 font-bold">{item.time}</div>
                   </div>
                   <button className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 px-4 py-2 rounded-xl text-slate-700 font-bold text-xs transition-all">
                      <FileText size={14} />
@@ -87,7 +87,7 @@ export default function AdminManagement({ module }: { module: string }) {
       </div>
 
       <div className="flex items-center justify-center pt-8">
-         <button className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center hover:text-primary transition-colors">
+         <button className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center hover:text-primary transition-colors">
             Muat Lebih Banyak <ArrowRight size={14} className="ml-2" />
          </button>
       </div>

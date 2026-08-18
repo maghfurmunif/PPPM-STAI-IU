@@ -140,7 +140,7 @@ export default function SemproSection() {
           <p className="text-slate-500 font-medium pt-2">Manajemen pengajuan dan pelaksanaan seminar proposal skripsi Anda.</p>
         </div>
         <div className="flex items-center glass-morphism rounded-2xl px-6 py-3 border-white/40 shadow-lg">
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-3">Status Pipeline</span>
+           <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mr-3">Status Pipeline</span>
            <span className="text-xs font-black text-primary uppercase italic tracking-tighter">
              {registration?.status || 'NOT_ENROLLED'}
            </span>
@@ -150,12 +150,12 @@ export default function SemproSection() {
       {!registration || registration.status === 'ENROLL' ? (
         <div className="grid lg:grid-cols-2 gap-10">
            <div className="space-y-8">
-              <div className="card p-8 bg-slate-900 text-white space-y-6">
+              <div className="card p-8 bg-slate-50 text-slate-900 space-y-6">
                  <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
                     <Download size={24} />
                  </div>
                  <h3 className="text-2xl font-black italic tracking-tighter">Template Proposal</h3>
-                 <p className="text-slate-400 text-sm leading-relaxed">
+                 <p className="text-slate-500 text-sm leading-relaxed">
                     Pastikan proposal Anda sesuai dengan format standar kampus STAI Ihyaul Ulum. Unduh template di bawah ini sebelum mengunggah berkas.
                  </p>
                  <a 
@@ -199,7 +199,7 @@ export default function SemproSection() {
              <div className="card p-20 text-center space-y-6">
                 <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                 <h3 className="text-2xl font-bold text-slate-900 italic">Menunggu Review Admin</h3>
-                <p className="text-slate-400">Proposal Anda sedang ditinjau oleh PPPM. Kami akan segera memberi kabar.</p>
+                <p className="text-slate-500">Proposal Anda sedang ditinjau oleh PPPM. Kami akan segera memberi kabar.</p>
              </div>
            )}
 
@@ -218,28 +218,28 @@ export default function SemproSection() {
               <div className="card p-20 text-center space-y-6 bg-slate-50 border-dashed">
                  <Calendar className="text-primary opacity-20 mx-auto" size={80} />
                  <h3 className="text-2xl font-bold text-slate-900">Menunggu Jadwal Seminar</h3>
-                 <p className="text-slate-400 max-w-sm mx-auto">Selamat! Proposal Anda telah disetujui. Admin sedang menjadwalkan waktu seminar Anda.</p>
+                 <p className="text-slate-500 max-w-sm mx-auto">Selamat! Proposal Anda telah disetujui. Admin sedang menjadwalkan waktu seminar Anda.</p>
               </div>
            )}
 
             {registration.status === 'SCHEDULED' && registration.schedule && (
                <div className="space-y-10">
-                  <div className="card bg-slate-900 text-white p-10 overflow-hidden relative">
+                  <div className="card bg-slate-50 text-slate-900 p-10 overflow-hidden relative">
                      <div className="relative z-10 grid md:grid-cols-4 gap-10">
                         <div className="md:col-span-2 space-y-4">
                            <h3 className="text-3xl font-black italic underline decoration-primary underline-offset-8">Jadwal Seminar</h3>
-                           <p className="text-slate-400 text-sm font-medium">Pastikan Anda hadir 15 menit sebelum waktu yang ditentukan dengan membawa naskah cetak.</p>
+                           <p className="text-slate-500 text-sm font-medium">Pastikan Anda hadir 15 menit sebelum waktu yang ditentukan dengan membawa naskah cetak.</p>
                         </div>
                         <div className="grid grid-cols-2 gap-6 md:col-span-2">
                            <div>
                               <p className="text-[10px] font-black text-primary uppercase tracking-widest">Tanggal & Waktu</p>
                               <p className="text-lg font-bold">{registration.schedule.tanggal}</p>
-                              <p className="text-xs text-slate-400">{registration.schedule.hari}, {registration.schedule.pukul} WIB</p>
+                              <p className="text-xs text-slate-500">{registration.schedule.hari}, {registration.schedule.pukul} WIB</p>
                            </div>
                            <div>
                               <p className="text-[10px] font-black text-primary uppercase tracking-widest">Ruangan & Sifat</p>
                               <p className="text-lg font-bold">{registration.schedule.ruang}</p>
-                              <p className="text-xs text-slate-400">Sifat: {registration.schedule.sifat}</p>
+                              <p className="text-xs text-slate-500">Sifat: {registration.schedule.sifat}</p>
                            </div>
                         </div>
                      </div>
@@ -249,20 +249,20 @@ export default function SemproSection() {
                   <div className="max-w-2xl mx-auto space-y-8">
                      <div className="text-center">
                         <h4 className="text-lg font-bold text-slate-900 italic">Selesaikan Berkas Pasca-Seminar</h4>
-                        <p className="text-sm text-slate-400">Upload dokumentasi (min 3) dan catatan perbaikan (max 3) untuk mendapatkan nilai akhir.</p>
+                        <p className="text-sm text-slate-500">Upload dokumentasi (min 3) dan catatan perbaikan (max 3) untuk mendapatkan nilai akhir.</p>
                      </div>
                      <div className="grid md:grid-cols-2 gap-4">
-                        <label className={cn("card p-6 border-dashed flex flex-col items-center justify-center space-y-3 cursor-pointer hover:bg-slate-50 transition-all text-center", postDocs.dokumentasi.length >= 3 ? "border-primary" : "text-slate-300")}>
+                        <label className={cn("card p-6 border-dashed flex flex-col items-center justify-center space-y-3 cursor-pointer hover:bg-slate-50 transition-all text-center", postDocs.dokumentasi.length >= 3 ? "border-primary" : "text-slate-500")}>
                            <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handlePostUpload('dok', e.target.files[0])} disabled={!!uploadingPost} />
                            {uploadingPost === 'dok' ? <Loader2 className="animate-spin text-primary" /> : <Camera className={postDocs.dokumentasi.length >= 3 ? "text-primary" : ""} />}
-                           <span className={cn("text-[10px] font-black uppercase tracking-widest", postDocs.dokumentasi.length >= 3 ? "text-primary" : "text-slate-400")}>
+                           <span className={cn("text-[10px] font-black uppercase tracking-widest", postDocs.dokumentasi.length >= 3 ? "text-primary" : "text-slate-500")}>
                               {postDocs.dokumentasi.length >= 3 ? 'Dokumentasi Lengkap' : `Dokumentasi (${postDocs.dokumentasi.length}/3)`}
                            </span>
                         </label>
-                        <label className={cn("card p-6 border-dashed flex flex-col items-center justify-center space-y-3 cursor-pointer hover:bg-slate-50 transition-all text-center", postDocs.catatan.length > 0 ? "border-primary" : "text-slate-300")}>
+                        <label className={cn("card p-6 border-dashed flex flex-col items-center justify-center space-y-3 cursor-pointer hover:bg-slate-50 transition-all text-center", postDocs.catatan.length > 0 ? "border-primary" : "text-slate-500")}>
                            <input type="file" className="hidden" onChange={e => e.target.files?.[0] && handlePostUpload('cat', e.target.files[0])} disabled={!!uploadingPost} />
                            {uploadingPost === 'cat' ? <Loader2 className="animate-spin text-primary" /> : <FileText className={postDocs.catatan.length > 0 ? "text-primary" : ""} />}
-                           <span className={cn("text-[10px] font-black uppercase tracking-widest", postDocs.catatan.length > 0 ? "text-primary" : "text-slate-400")}>
+                           <span className={cn("text-[10px] font-black uppercase tracking-widest", postDocs.catatan.length > 0 ? "text-primary" : "text-slate-500")}>
                               {postDocs.catatan.length > 0 ? `Catatan (${postDocs.catatan.length}/3)` : 'Catatan Perbaikan'}
                            </span>
                         </label>
@@ -282,7 +282,7 @@ export default function SemproSection() {
               <div className="card p-20 text-center space-y-6">
                  <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                  <h3 className="text-2xl font-bold text-slate-900 italic">Validasi Akhir Seminar</h3>
-                 <p className="text-slate-400">Admin sedang memverifikasi dokumentasi dan catatan seminar proposal Anda.</p>
+                 <p className="text-slate-500">Admin sedang memverifikasi dokumentasi dan catatan seminar proposal Anda.</p>
               </div>
            )}
 
@@ -298,16 +298,16 @@ export default function SemproSection() {
                     </div>
                  </div>
                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="card p-8 bg-slate-900 text-white space-y-4">
+                    <div className="card p-8 bg-slate-50 text-slate-900 space-y-4">
                        <h3 className="font-bold text-sm text-primary uppercase tracking-widest">Unduh Berkas</h3>
-                       <p className="text-slate-400 text-sm">Download surat keterangan telah melaksanakan seminar proposal untuk syarat skripsi.</p>
+                       <p className="text-slate-500 text-sm">Download surat keterangan telah melaksanakan seminar proposal untuk syarat skripsi.</p>
                        <button className="w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all">
                           <Download size={14} />
                           <span>SURAT KETERANGAN SEMPRO.PDF</span>
                        </button>
                     </div>
                     <div className="card p-8 flex flex-col justify-center space-y-4">
-                       <div className="flex items-center space-x-3 text-slate-400">
+                       <div className="flex items-center space-x-3 text-slate-500">
                           <Info size={16} />
                           <p className="text-xs font-bold uppercase tracking-widest">Langkah Selanjutnya</p>
                        </div>

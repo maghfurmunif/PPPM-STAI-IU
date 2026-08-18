@@ -53,7 +53,7 @@ export default function ProfileSection() {
   if (loading) return (
     <div className="flex flex-col items-center justify-center py-20 space-y-4">
       <Loader2 className="animate-spin text-primary" size={40} />
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Bio-Data...</p>
+      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Sinkronisasi Bio-Data...</p>
     </div>
   );
 
@@ -75,7 +75,7 @@ export default function ProfileSection() {
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Profile Card Summary */}
         <div className="lg:col-span-1 space-y-6">
-           <div className="card p-10 bg-slate-900 text-white border-none shadow-2xl rounded-[40px] relative overflow-hidden group">
+          <div className="card p-10 bg-slate-50 text-slate-900 border-none shadow-2xl rounded-[40px] relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
                  {isDosen ? <GraduationCap size={150} /> : <User size={150} />}
               </div>
@@ -101,7 +101,7 @@ export default function ProfileSection() {
            </div>
 
            <div className="card p-8 bg-white border-none shadow-xl rounded-[32px] space-y-4">
-              <div className="flex items-start space-x-4 text-slate-400">
+              <div className="flex items-start space-x-4 text-slate-500">
                  <Info size={20} className="shrink-0 text-primary" />
                  <p className="text-[10px] font-medium leading-relaxed italic">Pastikan data yang Anda masukkan sesuai dengan KTP dan dokumen resmi akademik. Data ini akan digunakan untuk sertifikat KKN, Sempro, dan Skripsi.</p>
               </div>
@@ -113,7 +113,7 @@ export default function ProfileSection() {
            <div className="card p-10 bg-white border-none shadow-2xl rounded-[40px] space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                  <div className="space-y-6">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center">
+                    <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] flex items-center">
                        <span className="w-8 h-px bg-slate-200 mr-3" /> Biodata Utama
                     </h4>
                     <div className="space-y-4">
@@ -128,7 +128,7 @@ export default function ProfileSection() {
                  </div>
 
                  <div className="space-y-6">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center">
+                    <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] flex items-center">
                        <span className="w-8 h-px bg-slate-200 mr-3" /> Data Akademik
                     </h4>
                     <div className="space-y-4">
@@ -137,7 +137,7 @@ export default function ProfileSection() {
                          <>
                             <InputGroup label="Jabatan Fungsional" value={profile?.jabatan || ''} icon={<Layers size={14} />} onChange={v => setProfile({...profile, jabatan: v})} />
                             <div className="space-y-1">
-                               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">Katalog Publikasi Riset</label>
+                               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-2">Katalog Publikasi Riset</label>
                                <textarea 
                                  className="input-field h-40 pt-5 px-6 font-medium italic leading-relaxed"
                                  placeholder="Sebutkan jurnal atau karya ilmiah Anda..."
@@ -150,7 +150,7 @@ export default function ProfileSection() {
                          <>
                             <InputGroup label="Semester Berjalan" value={profile?.semester || ''} onChange={v => setProfile({...profile, semester: v})} />
                             <div className="space-y-1">
-                               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">Alamat Domisili Lengkap</label>
+                               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-2">Alamat Domisili Lengkap</label>
                                <textarea 
                                  className="input-field h-52 pt-5 px-6 font-medium italic leading-relaxed"
                                  placeholder="Tulis alamat rumah lengkap Anda..."
@@ -188,9 +188,9 @@ export default function ProfileSection() {
 function InputGroup({ label, value, onChange, icon }: { label: string, value: string, onChange: (v: string) => void, icon?: any }) {
   return (
     <div className="space-y-1 group">
-       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-3 group-focus-within:text-primary transition-colors">{label}</label>
+       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-3 group-focus-within:text-primary transition-colors">{label}</label>
        <div className="relative">
-          {icon && <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary transition-colors"><icon size={16} /></div>}
+          {icon && <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors"><icon size={16} /></div>}
           <input 
             type="text" 
             className={cn("input-field h-14 px-6 font-bold uppercase tracking-widest italic transition-shadow", icon && "pl-14")}

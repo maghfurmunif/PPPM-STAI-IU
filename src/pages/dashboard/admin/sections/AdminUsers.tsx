@@ -118,7 +118,7 @@ export default function AdminUsers() {
         </div>
         <div className="flex gap-4">
            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={16} />
               <input 
                 type="text" 
                 placeholder="Cari Identitas..." 
@@ -137,7 +137,7 @@ export default function AdminUsers() {
               onClick={() => setFilterRole(role)}
               className={cn(
                 "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all border snap-start",
-                filterRole === role ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-400 border-slate-100 hover:border-primary/40 hover:text-primary"
+                filterRole === role ? "bg-slate-900 text-white shadow-xl border-slate-900 scale-105" : "bg-white text-slate-500 border-slate-100 hover:border-primary/40 hover:text-primary"
               )}
             >
               {role}
@@ -151,7 +151,7 @@ export default function AdminUsers() {
           {loading ? (
              <div className="flex flex-col items-center justify-center p-10 space-y-4">
                 <Loader2 className="animate-spin text-primary" size={32} />
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Syncing Identity Node...</p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Syncing Identity Node...</p>
              </div>
           ) : filteredUsers.length === 0 ? (
              <div className="card p-10 text-center border-dashed border-2 opacity-30">
@@ -175,10 +175,10 @@ export default function AdminUsers() {
                    )}>
                      {user.role}
                    </span>
-                   <span className="text-[9px] font-bold text-slate-300 italic group-hover:text-primary transition-colors">#{user.id.slice(0, 5).toUpperCase()}</span>
+                   <span className="text-[9px] font-bold text-slate-500 italic group-hover:text-primary transition-colors">#{user.id.slice(0, 5).toUpperCase()}</span>
                 </div>
                 <h4 className="font-black text-slate-900 truncate uppercase italic leading-tight">{user.full_name || 'Anonymous Academic'}</h4>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest truncate mt-1">{user.email}</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate mt-1">{user.email}</p>
               </button>
             ))
           )}
@@ -208,7 +208,7 @@ export default function AdminUsers() {
                           <div className="flex items-center space-x-3 mt-4">
                             <span className="px-3 py-1 bg-primary/10 text-primary font-black text-[9px] uppercase tracking-[0.2em] rounded-lg border border-primary/20">{selectedUser.role} ACCESS</span>
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Identity Verified</span>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest italic">Identity Verified</span>
                           </div>
                        </div>
                     </div>
@@ -231,7 +231,7 @@ export default function AdminUsers() {
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 border-t border-slate-100 pt-12">
                     <div className="space-y-8">
-                       <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center">
+                       <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] flex items-center">
                           <span className="w-8 h-px bg-slate-200 mr-3" /> Informasi Personal
                        </h4>
                        <div className="space-y-6">
@@ -244,7 +244,7 @@ export default function AdminUsers() {
                     </div>
 
                     <div className="space-y-8">
-                       <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center">
+                       <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] flex items-center">
                           <span className="w-8 h-px bg-slate-200 mr-3" /> Data Akademik
                        </h4>
                        <div className="space-y-6">
@@ -262,7 +262,7 @@ export default function AdminUsers() {
                             <>
                                <DetailItem label="Jabatan Fungsional" value={selectedUser.jabatan} icon={<Layers size={14} />} />
                                <div className="space-y-2">
-                                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Publikasi Riset</p>
+                                  <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Publikasi Riset</p>
                                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                      <p className="text-xs font-bold text-slate-600 leading-relaxed italic">
                                         {selectedUser.publications || 'Belum ada publikasi terdaftar.'}
@@ -280,7 +280,7 @@ export default function AdminUsers() {
             <div className="card h-[600px] flex flex-col items-center justify-center text-center p-20 border-dashed border-2 opacity-30 rounded-[48px]">
                <Users size={80} className="text-slate-200 mb-6" />
                <h3 className="text-2xl font-black text-slate-200 uppercase italic tracking-tighter">Identity Console View</h3>
-               <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-2 max-w-xs">Pilih salah satu identitas di panel kiri untuk membuka data biodata lengkap.</p>
+               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 max-w-xs">Pilih salah satu identitas di panel kiri untuk membuka data biodata lengkap.</p>
             </div>
           )}
           </AnimatePresence>
@@ -322,7 +322,7 @@ export default function AdminUsers() {
                          <FormInput label="Jurusan" value={editingUser?.jurusan || ''} onChange={val => setEditingUser({...editingUser!, jurusan: val})} />
                       </div>
                       <div className="space-y-1">
-                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">Alamat Domisili</label>
+                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-2">Alamat Domisili</label>
                          <textarea className="input-field h-32 pt-5 px-6 font-medium leading-relaxed italic" value={editingUser?.alamat || ''} onChange={e => setEditingUser({...editingUser!, alamat: e.target.value})} />
                       </div>
                    </div>
@@ -341,7 +341,7 @@ export default function AdminUsers() {
                         <>
                           <FormInput label="Jabatan Fungsional" value={editingUser?.jabatan || ''} onChange={val => setEditingUser({...editingUser!, jabatan: val})} />
                           <div className="space-y-1">
-                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">Katalog Publikasi Riset</label>
+                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-2">Katalog Publikasi Riset</label>
                              <textarea className="input-field h-64 pt-5 px-6 font-medium leading-relaxed italic" placeholder="Judul Jurnal, Buku, Prosiding..." value={editingUser?.publications || ''} onChange={e => setEditingUser({...editingUser!, publications: e.target.value})} />
                           </div>
                         </>
@@ -363,7 +363,7 @@ export default function AdminUsers() {
 function FormInput({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) {
   return (
     <div className="space-y-1">
-       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">{label}</label>
+       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-2">{label}</label>
        <input className="input-field py-5 px-6 font-bold uppercase tracking-widest italic" value={value} onChange={e => onChange(e.target.value)} />
     </div>
   );
@@ -372,7 +372,7 @@ function FormInput({ label, value, onChange }: { label: string, value: string, o
 function DetailItem({ label, value, icon }: { label: string, value?: string, icon?: React.ReactNode }) {
   return (
     <div className="space-y-2">
-       <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] italic">{label}</p>
+       <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] italic">{label}</p>
        <div className="flex items-center space-x-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
           {icon && <span className="text-primary">{icon}</span>}
           <p className="text-sm font-black text-slate-800 uppercase tracking-tight">{value || '-'}</p>
