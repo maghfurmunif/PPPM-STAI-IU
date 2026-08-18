@@ -20,6 +20,8 @@ export interface PenelitianRegistration {
   dosenId: string;
   dosenName: string;
   status: PenelitianStatus;
+  createdAt?: string;
+  updatedAt?: string;
   rejectionReason?: string;
   proposalFile?: string;
   semproInfo?: {
@@ -114,46 +116,48 @@ export const penelitianService = {
       resultFile: r.result_file,
       finalRevisionFile: r.final_revision_file,
       rejectionReason: r.rejection_reason,
-      proposalFile: r.proposal_file
+      proposalFile: r.proposal_file,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at
     }));
   },
 
-  getRegistrationByDosen: async (dosenId: string): Promise<PenelitianRegistration | null> => {
-    // Stage 1: Get registration
-    const { data: reg, error: regError } = await supabase
+  getRegistrationsByDosen: async (dosenId: string): Promise<PenelitianRegistration[]> => {
+    const { data: regs, error: regError } = await supabase
       .from('penelitian_registrations')
       .select('*')
       .eq('dosen_id', dosenId)
-      .maybeSingle();
+      .order('created_at', { ascending: false });
     
     if (regError) {
-      console.error('Error fetching penelitian registration:', regError);
-      return null;
+      console.error('Error fetching penelitian registrations:', regError);
+      return [];
     }
 
-    if (!reg) return null;
+    if (!regs || regs.length === 0) return [];
 
-    // Stage 2: Get profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('full_name')
       .eq('id', dosenId)
       .maybeSingle();
 
-    return {
-      ...reg,
-      dosenId: reg.dosen_id,
+    return regs.map(r => ({
+      ...r,
+      dosenId: r.dosen_id,
       dosenName: profile?.full_name || 'Dosen Academic',
-      logbooks: reg.logbooks || [],
-      semproInfo: reg.sempro_info,
-      semproProof: reg.sempro_proof,
-      finalSemproInfo: reg.final_sempro_info,
-      finalSemproProof: reg.final_sempro_proof,
-      resultFile: reg.result_file,
-      finalRevisionFile: reg.final_revision_file,
-      rejectionReason: reg.rejection_reason,
-      proposalFile: reg.proposal_file
-    };
+      logbooks: r.logbooks || [],
+      semproInfo: r.sempro_info,
+      semproProof: r.sempro_proof,
+      finalSemproInfo: r.final_sempro_info,
+      finalSemproProof: r.final_sempro_proof,
+      resultFile: r.result_file,
+      finalRevisionFile: r.final_revision_file,
+      rejectionReason: r.rejection_reason,
+      proposalFile: r.proposal_file,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at
+    }));
   },
 
   saveRegistration: async (reg: PenelitianRegistration) => {
@@ -173,13 +177,13 @@ export const penelitianService = {
       updated_at: new Date().toISOString()
     };
 
-    if (reg.id && reg.id.length > 20) {
+    if (reg.id) {
       dbPayload.id = reg.id;
     }
 
     const { error } = await supabase
       .from('penelitian_registrations')
-      .upsert(dbPayload, { onConflict: 'dosen_id' });
+      .upsert(dbPayload);
 
     if (error) {
        console.error('Penelitian Upsert Error:', error);

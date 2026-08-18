@@ -23,7 +23,7 @@ export default function AdminPenelitian() {
     const data = await penelitianService.getRegistrations();
     setRegistrations(data);
     if (selectedReg) {
-      setSelectedReg(data.find(r => r.dosenId === selectedReg.dosenId) || null);
+      setSelectedReg(data.find(r => r.id === selectedReg.id) || null);
     }
     if (!quiet) setLoading(false);
   };

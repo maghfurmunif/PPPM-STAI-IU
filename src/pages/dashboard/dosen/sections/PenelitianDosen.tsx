@@ -14,17 +14,20 @@ import StatusBadge from '@/src/components/ui/StatusBadge';
 import PenelitianCompleteHistory from '@/src/components/dashboard/PenelitianCompleteHistory';
 
 export default function PenelitianDosen() {
-  const [registration, setRegistration] = useState<PenelitianRegistration | null>(null);
+  const [registrations, setRegistrations] = useState<PenelitianRegistration[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const userId = localStorage.getItem('user_id');
+  const registration = registrations.find(r => r.id === selectedId) || null;
 
   useEffect(() => {
     const fetchData = async () => {
       if (!userId) return;
       setLoading(true);
-      const data = await penelitianService.getRegistrationByDosen(userId);
-      setRegistration(data);
+      const data = await penelitianService.getRegistrationsByDosen(userId);
+      setRegistrations(data);
+      setSelectedId(prev => (prev && data.some(r => r.id === prev) ? prev : (data[0]?.id || null)));
       setLoading(false);
     };
     fetchData();
@@ -42,10 +45,13 @@ export default function PenelitianDosen() {
         logbooks: []
       };
       await penelitianService.saveRegistration(newReg);
-      setRegistration(newReg);
+      setRegistrations(prev => [...prev, newReg]);
+      setSelectedId(newReg.id);
       toast.success('Workflow penelitian dimulai');
-    } catch (e) {
-      toast.error('Gagal memulai penelitian');
+    } catch (e: any) {
+      console.error('Enroll penelitian error:', e);
+      const msg = e?.message || '';
+      toast.error('Gagal memulai penelitian: ' + msg);
     } finally {
       setActionLoading(false);
     }
@@ -57,7 +63,7 @@ export default function PenelitianDosen() {
     try {
        setActionLoading(true);
        await penelitianService.saveRegistration(updated);
-       setRegistration(updated);
+       setRegistrations(prev => prev.map(r => (r.id === updated.id ? updated : r)));
        if (message) toast.success(message);
     } catch (e) {
        toast.error('Gagal menyimpan perubahan');
@@ -94,7 +100,7 @@ export default function PenelitianDosen() {
         )}
       </div>
 
-      {!registration ? (
+      {registrations.length === 0 ? (
         <div className="card p-20 text-center space-y-8 border-dashed border-2 bg-white/50 relative overflow-hidden">
            <FlaskConical size={200} className="absolute -right-20 -bottom-20 text-primary/5 -rotate-12" />
            <FlaskConical size={64} className="mx-auto text-primary" />
@@ -108,9 +114,48 @@ export default function PenelitianDosen() {
         </div>
       ) : (
         <div className="space-y-10">
+          {/* Daftar proyek penelitian milik dosen (bisa lebih dari 1) */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+             <div className="space-y-1">
+                <h3 className="text-2xl font-black italic tracking-tighter uppercase text-slate-900">
+                   Proyek Penelitian <span className="text-primary">({registrations.length})</span>
+                </h3>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">Pilih proyek untuk melanjutkan alur riset, atau buat pengajuan baru.</p>
+             </div>
+             <button onClick={handleEnroll} disabled={actionLoading} className="btn-primary px-8 py-4 shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
+                {actionLoading ? <Loader2 className="animate-spin" /> : <><Plus size={18} /> <span className="text-[10px] font-black uppercase tracking-widest">Buat Pengajuan Baru</span></>}
+             </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+             {registrations.map(reg => (
+                <button
+                  key={reg.id}
+                  onClick={() => setSelectedId(reg.id)}
+                  className={cn(
+                    "card p-6 text-left transition-all border-l-[6px] group hover:-translate-y-0.5 hover:shadow-xl",
+                    selectedId === reg.id ? "border-l-primary shadow-xl ring-2 ring-primary/20 bg-white" : "border-l-slate-200 hover:border-l-slate-400"
+                  )}
+                >
+                   <div className="flex justify-between items-start mb-4">
+                      <StatusBadge status={reg.status} />
+                      <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 8).toUpperCase()}</span>
+                   </div>
+                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center space-x-2">
+                      <Calendar size={12} className="text-primary" />
+                      <span>{reg.createdAt ? new Date(reg.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Baru saja'}</span>
+                   </p>
+                   <div className="mt-5 flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest group-hover:text-primary text-slate-400 transition-colors">
+                      <span>{selectedId === reg.id ? 'Sedang Dilihat' : 'Buka Detail'}</span>
+                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                   </div>
+                </button>
+             ))}
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
-              key={registration.status}
+              key={`${registration.id}-${registration.status}`}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -211,6 +256,13 @@ export default function PenelitianDosen() {
               )}
             </motion.div>
           </AnimatePresence>
+
+          {!registration && (
+            <div className="card p-16 text-center space-y-4 border-dashed border-2">
+              <FlaskConical size={48} className="mx-auto text-slate-300" />
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic">Pilih salah satu proyek penelitian di atas untuk melihat detailnya.</p>
+            </div>
+          )}
         </div>
       )}
     </div>

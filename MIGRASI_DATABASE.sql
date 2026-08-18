@@ -81,12 +81,10 @@ CREATE TABLE IF NOT EXISTS penelitian_registrations (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'penelitian_registrations_dosen_id_key') THEN
-        ALTER TABLE penelitian_registrations ADD CONSTRAINT penelitian_registrations_dosen_id_key UNIQUE (dosen_id);
-    END IF;
-END $$;
+-- Allow multiple penelitian per dosen (was: UNIQUE constraint/index on dosen_id)
+ALTER TABLE penelitian_registrations DROP CONSTRAINT IF EXISTS penelitian_registrations_dosen_id_key;
+DROP INDEX IF EXISTS penelitian_registrations_dosen_id_key;
+DROP INDEX IF EXISTS penelitian_registrations_dosen_id_idx;
 
 -- 5. Dokumentasi Dosen
 CREATE TABLE IF NOT EXISTS dosen_dokumentasi (

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@tailwind base;
-@tailwind components;
+@import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -105,5 +104,3 @@ textarea:focus-visible {
 @media (max-width: 640px) {
   .card { @apply rounded-2xl p-5; }
 }
-
-@tailwind utilities;

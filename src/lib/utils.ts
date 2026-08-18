@@ -24,25 +24,6 @@ export const formatDate = (dateString: string | null | undefined) => {
   }
 };
 
-const isPdfDocument = (url: string, filename: string) =>
-  /^data:application\/pdf[;,]/i.test(url) ||
-  /\.pdf(?:[?#]|$)/i.test(url) ||
-  /(?:proposal|laporan|skripsi|rkl|lpk|naskah|revisi|surat|transkrip|krs|ktm|spk)/i.test(filename);
-
-const cloudinaryDownloadUrl = (url: string) => {
-  try {
-    const parsed = new URL(url);
-    if (!parsed.hostname.endsWith('res.cloudinary.com')) return url;
-
-    // `fl_attachment` asks Cloudinary to send a real file download instead of
-    // asking the browser's PDF viewer to render a potentially incompatible URL.
-    parsed.pathname = parsed.pathname.replace(/\/upload\/(?!fl_attachment\/)/, '/upload/fl_attachment/');
-    return parsed.toString();
-  } catch {
-    return url;
-  }
-};
-
 export const openDocument = (url: string | null | undefined, filename = 'dokumen') => {
   if (!url) return;
   
@@ -81,12 +62,14 @@ export const openDocument = (url: string | null | undefined, filename = 'dokumen
     link.click();
     document.body.removeChild(link);
   } else {
-    const isPdf = isPdfDocument(url, filename);
+    // Remote URL (e.g. Cloudinary): open in a new tab so the browser's PDF
+    // viewer renders it. No `fl_attachment` is injected (Cloudinary rejects it
+    // for untrusted accounts) and no `download` attribute is set (browsers
+    // ignore it for cross-origin URLs anyway).
     const link = document.createElement('a');
-    link.href = isPdf ? cloudinaryDownloadUrl(url) : url;
+    link.href = url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    if (isPdf) link.download = filename.toLowerCase().endsWith('.pdf') ? filename : `${filename}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
