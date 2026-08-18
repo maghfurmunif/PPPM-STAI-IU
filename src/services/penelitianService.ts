@@ -49,6 +49,7 @@ export interface PenelitianRegistration {
     catatan: string; // min 1 photo
   };
   finalRevisionFile?: string;
+  skReviewerFile?: string;
   publication?: {
     type: 'MANDIRI' | 'PPPM';
     method?: string; // Jurnal, Buku, Prosiding, Lainnya
@@ -115,6 +116,7 @@ export const penelitianService = {
       finalSemproProof: r.final_sempro_proof,
       resultFile: r.result_file,
       finalRevisionFile: r.final_revision_file,
+      skReviewerFile: r.sk_reviewer_file,
       rejectionReason: r.rejection_reason,
       proposalFile: r.proposal_file,
       createdAt: r.created_at,
@@ -153,6 +155,7 @@ export const penelitianService = {
       finalSemproProof: r.final_sempro_proof,
       resultFile: r.result_file,
       finalRevisionFile: r.final_revision_file,
+      skReviewerFile: r.sk_reviewer_file,
       rejectionReason: r.rejection_reason,
       proposalFile: r.proposal_file,
       createdAt: r.created_at,
@@ -173,6 +176,7 @@ export const penelitianService = {
       final_sempro_info: reg.finalSemproInfo,
       final_sempro_proof: reg.finalSemproProof,
       final_revision_file: reg.finalRevisionFile,
+      sk_reviewer_file: reg.skReviewerFile,
       publication: reg.publication,
       updated_at: new Date().toISOString()
     };

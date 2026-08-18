@@ -315,7 +315,7 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
           <h4 className="text-2xl font-black italic text-slate-900 border-b border-slate-100 pb-4 uppercase tracking-tighter">Prosedur Riset</h4>
           <ul className="space-y-5">
              {[
-               "Proposal disetujui & Penetapan Reviewer.",
+               "Proposal disetujui & Penetapan Reviewer (SK Reviuwer).",
                "Seminar Proposal & Validasi Bukti Seminar.",
                "Melaksanakan riset & Pencatatan Logbook Minimal 5 kali.",
                "Penyusunan Laporan Hasil & Seminar Hasil.",
@@ -388,6 +388,27 @@ function SemproSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
              )}
           </div>
        </div>
+
+       {/* SK Reviuwer Info */}
+       {reg.skReviewerFile && (
+         <div className="card p-8 bg-primary/5 border border-primary/10 space-y-4">
+            <div className="flex items-center justify-between">
+               <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                     <FileText size={20} className="text-primary" />
+                  </div>
+                  <div>
+                     <p className="text-[10px] font-black text-primary uppercase tracking-widest">SK Reviuwer</p>
+                     <p className="text-xs text-slate-500 font-bold">Dokumen penunjukan reviewer oleh Admin PPPM</p>
+                  </div>
+               </div>
+               <a href={reg.skReviewerFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
+                  <Download size={14} />
+                  <span>Lihat SK</span>
+               </a>
+            </div>
+         </div>
+       )}
 
        <div className="card p-10 space-y-10 bg-white shadow-xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-8">

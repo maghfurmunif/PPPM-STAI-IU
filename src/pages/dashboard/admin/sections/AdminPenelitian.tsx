@@ -4,7 +4,7 @@ import {
   FlaskConical, CheckCircle2, XCircle, Eye, 
   Search, Calendar, Clock, FileText, Save,
   MapPin, User, Users, ClipboardList, BookOpen,
-  ArrowRight, MessageSquare, AlertCircle, Loader2
+  ArrowRight, MessageSquare, AlertCircle, Loader2, FileUp
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn, formatDate, openDocument } from '@/src/lib/utils';
@@ -193,6 +193,15 @@ export default function AdminPenelitian() {
                        ) : <span className="text-xs font-bold text-slate-500 italic">Belum diunggah</span>}
                     </div>
                     <div className="space-y-1">
+                       <p className="text-[10px] font-black text-slate-500 uppercase">SK Reviuwer</p>
+                       {selectedReg.skReviewerFile ? (
+                         <button onClick={() => openDocument(selectedReg.skReviewerFile, `SK_Reviewer_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
+                            <FileText size={14} />
+                            <span>Buka SK Reviuwer</span>
+                         </button>
+                       ) : <span className="text-xs font-bold text-slate-500 italic">Belum diunggah</span>}
+                    </div>
+                    <div className="space-y-1">
                        <p className="text-[10px] font-black text-slate-500 uppercase">Hasil Akhir</p>
                        {selectedReg.resultFile ? (
                          <button onClick={() => openDocument(selectedReg.resultFile, `Laporan_Hasil_${selectedReg.dosenName || 'Dosen'}`)} className="flex items-center space-x-2 text-primary text-xs font-bold hover:underline">
@@ -226,12 +235,30 @@ export default function AdminPenelitian() {
 function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onAction: () => void }) {
   const [reason, setReason] = useState('');
   const [showReject, setShowReject] = useState(false);
+  const [uploadingSK, setUploadingSK] = useState(false);
   const [info, setInfo] = useState({
      lokasi: 'Auditorium Lt. 2',
      tanggal: '',
      pukul: '10:00',
      catatan: ''
   });
+
+  const handleUploadSK = async (file: File) => {
+    try {
+      setUploadingSK(true);
+      const { uploadToCloudinary } = await import('@/src/lib/cloudinary');
+      const url = await uploadToCloudinary(file);
+      // Save SK file directly to registration
+      const updated = { ...reg, skReviewerFile: url };
+      await penelitianService.saveRegistration(updated);
+      toast.success('SK Reviuwer berhasil diunggah');
+      onAction();
+    } catch (e) {
+      toast.error('Gagal mengunggah SK Reviuwer');
+    } finally {
+      setUploadingSK(false);
+    }
+  };
 
   const handleApprove = async () => {
     if (!info.tanggal) return alert('Silakan isi tanggal seminar!');
@@ -260,6 +287,35 @@ function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onActi
        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <h3 className="font-bold text-slate-900 italic">Review Proposal Penelitian</h3>
           <span className="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-[10px] font-black uppercase">Pending Review</span>
+       </div>
+
+       {/* SK Reviuwer Upload */}
+       <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
+          <div className="flex items-center justify-between">
+             <p className="text-[10px] font-black text-primary uppercase tracking-widest">SK Reviuwer</p>
+             {reg.skReviewerFile && (
+               <span className="text-[9px] font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase">✓ Terunggah</span>
+             )}
+          </div>
+          <label className={cn(
+             "flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer group",
+             reg.skReviewerFile ? "border-green-200 bg-green-50/50" : "border-slate-200 hover:border-primary/40 hover:bg-white"
+          )}>
+             <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={e => e.target.files?.[0] && handleUploadSK(e.target.files[0])} disabled={uploadingSK} />
+             {uploadingSK ? (
+               <Loader2 size={24} className="animate-spin text-primary" />
+             ) : reg.skReviewerFile ? (
+               <div className="flex items-center space-x-3">
+                  <CheckCircle2 size={20} className="text-green-500" />
+                  <span className="text-xs font-bold text-green-700">SK Reviuwer siap. Klik untuk ganti.</span>
+               </div>
+             ) : (
+               <div className="flex items-center space-x-3 text-slate-500 group-hover:text-primary transition-colors">
+                  <FileUp size={20} />
+                  <span className="text-xs font-bold">Unggah SK Reviuwer (.pdf / .jpg)</span>
+               </div>
+             )}
+          </label>
        </div>
 
        <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
