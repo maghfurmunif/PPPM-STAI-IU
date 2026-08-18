@@ -40,55 +40,52 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <img 
-              src="https://res.cloudinary.com/dlvvzsyzv/image/upload/q_auto/f_auto/v1779118998/images_nvrkgt.jpg" 
-              alt="Logo" 
-              className="w-10 h-10 rounded-xl object-contain bg-slate-50 p-1 shadow-sm"
-            />
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">P</span>
+            </div>
             <div>
-              <span className="block font-bold text-slate-900 leading-none text-lg">PPPM STAI</span>
-              <span className="block text-[10px] text-slate-500 uppercase tracking-widest mt-1">Ihyaul Ulum Gresik</span>
+              <span className="block font-semibold text-slate-900 leading-none">PPPM</span>
+              <span className="block text-[10px] text-slate-500">STAI Ihyaul Ulum</span>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-slate-500 hover:text-primary font-medium text-sm transition-colors">Dashboard</Link>
-            <Link to="/pengumuman" className="text-slate-500 hover:text-primary font-medium text-sm transition-colors">Pengumuman</Link>
-            <Link to="/statistik" className="text-slate-500 hover:text-primary font-medium text-sm transition-colors">Statistik</Link>
-            <Link to="/panduan" className="text-slate-500 hover:text-primary font-medium text-sm transition-colors">Panduan</Link>
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Dashboard</Link>
+            <Link to="/pengumuman" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Pengumuman</Link>
+            <Link to="/statistik" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Statistik</Link>
+            <Link to="/panduan" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Panduan</Link>
             
-            <div className="flex items-center space-x-4 pl-8 border-l border-slate-100">
+            <div className="flex items-center space-x-4 pl-6 border-l border-slate-200">
               {isLoggedIn ? (
-                <div className="flex items-center space-x-6">
+                <div className="flex items-center space-x-4">
                   <button 
                     onClick={() => navigate(`/dashboard/${userRole.toLowerCase()}`)} 
                     className="flex items-center space-x-3 group"
                   >
                     <div className="text-right hidden lg:block">
-                      <p className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">{userName}</p>
-                      <p className="text-[10px] text-primary font-black tracking-widest uppercase">{userRole}</p>
+                      <p className="text-sm font-medium text-slate-700 group-hover:text-primary transition-colors">{userName}</p>
+                      <p className="text-xs text-slate-500">{userRole}</p>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
-                      <User size={18} />
+                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <User size={16} />
                     </div>
                   </button>
                   <button 
                     onClick={handleLogout} 
-                    className="flex items-center space-x-2 px-6 py-2.5 bg-red-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-red-700 transition-all shadow-md shadow-red-200"
+                    className="text-sm font-medium text-slate-500 hover:text-red-600 transition-colors"
                   >
-                    <LogOut size={14} />
-                    <span>LOGOUT</span>
+                    Logout
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-3">
-                  <Link to="/login" className="px-5 py-2 text-slate-500 hover:text-primary font-bold text-xs uppercase tracking-widest transition-colors">Login</Link>
-                  <Link to="/register" className="btn-primary px-8 py-3 text-[10px] uppercase tracking-widest font-black shadow-lg shadow-primary/20">Get Started</Link>
+                  <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Login</Link>
+                  <Link to="/register" className="btn-primary px-5 py-2 text-sm">Get Started</Link>
                 </div>
               )}
             </div>
@@ -106,21 +103,21 @@ export default function Navbar() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-white border-t border-slate-100 p-4 space-y-4 shadow-xl"
+          className="md:hidden bg-white border-t border-slate-100 p-4 space-y-3 shadow-lg"
         >
-          <Link to="/" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Dashboard</Link>
-          <Link to="/pengumuman" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Pengumuman</Link>
-          <Link to="/statistik" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Statistik</Link>
-          <Link to="/panduan" className="block py-2 text-slate-600 font-medium" onClick={() => setIsOpen(false)}>Panduan</Link>
-          <div className="pt-4 border-t border-slate-100 flex flex-col space-y-3">
+          <Link to="/" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Dashboard</Link>
+          <Link to="/pengumuman" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Pengumuman</Link>
+          <Link to="/statistik" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Statistik</Link>
+          <Link to="/panduan" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Panduan</Link>
+          <div className="pt-3 border-t border-slate-100 flex flex-col space-y-2">
             {isLoggedIn ? (
               <>
-                <Link to={`/dashboard/${userRole.toLowerCase()}`} className="w-full text-center py-4 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-black/20" onClick={() => setIsOpen(false)}>MY DASHBOARD</Link>
-                <button onClick={() => { handleLogout(); setIsOpen(false); }} className="w-full text-center py-4 bg-red-600 text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-red-200">LOGOUT</button>
+                <Link to={`/dashboard/${userRole.toLowerCase()}`} className="w-full text-center py-3 bg-primary text-white rounded-xl font-medium text-sm" onClick={() => setIsOpen(false)}>Dashboard</Link>
+                <button onClick={() => { handleLogout(); setIsOpen(false); }} className="w-full text-center py-3 bg-slate-100 text-slate-600 rounded-xl font-medium text-sm">Logout</button>
               </>
             ) : (
               <>
-                <Link to="/login" className="w-full text-center py-3 text-slate-600 font-bold" onClick={() => setIsOpen(false)}>Login</Link>
+                <Link to="/login" className="w-full text-center py-3 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Login</Link>
                 <Link to="/register" className="btn-primary text-center" onClick={() => setIsOpen(false)}>Get Started</Link>
               </>
             )}

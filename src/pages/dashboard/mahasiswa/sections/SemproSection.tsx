@@ -288,7 +288,7 @@ export default function SemproSection() {
 
            {registration.status === 'COMPLETED' && (
               <div className="max-w-4xl mx-auto space-y-10">
-                 <div className="card p-12 bg-primary text-white text-center relative overflow-hidden">
+                 <div className="card p-12 !bg-primary text-white text-center relative overflow-hidden border-primary">
                     <div className="relative z-10 space-y-4">
                        <CheckCircle2 size={64} className="mx-auto text-white opacity-40" />
                        <h2 className="text-4xl font-black italic tracking-tighter">SEMPRO SELESAI</h2>

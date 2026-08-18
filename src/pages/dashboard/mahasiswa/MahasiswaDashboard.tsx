@@ -89,11 +89,16 @@ export default function MahasiswaDashboard() {
         )}
       </AnimatePresence>
       {/* Sidebar */}
-      <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
-        <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
-          <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Student Portal</div>
-             <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
+      <aside className="w-64 hidden lg:flex flex-col sticky top-0 h-screen p-4 z-20">
+        <div className="bg-white h-full rounded-3xl p-4 flex flex-col shadow-sm border border-slate-100">
+          <div className="mb-6 px-4 flex items-center space-x-3">
+             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+               <span className="text-white font-bold text-lg">S</span>
+             </div>
+             <div>
+               <div className="text-sm font-bold text-slate-900">PPPM</div>
+               <div className="text-[10px] text-slate-500">Student Portal</div>
+             </div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
             {menus.map((menu) => (
@@ -101,47 +106,33 @@ export default function MahasiswaDashboard() {
                 key={menu.id} 
                 to={menu.path}
                 className={cn(
-                  "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
+                  "flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
                   (location.pathname === menu.path)
-                    ? "bg-primary text-white shadow-lg shadow-primary/30 scale-[1.02]" 
-                    : "text-slate-500 hover:text-primary hover:bg-primary/5"
+                    ? "bg-primary text-white shadow-md" 
+                    : "text-slate-600 hover:bg-slate-50"
                 )}
               >
-                 <div className={cn(
-                    "p-2 rounded-xl transition-colors",
-                    (location.pathname === menu.path)
-                      ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-500"
-                 )}>
-                   <menu.icon size={16} />
-                 </div>
+                <menu.icon size={18} />
                 <span>{menu.name}</span>
               </Link>
             ))}
           </div>
           
-          <div className="mt-auto pt-6 space-y-3">
-            <div className="p-4 bg-slate-900 rounded-[24px] flex items-center space-x-3 shadow-xl">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold italic shadow-md shrink-0">M</div>
-              <div className="overflow-hidden">
-                <div className="text-[10px] font-black text-white truncate">{localStorage.getItem('user_name') || 'Ahmad Maghfur'}</div>
-                <div className="text-[9px] font-bold text-primary uppercase tracking-tighter">Mahasiswa • PAI</div>
-              </div>
-            </div>
+          <div className="mt-auto pt-4">
             <button 
               onClick={handleLogout}
-              className="w-full flex items-center justify-center space-x-2 py-3.5 bg-red-50 text-red-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all border border-red-100"
+              className="w-full flex items-center justify-center space-x-2 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium text-sm hover:bg-red-50 hover:text-red-600 transition-all"
             >
-              <LogOut size={14} />
-              <span>Keluar Sesi</span>
+              <LogOut size={16} />
+              <span>Keluar</span>
             </button>
           </div>
         </div>
       </aside>
 
       {/* Content Area */}
-      <main className="flex-grow p-4 lg:p-10 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+      <main className="flex-grow p-4 lg:p-8 overflow-y-auto bg-slate-50">
+        <div className="max-w-7xl mx-auto">
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
               <div className="relative">
@@ -288,109 +279,83 @@ function DashboardOverview() {
   }, [userId]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
-        <div className="space-y-2">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span>Academic Session 2024/2025</span>
-          </div>
-          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Halo, <span className="text-primary italic">{localStorage.getItem('user_name') || 'Student'}</span> 👋</h1>
-          <p className="text-slate-500 font-medium">Lacak progress akademik dan pengabdian Anda di sini.</p>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+          <p className="text-slate-500 text-sm">Halo, {localStorage.getItem('user_name') || 'Student'} 👋</p>
         </div>
       </div>
 
-      {/* Stats ... same as before but maybe with real count if I had them */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stats.map((stat, i) => (
           <div 
             key={i} 
             onClick={() => navigate(stat.path)}
-            className="card p-8 group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden"
+            className={cn("card p-5 group hover:shadow-md transition-all cursor-pointer", i === 0 && "!bg-primary text-white border-primary")}
           >
-            <div className="flex justify-between items-start mb-8 relative z-10">
-              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:scale-110", 
-                stat.color === 'primary' ? "bg-primary text-white shadow-primary/20" : 
-                "bg-slate-100 text-slate-500 group-hover:bg-primary/10 group-hover:text-primary")}>
-                <stat.icon size={24} />
+            <div className="flex justify-between items-start mb-4">
+              <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", i === 0 ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500")}>
+                <stat.icon size={18} />
               </div>
-              <div className="text-right">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Status</p>
-                <p className="text-sm font-bold text-slate-900">{stat.status}</p>
+              <span className={cn("text-xs font-medium", i === 0 ? "text-white/80" : "text-slate-500")}>{stat.status}</span>
+            </div>
+            <p className={cn("text-xs font-medium mb-1", i === 0 ? "text-white/80" : "text-slate-500")}>{stat.label}</p>
+            <div className="flex items-center justify-between">
+              <p className={cn("text-2xl font-bold", i === 0 ? "text-white" : "text-slate-900")}>{stat.value}%</p>
+              <div className={cn("h-2 w-20 rounded-full overflow-hidden", i === 0 ? "bg-white/20" : "bg-slate-100")}>
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${stat.value}%` }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  className={cn("h-full rounded-full", i === 0 ? "bg-white" : "bg-primary")}
+                />
               </div>
             </div>
-            <h3 className="font-bold text-slate-800 text-xl mb-4 tracking-tight relative z-10">{stat.label}</h3>
-            <div className="space-y-3 relative z-10">
-               <div className="flex justify-between items-end">
-                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Completion</span>
-                 <span className="text-sm font-bold text-primary">{stat.value}%</span>
-               </div>
-               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                 <motion.div 
-                   initial={{ width: 0 }}
-                   animate={{ width: `${stat.value}%` }}
-                   transition={{ duration: 1, delay: 0.5 }}
-                   className={cn("h-full", stat.color === 'primary' ? "bg-primary" : "bg-slate-300")}
-                 />
-               </div>
-            </div>
-            <ArrowRight className="absolute right-4 bottom-4 text-slate-100 group-hover:text-primary/20 transition-colors" size={64} />
           </div>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-10">
-        <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold text-slate-900 italic">Timeline Aktivitas</h2>
-            <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Full History</button>
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div className="card">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-semibold text-slate-900">Timeline Aktivitas</h3>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
              {activities.length === 0 ? (
-               <div className="card p-10 text-center text-slate-500 italic text-xs">Belum ada aktivitas tercatat.</div>
+               <div className="p-6 text-center text-slate-500 text-sm">Belum ada aktivitas tercatat.</div>
              ) : (
                activities.map((activity, i) => (
-                 <div key={i} className="card p-6 flex items-center space-x-5 hover:border-primary/20 transition-all cursor-pointer group">
-                   <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform bg-primary/10 text-primary")}>
-                      <Users size={20} />
-                   </div>
+                 <div key={i} className="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl hover:bg-primary/5 transition-all cursor-pointer">
+                   <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
                    <div className="flex-grow min-w-0">
-                      <p className="text-sm font-bold text-slate-800 truncate">{activity.activity}</p>
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">{new Date(activity.created_at).toLocaleDateString()}</p>
+                      <p className="text-sm font-medium text-slate-700 truncate">{activity.activity}</p>
+                      <p className="text-xs text-slate-500">{new Date(activity.created_at).toLocaleDateString()}</p>
                    </div>
-                   <ArrowRight size={16} className="text-slate-200 group-hover:text-primary transition-colors" />
                  </div>
                ))
              )}
           </div>
         </div>
         
-        <div className="space-y-6">
-          <h2 className="text-xl font-bold text-slate-900 italic">Pusat Unduhan & Panduan</h2>
-          <div className="card p-8 bg-slate-50 text-slate-900 overflow-hidden relative">
-             <div className="relative z-10 space-y-6">
-                {[
-                  { name: 'Template RKL (Rencana Kegiatan)', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' },
-                  { name: 'Template LPK (Laporan Pelaksanaan)', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' },
-                  { name: 'Buku Panduan KKN 2024/2025', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between group">
-                     <span className="text-sm font-bold text-slate-500">{item.name}</span>
-                     <button 
-                       onClick={() => window.open(item.link, '_blank')}
-                       className="p-2 bg-primary/20 text-primary rounded-xl hover:bg-primary hover:text-white transition-all font-bold text-[10px]"
-                     >
-                       DOWNLOAD
-                     </button>
-                  </div>
-                ))}
-                <div className="pt-2">
-                   <p className="text-[10px] text-slate-500 italic max-w-[200px]">Pastikan menggunakan template resmi terbaru.</p>
-                </div>
-             </div>
-             <div className="absolute -right-10 -bottom-10 opacity-10">
-                <BookOpen size={200} />
-             </div>
+        <div className="card">
+          <h3 className="font-semibold text-slate-900 mb-4">Pusat Unduhan & Panduan</h3>
+          <div className="space-y-3">
+            {[
+              { name: 'Template RKL (Rencana Kegiatan)', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' },
+              { name: 'Template LPK (Laporan Pelaksanaan)', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' },
+              { name: 'Buku Panduan KKN 2024/2025', link: 'https://docs.google.com/document/d/1dmksXSoHHpg_5pJMYfOyuztYRU3Crj2M/edit?usp=drive_link&ouid=114172484404944105413&rtpof=true&sd=true' }
+            ].map((item, i) => (
+              <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                 <span className="text-sm font-medium text-slate-700">{item.name}</span>
+                 <button 
+                   onClick={() => window.open(item.link, '_blank')}
+                   className="text-sm font-medium text-primary hover:underline"
+                 >
+                   Download
+                 </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>

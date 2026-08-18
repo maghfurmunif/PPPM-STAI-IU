@@ -4,7 +4,7 @@ import {
   BarChart3, Users, BookOpen, GraduationCap, 
   FlaskConical, HeartHandshake, Settings, 
   Bell, FileText, Activity, Layers, Search, Filter,
-  Globe, LogOut
+  Globe, LogOut, Loader2
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { Suspense, lazy, useState, useEffect } from 'react';
@@ -109,11 +109,16 @@ export default function AdminDashboard() {
         )}
       </AnimatePresence>
       {/* Sidebar */}
-      <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
-        <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
-          <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Admin Panel</div>
-             <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
+      <aside className="w-64 hidden lg:flex flex-col sticky top-0 h-screen p-4 z-20">
+        <div className="bg-white h-full rounded-3xl p-4 flex flex-col shadow-sm border border-slate-100">
+          <div className="mb-6 px-4 flex items-center space-x-3">
+             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+               <span className="text-white font-bold text-lg">P</span>
+             </div>
+             <div>
+               <div className="text-sm font-bold text-slate-900">PPPM</div>
+               <div className="text-[10px] text-slate-500">Admin Panel</div>
+             </div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
             {menus.map((menu) => (
@@ -121,55 +126,37 @@ export default function AdminDashboard() {
                 key={menu.id} 
                 to={menu.path}
                 className={cn(
-                  "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
+                  "flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
                   (location.pathname === menu.path)
-                    ? "bg-slate-900 text-white shadow-lg shadow-black/20 scale-[1.02]" 
-                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                    ? "bg-primary text-white shadow-md" 
+                    : "text-slate-600 hover:bg-slate-50"
                 )}
               >
-                <div className={cn(
-                  "p-2 rounded-xl transition-colors",
-                  (location.pathname === menu.path)
-                    ? "bg-white/10 text-white"
-                    : "bg-slate-100 text-slate-500"
-                )}>
-                  <menu.icon size={16} />
-                </div>
+                <menu.icon size={18} />
                 <span>{menu.name}</span>
               </Link>
             ))}
           </div>
           
-          <div className="mt-auto pt-6 space-y-3">
-            <div className="p-4 bg-primary rounded-[24px] flex items-center space-x-3 shadow-xl">
-              <img 
-                src="https://res.cloudinary.com/dlvvzsyzv/image/upload/q_auto/f_auto/v1779118998/images_nvrkgt.jpg" 
-                alt="Logo" 
-                className="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-md shrink-0"
-              />
-              <div className="overflow-hidden">
-                <div className="text-[10px] font-black text-white truncate uppercase tracking-tighter">Administrator</div>
-                <div className="text-[9px] font-bold text-white/60 uppercase tracking-tighter">PPPM Portal Admin</div>
-              </div>
-            </div>
+          <div className="mt-auto pt-4">
             <button 
               onClick={() => {
                 localStorage.removeItem('user_role');
                 localStorage.removeItem('user_name');
                 window.location.href = '/';
               }}
-              className="w-full flex items-center justify-center space-x-2 py-3.5 bg-red-50 text-red-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all border border-red-100"
+              className="w-full flex items-center justify-center space-x-2 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium text-sm hover:bg-red-50 hover:text-red-600 transition-all"
             >
-              <LogOut size={14} />
-              <span>Keluar Sesi Admin</span>
+              <LogOut size={16} />
+              <span>Keluar</span>
             </button>
           </div>
         </div>
       </aside>
 
       {/* Content Area */}
-      <main className="flex-grow p-4 lg:p-10 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+      <main className="flex-grow p-4 lg:p-8 overflow-y-auto bg-slate-50">
+        <div className="max-w-7xl mx-auto">
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
               <div className="w-16 h-16 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
@@ -196,152 +183,166 @@ export default function AdminDashboard() {
 }
 
 function AdminOverview() {
-  const [statsData, setStatsData] = useState({
-    mahasiswa: 0,
-    penelitian: 0,
-    kknAktif: 0,
-    alerts: 0,
-    semproAktif: 0,
-    skripsiAktif: 0
-  });
+  const [totals, setTotals] = useState({ pen: 0, penSelesai: 0, peng: 0, pengSelesai: 0, kkn: 0, sempro: 0 });
+  const [monthlyData, setMonthlyData] = useState<Record<string, { bulan: string; selesai: number; aktif: number }[]>>({});
   const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const stats = await publicService.getGlobalStats();
-        setStatsData({
-          mahasiswa: stats.mahasiswaCount,
-          penelitian: stats.penelitian,
-          kknAktif: stats.kkn,
-          semproAktif: stats.sempro,
-          skripsiAktif: stats.skripsi,
-          alerts: 0
-        });
+        const [stats, penMonth, pengMonth, kknMonth, semMonth, acts] = await Promise.all([
+          publicService.getGlobalStats(),
+          publicService.getMonthlyStats('penelitian_registrations'),
+          publicService.getMonthlyStats('pengabdian_registrations'),
+          publicService.getMonthlyStats('kkn_registrations'),
+          publicService.getMonthlyStats('sempro_registrations'),
+          publicService.getRecentActivities(),
+        ]);
 
-        const liveActs = await publicService.getRecentActivities();
-        setActivities(liveActs);
+        setTotals({
+          pen: stats.penelitian, penSelesai: stats.penelitianSelesai || 0,
+          peng: stats.pengabdian, pengSelesai: stats.pengabdianSelesai || 0,
+          kkn: stats.kkn, sempro: stats.sempro,
+        });
+        setMonthlyData({ penelitian: penMonth, pengabdian: pengMonth, kkn: kknMonth, sempro: semMonth });
+        setActivities(acts);
       } catch (e) {
         console.error('Admin stats fetch error:', e);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  const data = [
-    { name: 'KKN', reports: statsData.kknAktif },
-    { name: 'Sempro', reports: statsData.semproAktif },
-    { name: 'Skripsi', reports: statsData.skripsiAktif },
-    { name: 'Penelitian', reports: statsData.penelitian },
-  ];
-
-  const stats = [
-    { label: 'Mahasiswa', value: statsData.mahasiswa.toLocaleString(), trend: statsData.mahasiswa > 0 ? '+New' : '0', icon: Users },
-    { label: 'KKN Aktif', value: statsData.kknAktif.toString(), trend: `+${statsData.kknAktif}`, icon: Globe },
-    { label: 'Sempro Aktif', value: statsData.semproAktif.toString(), trend: `+${statsData.semproAktif}`, icon: BookOpen },
-    { label: 'Skripsi Aktif', value: statsData.skripsiAktif.toString(), trend: `+${statsData.skripsiAktif}`, icon: GraduationCap },
+  const cards = [
+    {
+      label: 'Penelitian Dosen', icon: FlaskConical, color: '#2D5016',
+      total: totals.pen, selesai: totals.penSelesai, aktif: totals.pen - totals.penSelesai,
+      tableKey: 'penelitian',
+    },
+    {
+      label: 'Pengabdian Dosen', icon: HeartHandshake, color: '#3B7A28',
+      total: totals.peng, selesai: totals.pengSelesai, aktif: totals.peng - totals.pengSelesai,
+      tableKey: 'pengabdian',
+    },
+    {
+      label: 'KKN Aktif', icon: Globe, color: '#4A9C2E',
+      total: totals.kkn, selesai: 0, aktif: totals.kkn,
+      tableKey: 'kkn',
+    },
+    {
+      label: 'Sempro Aktif', icon: BookOpen, color: '#5AB836',
+      total: totals.sempro, selesai: 0, aktif: totals.sempro,
+      tableKey: 'sempro',
+    },
   ];
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
-        <div className="space-y-2">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span>System Priority: Stable</span>
-          </div>
-          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Konsol Utama <span className="text-primary italic">Admin</span></h1>
-          <p className="text-slate-500 font-medium">Monitoring sistem portal akademik secara menyeluruh.</p>
-        </div>
-        <div className="flex items-center space-x-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
-           Sinkronisasi: Baru Saja
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+          <p className="text-slate-500 text-sm">Selamat datang di panel admin PPPM.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, i) => (
-          <div key={i} className="card p-8 group hover:-translate-y-1 transition-all">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors">
-                <stat.icon size={20} />
+      {/* 4 Stat Cards with Mini Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {cards.map((card, i) => (
+          <div key={i} className="card p-5 bg-white border border-slate-100 hover:shadow-md transition-all">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: card.color + '15' }}>
+                  <card.icon size={18} style={{ color: card.color }} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-500">{card.label}</p>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-bold text-slate-900">{card.total}</span>
+                    <span className="text-[10px] text-slate-400">total</span>
+                  </div>
+                </div>
               </div>
-              <span className={cn("text-[10px] font-black px-2 py-0.5 rounded-full", stat.trend.includes('+') ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
-                {stat.trend}
-              </span>
+              {card.selesai > 0 && (
+                <div className="text-right">
+                  <div className="flex items-center space-x-1.5">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    <span className="text-[10px] text-slate-500">Selesai</span>
+                    <span className="text-sm font-bold text-primary">{card.selesai}</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <div className="w-2 h-2 rounded-full bg-emerald-300" />
+                    <span className="text-[10px] text-slate-500">Aktif</span>
+                    <span className="text-sm font-bold text-emerald-600">{card.aktif}</span>
+                  </div>
+                </div>
+              )}
             </div>
-            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">{stat.label}</p>
-            <p className="text-3xl font-bold text-slate-900 tracking-tight mb-1 uppercase italic">{stat.value}</p>
+
+            {/* Mini Bar Chart */}
+            <div className="h-[100px] mt-2">
+              {!loading && monthlyData[card.tableKey] ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyData[card.tableKey]} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                    <XAxis dataKey="bulan" axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: '#94a3b8' }} interval={2} />
+                    <YAxis hide />
+                    <Tooltip
+                      contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', fontSize: '11px', padding: '8px' }}
+                      formatter={(value: number, name: string) => [value, name === 'selesai' ? 'Selesai' : 'Aktif']}
+                    />
+                    <Bar dataKey="selesai" stackId="a" fill="#2D5016" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="aktif" stackId="a" fill="#86B874" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-full flex items-center justify-center"><Loader2 className="animate-spin text-slate-300" size={16} /></div>
+              )}
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-10">
-         <div className="lg:col-span-2 space-y-6">
-            <h3 className="font-bold text-slate-900 italic flex items-center">
-               <Layers size={18} className="mr-2 text-primary" /> Modul Akses Cepat
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-               {[
-                 { label: 'Kelola KKN', path: '/dashboard/admin/kkn', icon: Globe, color: 'hover:border-primary' },
-                 { label: 'Seminar Proposal', path: '/dashboard/admin/sempro', icon: BookOpen, color: 'hover:border-blue-500' },
-                 { label: 'Skripsi Mahasiswa', path: '/dashboard/admin/skripsi', icon: GraduationCap, color: 'hover:border-green-500' },
-                 { label: 'Penelitian Dosen', path: '/dashboard/admin/penelitian', icon: FlaskConical, color: 'hover:border-orange-500' },
-                 { label: 'Pengabdian Dosen', path: '/dashboard/admin/pengabdian', icon: HeartHandshake, color: 'hover:border-red-500' },
-                 { label: 'Kelola Dokumentasi', path: '/dashboard/admin/dokumentasi', icon: FileText, color: 'hover:border-slate-500' },
-                 { label: 'Kelola Pengumuman', path: '/dashboard/admin/announcements', icon: Bell, color: 'hover:border-sky-500' },
-                 { label: 'Kelola Panduan', path: '/dashboard/admin/guides', icon: Layers, color: 'hover:border-amber-500' },
-               ].map((mod, idx) => (
-                 <Link key={idx} to={mod.path} className={cn("card p-6 flex flex-col items-center justify-center space-y-3 transition-all border-transparent border-2 shadow-sm", mod.color)}>
-                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-500 group-hover:text-primary">
-                       <mod.icon size={20} />
-                    </div>
-                    <span className="text-[10px] font-black uppercase text-center tracking-tight text-slate-600">{mod.label}</span>
-                 </Link>
-               ))}
-            </div>
-            
-            <div className="card p-10 h-[350px] flex flex-col">
-               <div className="flex justify-between items-center mb-10">
-                 <h3 className="font-bold text-slate-900 italic flex items-center"><BarChart3 size={18} className="mr-2 text-primary" /> Statistik Pelaporan Digital</h3>
-               </div>
-               <div className="flex-grow pr-4 relative min-h-0">
-                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-                     <AreaChart data={data}>
-                       <defs>
-                         <linearGradient id="colorReports" x1="0" y1="0" x2="0" y2="1">
-                           <stop offset="5%" stopColor="#88A47C" stopOpacity={0.2}/>
-                           <stop offset="95%" stopColor="#88A47C" stopOpacity={0}/>
-                         </linearGradient>
-                       </defs>
-                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 900, fill: '#94a3b8'}} dy={10} />
-                       <YAxis axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 900, fill: '#94a3b8'}} dx={-10} />
-                       <Tooltip contentStyle={{borderRadius: '24px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', fontSize: '10px', fontWeight: 'bold'}} />
-                       <Area type="monotone" dataKey="reports" stroke="#88A47C" fillOpacity={1} fill="url(#colorReports)" strokeWidth={4} />
-                     </AreaChart>
-                  </ResponsiveContainer>
+      <div className="grid lg:grid-cols-3 gap-6">
+         <div className="lg:col-span-2">
+            <div className="card">
+               <h3 className="font-semibold text-slate-900 mb-4">Modul Akses Cepat</h3>
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                 {[
+                   { label: 'Kelola KKN', path: '/dashboard/admin/kkn', icon: Globe },
+                   { label: 'Seminar Proposal', path: '/dashboard/admin/sempro', icon: BookOpen },
+                   { label: 'Skripsi Mahasiswa', path: '/dashboard/admin/skripsi', icon: GraduationCap },
+                   { label: 'Penelitian Dosen', path: '/dashboard/admin/penelitian', icon: FlaskConical },
+                   { label: 'Pengabdian Dosen', path: '/dashboard/admin/pengabdian', icon: HeartHandshake },
+                   { label: 'Kelola Dokumentasi', path: '/dashboard/admin/dokumentasi', icon: FileText },
+                   { label: 'Kelola Pengumuman', path: '/dashboard/admin/announcements', icon: Bell },
+                   { label: 'Kelola Panduan', path: '/dashboard/admin/guides', icon: Layers },
+                 ].map((mod, idx) => (
+                   <Link key={idx} to={mod.path} className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl hover:bg-primary/5 hover:text-primary transition-all text-slate-600">
+                      <mod.icon size={20} className="mb-2" />
+                      <span className="text-xs font-medium text-center">{mod.label}</span>
+                   </Link>
+                 ))}
                </div>
             </div>
          </div>
 
          <div className="space-y-6">
-            <h3 className="font-bold text-slate-900 italic">Aktivitas Terbaru</h3>
-            <div className="card p-8 space-y-8 max-h-[360px] overflow-y-auto side-scrollbar bg-slate-50 border-none shadow-inner">
-               {activities.map((act, idx) => (
-                 <div key={act.id} className="flex space-x-4 relative">
-                    {idx !== activities.length - 1 && <div className="absolute left-[13px] top-8 bottom-[-24px] w-0.5 bg-slate-200" />}
-                    <div className="w-7 h-7 rounded-full bg-white border-2 border-primary flex items-center justify-center shrink-0 z-10">
-                       <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    </div>
-                    <div className="space-y-1">
-                       <p className="text-xs font-bold text-slate-700">{act.name} <span className="font-medium text-slate-500 italic">{act.action}</span></p>
-                       <p className="text-[9px] font-black text-primary uppercase tracking-widest opacity-60">{act.time ? new Date(act.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : ''} • {act.category} • {act.statusText}</p>
-                    </div>
-                 </div>
-               ))}
-            </div>
-            <div className="card p-6 bg-slate-50 text-slate-900 text-center cursor-pointer hover:bg-slate-100 transition-colors">
-               <span className="text-[10px] font-black uppercase tracking-[0.3em]">Log Audit Lengkap</span>
+            <div className="card">
+               <h3 className="font-semibold text-slate-900 mb-4">Aktivitas Terbaru</h3>
+               <div className="space-y-4 max-h-[300px] overflow-y-auto">
+                 {activities.map((act, idx) => (
+                   <div key={act.id} className="flex items-start space-x-3 pb-3 border-b border-slate-100 last:border-0">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
+                      <div>
+                         <p className="text-sm font-medium text-slate-700">{act.name}</p>
+                         <p className="text-xs text-slate-500">{act.action}</p>
+                         <p className="text-xs text-slate-400 mt-1">{act.time ? new Date(act.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : ''}</p>
+                      </div>
+                   </div>
+                 ))}
+               </div>
             </div>
          </div>
       </div>

@@ -153,7 +153,7 @@ export default function SkripsiSection() {
                    <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="space-y-1">
                          <p className="text-[10px] font-black text-primary uppercase tracking-widest">Dosen Pembimbing Utama</p>
-                         <h3 className="text-3xl font-black italic tracking-tighter text-white">{registration.advisor.name}</h3>
+                         <h3 className="text-3xl font-black italic tracking-tighter text-slate-900">{registration.advisor.name}</h3>
                          <p className="text-xs text-slate-500 font-medium italic">Silakan lakukan bimbingan minimal 10 kali sebelum pendaftaran munaqosyah.</p>
                       </div>
                       <button 
@@ -191,7 +191,7 @@ export default function SkripsiSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="space-y-10"
               >
-                 <div className="card bg-primary text-white p-10 relative overflow-hidden shadow-2xl shadow-primary/20">
+                 <div className="card !bg-primary text-white p-10 relative overflow-hidden shadow-2xl shadow-primary/20 border-primary">
                     <div className="relative z-10">
                        <h3 className="text-2xl font-black italic mb-6 underline decoration-white/20 underline-offset-8">Jadwal Munaqosyah Anda</h3>
                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -332,7 +332,7 @@ export default function SkripsiSection() {
                        <div className="card bg-slate-50 text-slate-900 p-10 relative overflow-hidden shadow-2xl">
                           <div className="relative z-10">
                              <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">Tahap Akhir Sidang Munaqosyah</p>
-                             <h3 className="text-3xl font-black italic tracking-tighter text-white">PASCA-SIDANG & UNGGAH REVISI FINAL</h3>
+                             <h3 className="text-3xl font-black italic tracking-tighter text-slate-900">PASCA-SIDANG & UNGGAH REVISI FINAL</h3>
                              <p className="text-xs text-slate-500 font-medium mt-2 leading-relaxed max-w-2xl">
                                 Selamat atas pelaksanaan Sidang Munaqosyah Anda. Silakan selesaikan perbaikan draf dengan bimbingan dewan penguji, lalu unggah dokumen wajib berikut untuk pencairan nilai kelulusan Anda.
                              </p>
@@ -528,7 +528,7 @@ export default function SkripsiSection() {
                <div className="card p-12 bg-slate-50 text-slate-900 text-center relative overflow-hidden shadow-2xl">
                     <div className="relative z-10 space-y-4">
                        <CheckCircle2 size={64} className="mx-auto text-primary" />
-                       <h2 className="text-4xl font-black italic tracking-tighter text-white">SKRIPSI SELESAI</h2>
+                       <h2 className="text-4xl font-black italic tracking-tighter text-slate-900">SKRIPSI SELESAI</h2>
                        <div className="inline-block px-10 py-3 bg-primary text-white rounded-full font-black text-3xl italic shadow-2xl">
                           {registration.grades?.gradeText} ({Number(registration.grades?.total || 0).toFixed(0)})
                        </div>
@@ -543,7 +543,7 @@ export default function SkripsiSection() {
                         <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Ujian Munaqosyah (70%)</p>
                         <p className="text-2xl font-black text-slate-900 italic">{(registration.grades?.sidang ?? 0).toFixed(0)}</p>
                     </div>
-                    <div className="card p-8 bg-primary text-white flex flex-col items-center justify-center text-center space-y-2">
+                    <div className="card p-8 !bg-primary text-white flex flex-col items-center justify-center text-center space-y-2 border-primary">
                        <CheckCircle2 size={24} className="text-white" />
                        <p className="font-bold text-xs uppercase tracking-widest tracking-[0.1em] text-white">Gelar Akademik: S.Pd</p>
                     </div>

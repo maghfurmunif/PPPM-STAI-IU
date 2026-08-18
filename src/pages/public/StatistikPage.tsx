@@ -84,7 +84,7 @@ export default function StatistikPage() {
                   </div>
                </div>
 
-               <div className="card p-12 bg-slate-900 shadow-2xl border-none text-white overflow-hidden relative">
+               <div className="card p-12 !bg-slate-900 shadow-2xl border-none text-white overflow-hidden relative">
                   <div className="relative z-10 space-y-6">
                     <div className="inline-block px-4 py-1.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-2">Academic Transparency</div>
                     <h3 className="text-4xl font-black italic tracking-tighter uppercase leading-none">Integritas Data</h3>

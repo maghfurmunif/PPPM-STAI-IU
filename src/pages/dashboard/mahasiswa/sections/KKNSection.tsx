@@ -209,7 +209,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <SurveyPhase reg={registration} onUpdate={updateRegistration} actionLoading={actionLoading} />
               )}
               {registration.status === 'SURVEY_PENDING' && (
-                 <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
+                 <div className="card p-20 text-center space-y-8 !bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Survey Audit</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Dokumentasi survey sedang ditinjau Admin PPPM.</p>
@@ -219,7 +219,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <RKLPhase reg={registration} onUpdate={updateRegistration} actionLoading={actionLoading} />
               )}
               {registration.status === 'RKL_PENDING' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
+                <div className="card p-20 text-center space-y-8 !bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Strategic Review (RKL)</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Rencana Kegiatan Lapangan sedang diverifikasi Admin.</p>
@@ -229,7 +229,7 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <DeploymentPhase reg={registration} onUpdate={updateRegistration} actionLoading={actionLoading} />
               )}
               {registration.status === 'DEPLOYMENT_PENDING' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
+                <div className="card p-20 text-center space-y-8 !bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Departure Validation</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Bukti pemberangkatan sedang diverifikasi.</p>
@@ -242,14 +242,14 @@ export default function KKNSection({ type }: KKNSectionProps) {
                 <LPKPhase reg={registration} onUpdate={updateRegistration} actionLoading={actionLoading} />
               )}
               {registration.status === 'LPK_PENDING' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
+                <div className="card p-20 text-center space-y-8 !bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Final Report Audit (LPK)</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Laporan akhir sedang diverifikasi Admin PPPM.</p>
                  </div>
               )}
               {registration.status === 'GRADING' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-900 border-none shadow-2xl text-white">
+                <div className="card p-20 text-center space-y-8 !bg-slate-900 border-none shadow-2xl text-white">
                     <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                     <h3 className="text-3xl font-black italic uppercase tracking-tighter">Yudisium Pending</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold uppercase tracking-widest text-[10px]">Admin sedang menginput nilai akhir Anda.</p>
@@ -832,7 +832,7 @@ function LogbookPhase({ registration, onUpdate, actionLoading }: { registration:
        </div>
 
        <div className="space-y-8 lg:sticky lg:top-8 self-start">
-          <div className="card bg-slate-900 border-none p-12 text-white relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] rounded-[50px]">
+          <div className="card !bg-slate-900 border-none p-12 text-white relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] rounded-[50px]">
              <div className="absolute -top-10 -right-10 opacity-5 rotate-45"><Clock size={240} className="text-primary font-black" /></div>
              <div className="relative z-10 space-y-10">
                 <div className="text-center">
@@ -943,7 +943,7 @@ function LPKPhase({ reg, onUpdate, actionLoading }: { reg: KKNRegistration, onUp
 
 function GradesPhase({ registration }: { registration: KKNRegistration }) {
    if (!registration.grades) return (
-     <div className="card p-20 text-center bg-slate-900 border-none shadow-2xl text-white">
+     <div className="card p-20 text-center !bg-slate-900 border-none shadow-2xl text-white">
         <Loader2 className="animate-spin text-primary mx-auto mb-8" size={60} />
         <h3 className="text-4xl font-black italic tracking-tighter uppercase">Audit Finalization</h3>
         <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Admiral board is currently finalizing your yudisium record.</p>
@@ -959,7 +959,7 @@ function GradesPhase({ registration }: { registration: KKNRegistration }) {
 
    return (
       <div className="max-w-5xl mx-auto space-y-12 animate-in fade-in zoom-in duration-1000">
-         <div className="card p-16 text-center bg-slate-900 border-none text-white relative overflow-hidden rounded-[80px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
+         <div className="card p-16 text-center !bg-slate-900 border-none text-white relative overflow-hidden rounded-[80px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
             <div className="absolute inset-0 bg-primary/5" />
             <div className="absolute -right-20 -bottom-20 opacity-5 rotate-12"><GraduationCap size={400} /></div>
             

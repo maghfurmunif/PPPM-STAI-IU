@@ -73,11 +73,14 @@ export const publicService = {
   },
 
   getGlobalStats: async () => {
-    const [penelitian, sempro, skripsi, kkn, profiles] = await Promise.all([
+    const [penelitian, penelitianSelesai, sempro, skripsi, kkn, pengabdian, pengabdianSelesai, profiles] = await Promise.all([
       supabase.from('penelitian_registrations').select('id', { count: 'exact', head: true }),
+      supabase.from('penelitian_registrations').select('id', { count: 'exact', head: true }).neq('status', 'COMPLETED'),
       supabase.from('sempro_registrations').select('id', { count: 'exact', head: true }),
       supabase.from('skripsi_registrations').select('id', { count: 'exact', head: true }),
       supabase.from('kkn_registrations').select('id', { count: 'exact', head: true }),
+      supabase.from('pengabdian_registrations').select('id', { count: 'exact', head: true }),
+      supabase.from('pengabdian_registrations').select('id', { count: 'exact', head: true }).eq('status', 'COMPLETED'),
       supabase.from('profiles').select('id, role')
     ]);
 
@@ -85,16 +88,55 @@ export const publicService = {
     const dosenCount = profiles.data?.filter(p => p.role === 'DOSEN').length || 0;
     const mahasiswaCount = profiles.data?.filter(p => p.role === 'MAHASISWA').length || 0;
 
+    const penelitianTotal = penelitian.count || 0;
+    const penelitianAktif = penelitianSelesai.count || 0;
+    const penelitianSelesaiCount = penelitianTotal - penelitianAktif;
+    const pengabdianTotal = pengabdian.count || 0;
+    const pengabdianSelesaiCount = pengabdianSelesai.count || 0;
+    const pengabdianAktif = pengabdianTotal - pengabdianSelesaiCount;
+
     return {
-      penelitian: penelitian.count || 0,
+      penelitian: penelitianTotal,
+      penelitianAktif,
+      penelitianSelesai: penelitianSelesaiCount,
+      pengabdian: pengabdianTotal,
+      pengabdianAktif,
+      pengabdianSelesai: pengabdianSelesaiCount,
       sempro: sempro.count || 0,
       skripsi: skripsi.count || 0,
       kkn: kkn.count || 0,
-      totalActivity: (penelitian.count || 0) + (sempro.count || 0) + (skripsi.count || 0) + (kkn.count || 0),
+      totalActivity: penelitianTotal + (sempro.count || 0) + (skripsi.count || 0) + (kkn.count || 0) + pengabdianTotal,
       activeUsers,
       dosenCount,
       mahasiswaCount
     };
+  },
+
+  /** Fetch monthly counts for a given table. Returns [{ bulan: 'Jan', selesai: N, aktif: N }] */
+  getMonthlyStats: async (tableName: string): Promise<{ bulan: string; selesai: number; aktif: number }[]> => {
+    const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const currentYear = new Date().getFullYear();
+    const [{ data: allRows }, { data: completedRows }] = await Promise.all([
+      supabase.from(tableName).select('id, status, created_at'),
+      supabase.from(tableName).select('id, created_at').eq('status', 'COMPLETED'),
+    ]);
+
+    const counts: { bulan: string; selesai: number; aktif: number }[] = MONTHS.map(m => ({ bulan: m, selesai: 0, aktif: 0 }));
+
+    (allRows || []).forEach((row: any) => {
+      const d = new Date(row.created_at);
+      if (d.getFullYear() === currentYear) {
+        counts[d.getMonth()].aktif++;
+      }
+    });
+    (completedRows || []).forEach((row: any) => {
+      const d = new Date(row.created_at);
+      if (d.getFullYear() === currentYear) {
+        counts[d.getMonth()].selesai++;
+      }
+    });
+
+    return counts;
   },
 
   getRecentActivities: async (): Promise<any[]> => {

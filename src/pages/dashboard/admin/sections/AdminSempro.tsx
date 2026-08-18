@@ -114,7 +114,7 @@ export default function AdminSempro() {
                         <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">Detailed View</p>
                         <h2 className="text-3xl font-black italic tracking-tighter">{selectedReg.studentName}</h2>
                         <div className="flex items-center space-x-3 mt-4">
-                           <StatusBadge status={selectedReg.status} className="bg-white/10 border-white/20 text-white" />
+                           <StatusBadge status={selectedReg.status} />
                            {selectedReg.grade && <span className="text-xs font-black italic text-primary">Nilai: {selectedReg.grade}</span>}
                         </div>
                      </div>

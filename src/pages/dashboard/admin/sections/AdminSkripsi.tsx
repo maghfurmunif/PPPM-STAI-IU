@@ -121,9 +121,9 @@ export default function AdminSkripsi() {
                 <div className="card p-10 bg-slate-50 text-slate-900 flex justify-between items-center relative overflow-hidden">
                    <div className="relative z-10">
                       <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">Administrative Review</p>
-                      <h2 className="text-3xl font-black italic tracking-tighter uppercase text-white">{selectedReg.studentName}</h2>
+                      <h2 className="text-3xl font-black italic tracking-tighter uppercase text-slate-900">{selectedReg.studentName}</h2>
                       <div className="flex items-center space-x-3 mt-4">
-                         <StatusBadge status={selectedReg.status} className="bg-white/10 border-white/20 text-white" />
+                         <StatusBadge status={selectedReg.status} />
                          {selectedReg.advisor && <span className="text-xs font-black italic text-primary">Dosen Pembimbing: {selectedReg.advisor.name}</span>}
                       </div>
                    </div>

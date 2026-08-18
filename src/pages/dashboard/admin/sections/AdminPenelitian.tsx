@@ -109,7 +109,7 @@ export default function AdminPenelitian() {
                        <h2 className="text-3xl font-black italic tracking-tighter uppercase">{selectedReg.dosenName}</h2>
                        <p className="text-[10px] font-bold text-slate-900 mt-2 uppercase tracking-widest">ID: {selectedReg.dosenId}</p>
                     </div>
-                    <StatusBadge status={selectedReg.status} className="bg-white/10 border-white/20 text-white" />
+                    <StatusBadge status={selectedReg.status} />
                  </div>
               </div>
 

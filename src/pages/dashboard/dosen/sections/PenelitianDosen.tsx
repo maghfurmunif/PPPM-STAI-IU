@@ -177,14 +177,14 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
+                <div className="card p-20 text-center space-y-8 bg-white border border-slate-100 shadow-md relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12"><ClipboardList size={140} /></div>
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3 relative z-10">
-                    <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Under Review</h3>
+                    <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter">Under Review</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Admin PPPM sedang mengaudit proposal penelitian Anda. Jadwal seminar proposal akan segera dipublikasikan di dashboard ini.</p>
                   </div>
-                  <button onClick={() => window.location.reload()} className="btn-primary bg-white/10 text-white border border-white/20 py-2 px-8 text-[10px] relative z-10 backdrop-blur-sm">Sync Status</button>
+                  <button onClick={() => window.location.reload()} className="btn-outline py-2 px-8 text-[10px] relative z-10">Sync Status</button>
                 </div>
               )}
 
@@ -193,10 +193,10 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'SEMPRO_SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl">
+                <div className="card p-20 text-center space-y-8 bg-white border border-slate-100 shadow-md">
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3">
-                     <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Validasi Bukti Seminar</h3>
+                     <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter">Validasi Bukti Seminar</h3>
                      <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Laporan dokumentasi & berita acara seminar proposal sedang diverifikasi oleh PPPM. </p>
                   </div>
                 </div>
@@ -207,11 +207,11 @@ export default function PenelitianDosen() {
               )}
 
               {registration.status === 'RESULT_SUBMITTED' && (
-                <div className="card p-20 text-center space-y-8 bg-slate-50 text-slate-900 border-none shadow-2xl relative overflow-hidden">
+                <div className="card p-20 text-center space-y-8 bg-white border border-slate-100 shadow-md relative overflow-hidden">
                   <div className="absolute bottom-0 left-0 p-10 opacity-10 -rotate-12"><FlaskConical size={140} /></div>
                   <Loader2 className="animate-spin text-primary mx-auto" size={48} />
                   <div className="space-y-3 relative z-10">
-                    <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Audit Laporan Hasil</h3>
+                    <h3 className="text-3xl font-black text-slate-900 italic uppercase tracking-tighter">Audit Laporan Hasil</h3>
                     <p className="text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">Hasil penelitian Anda akan segera dinilai untuk penjadwalan Seminar Hasil (Munaqosyah Dosen).</p>
                   </div>
                 </div>
@@ -231,18 +231,18 @@ export default function PenelitianDosen() {
 
               {registration.status === 'COMPLETED' && (
                  <div className="max-w-4xl mx-auto space-y-10">
-                    <div className="card p-12 bg-slate-50 text-slate-900 text-center relative overflow-hidden shadow-2xl border-none rounded-[40px]">
+                    <div className="card p-12 bg-white text-slate-900 text-center relative overflow-hidden shadow-md border border-slate-100 rounded-[40px]">
                        <div className="absolute -right-10 -bottom-10 opacity-10 rotate-12 text-primary"><FlaskConical size={240} /></div>
                        <CheckCircle2 size={80} className="mx-auto mb-8 text-primary" />
                        <h2 className="text-5xl font-black italic mb-4 uppercase tracking-tighter">RISER ACHIEVED</h2>
                        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] italic">Research Completed successfully</p>
                        
                        <div className="mt-12 grid grid-cols-2 gap-6 text-left relative z-10">
-                          <div className="p-6 bg-white/5 rounded-3xl backdrop-blur-md border border-white/10">
+                          <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
                              <p className="text-[9px] font-black uppercase text-primary mb-2 tracking-widest">Publication Mode</p>
                              <p className="font-bold text-lg italic uppercase">{registration.publication?.method || 'PUBLIKASI MANDIRI'}</p>
                           </div>
-                          <div className="p-6 bg-white/5 rounded-3xl backdrop-blur-md border border-white/10">
+                          <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
                              <p className="text-[9px] font-black uppercase text-primary mb-2 tracking-widest">Archive ID</p>
                              <p className="font-bold text-lg italic">#{registration.id.slice(0, 8).toUpperCase()}</p>
                           </div>
@@ -516,29 +516,29 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
 
           <AnimatePresence>
           {isAdding && (
-             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="card p-10 bg-slate-900 border-none shadow-2xl space-y-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-10 opacity-10"><Plus size={80} className="text-white" /></div>
+             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="card p-10 bg-white border border-slate-100 shadow-md space-y-8 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-10 opacity-10"><Plus size={80} className="text-slate-300" /></div>
                 <div className="grid grid-cols-2 gap-8 relative z-10">
                    <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Executing Date</label>
-                      <input type="date" className="input-field bg-white/5 border-white/10 text-white h-14" value={newLog.date} onChange={e => setNewLog({...newLog, date: e.target.value})} />
+                      <input type="date" className="input-field h-14" value={newLog.date} onChange={e => setNewLog({...newLog, date: e.target.value})} />
                    </div>
                    <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Time Range</label>
-                      <input type="time" className="input-field bg-white/5 border-white/10 text-white h-14" value={newLog.time} onChange={e => setNewLog({...newLog, time: e.target.value})} />
+                      <input type="time" className="input-field h-14" value={newLog.time} onChange={e => setNewLog({...newLog, time: e.target.value})} />
                    </div>
                 </div>
                 <div className="space-y-2 relative z-10">
                    <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Active Activity Title</label>
-                   <input placeholder="Contoh: Analisis Data Statistik & Input Coding" className="input-field bg-white/5 border-white/10 text-white h-14" value={newLog.activity} onChange={e => setNewLog({...newLog, activity: e.target.value})} />
+                   <input placeholder="Contoh: Analisis Data Statistik & Input Coding" className="input-field h-14" value={newLog.activity} onChange={e => setNewLog({...newLog, activity: e.target.value})} />
                 </div>
                 <div className="space-y-2 relative z-10">
                    <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Narrative Note / Findings</label>
-                   <textarea placeholder="Deskripsikan hasil temuan atau progress hari ini..." className="input-field bg-white/5 border-white/10 text-white h-40 pt-4" value={newLog.note} onChange={e => setNewLog({...newLog, note: e.target.value})} />
+                   <textarea placeholder="Deskripsikan hasil temuan atau progress hari ini..." className="input-field h-40 pt-4" value={newLog.note} onChange={e => setNewLog({...newLog, note: e.target.value})} />
                 </div>
                 
                 <div className="flex items-center justify-between gap-6 relative z-10">
-                   <label className="flex-grow flex items-center justify-center h-16 bg-white/5 rounded-2xl border-2 border-dashed border-white/10 cursor-pointer hover:bg-white/10 hover:border-primary/50 transition-all group">
+                   <label className="flex-grow flex items-center justify-center h-16 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 cursor-pointer hover:bg-slate-100 hover:border-primary/50 transition-all group">
                       {uploading ? <Loader2 className="animate-spin text-primary" /> : 
                        newLog.photo ? <div className="flex items-center space-x-3 text-primary font-black uppercase text-[10px]"> <CheckCircle size={16} /> <span>Evidence Sealed</span> </div> :
                        <div className="flex items-center space-x-3 text-slate-500 group-hover:text-primary font-black uppercase text-[10px] transition-colors"> <Camera size={16} /> <span>Attach Documentation</span> </div>}
@@ -546,7 +546,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
                    </label>
                    <div className="flex space-x-4">
                       <button onClick={saveLog} disabled={actionLoading || uploading} className="btn-primary px-12 h-16 rounded-2xl shadow-xl uppercase font-black text-[11px] tracking-widest">{actionLoading ? <Loader2 className="animate-spin" /> : 'COMMIT ENTRY'}</button>
-                      <button onClick={() => setIsAdding(false)} className="px-8 h-16 rounded-2xl bg-white/5 text-white font-black text-[10px] uppercase border border-white/10 hover:bg-white/10 transition-all">Cancel</button>
+                      <button onClick={() => setIsAdding(false)} className="px-8 h-16 rounded-2xl bg-slate-100 text-slate-600 font-black text-[10px] uppercase border border-slate-200 hover:bg-slate-200 transition-all">Cancel</button>
                    </div>
                 </div>
              </motion.div>

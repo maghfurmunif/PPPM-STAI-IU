@@ -192,7 +192,7 @@ export default function PengabdianDosenSection() {
                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Program Profile</p>
                  <h2 className="text-4xl font-black italic uppercase tracking-tighter mt-1">{registration.dosenName}</h2>
                  <div className="flex items-center space-x-4 mt-4">
-                    <StatusBadge status={registration.status} className="bg-white/10 border-white/20 text-white" />
+                    <StatusBadge status={registration.status} />
                     <span className="text-[10px] font-black text-slate-500">ID: {registration.id.slice(0, 8)}</span>
                  </div>
               </div>
@@ -221,7 +221,7 @@ export default function PengabdianDosenSection() {
 
            {registration.status === 'COMPLETED' && (
                <div className="space-y-10">
-                  <div className="card p-16 text-center bg-slate-900 border-none text-white relative overflow-hidden rounded-[80px]">
+                  <div className="card p-16 text-center !bg-slate-900 border-none text-white relative overflow-hidden rounded-[80px]">
                      <div className="absolute inset-0 bg-primary/5" />
                      <div className="absolute -right-20 -bottom-20 opacity-5 rotate-12"><HeartHandshake size={300} /></div>
                      
@@ -334,26 +334,26 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
                   <form onSubmit={handleAddLog} className="grid grid-cols-2 gap-8 relative z-10">
                      <div className="col-span-2 space-y-2">
                         <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Deskripsi Kegiatan</label>
-                        <input name="nama" required className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="Contoh: Sosialisasi Pencegahan Stunting Desa X" />
+                        <input name="nama" required className="input-field h-14" placeholder="Contoh: Sosialisasi Pencegahan Stunting Desa X" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Tanggal Pelaksanaan</label>
-                        <input name="date" type="date" required className="input-field bg-white/5 border-white/10 text-white h-14" />
+                        <input name="date" type="date" required className="input-field h-14" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Durasi Kerja (Jam)</label>
-                        <input name="hours" type="number" required className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="0" />
+                        <input name="hours" type="number" required className="input-field h-14" placeholder="0" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Person In Charge (Pihak Desa)</label>
-                        <input name="pihakDesa" required className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="Nama Perangkat Desa / Tokoh Masyarakat" />
+                        <input name="pihakDesa" required className="input-field h-14" placeholder="Nama Perangkat Desa / Tokoh Masyarakat" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase text-primary tracking-[0.2em] pl-1">Photo Evidence</label>
-                        <label className="flex items-center justify-center h-14 bg-white/5 border border-dashed border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-all">
+                        <label className="flex items-center justify-center h-14 bg-white border border-dashed border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-all">
                            <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handlePhoto(e.target.files[0])} />
                            {uploading ? <Loader2 className="animate-spin text-primary" /> : 
-                            photo ? <CheckCircle2 className="text-primary" /> : <Camera size={20} className="text-slate-500" />}
+                            photo ? <CheckCircle2 className="text-primary" /> : <Camera size={20} className="text-slate-400" />}
                         </label>
                      </div>
                      <button type="submit" disabled={actionLoading || uploading} className="col-span-2 h-16 btn-primary rounded-2xl shadow-xl uppercase font-black tracking-widest text-[11px] mt-2">
@@ -401,16 +401,16 @@ function PengabdianLogbookSection({ registration }: { registration: PengabdianRe
          </div>
 
          <div className="space-y-8">
-            <div className="card p-10 bg-slate-50 text-slate-900 text-center space-y-8 relative overflow-hidden shadow-2xl">
+            <div className="card p-10 bg-white text-slate-900 text-center space-y-8 relative overflow-hidden shadow-sm border border-slate-100">
                <div className="absolute -top-10 -right-10 opacity-10"><Clock size={160} /></div>
                <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] relative z-10">Logged Performance</p>
                <div className="text-7xl font-black italic relative z-10 leading-none">{registration.totalHours || 0} <span className="text-2xl text-slate-600">H</span></div>
                <p className="text-xs text-slate-500 font-medium relative z-10 leading-relaxed max-w-[220px] mx-auto italic">Target 30 jam bimbingan pengabdian terverifikasi.</p>
-               <div className="h-3 bg-white/10 rounded-full overflow-hidden relative z-10 border border-white/5">
+               <div className="h-3 bg-slate-100 rounded-full overflow-hidden relative z-10">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min(100, (registration.totalHours / 30) * 100)}%` }}
-                    className="h-full bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]" 
+                    className="h-full bg-primary" 
                   />
                </div>
             </div>

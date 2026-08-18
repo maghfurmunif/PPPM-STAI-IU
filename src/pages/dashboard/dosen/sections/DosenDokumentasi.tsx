@@ -124,31 +124,31 @@ export default function DosenDokumentasiSection() {
               <div className="space-y-6">
                  <div className="space-y-1">
                     <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Judul Lengkap Karya Ilmiah</label>
-                    <input name="judul" required className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="Ex: Analisis Dampak Ekonomi Syariah di Pedesaan..." />
+                    <input name="judul" required className="input-field h-14" placeholder="Ex: Analisis Dampak Ekonomi Syariah di Pedesaan..." />
                  </div>
                  <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-1">
                        <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Jenis Karya</label>
-                       <select name="jenis" className="input-field bg-white/5 border-white/10 text-white h-14 appearance-none">
-                          <option className="bg-white text-slate-900">Penelitian</option>
-                          <option className="bg-white text-slate-900">Pengabdian</option>
-                          <option className="bg-white text-slate-900">Buku</option>
-                          <option className="bg-white text-slate-900">Jurnal</option>
-                          <option className="bg-white text-slate-900">Lainnya</option>
+                       <select name="jenis" className="input-field h-14 appearance-none">
+                          <option>Penelitian</option>
+                          <option>Pengabdian</option>
+                          <option>Buku</option>
+                          <option>Jurnal</option>
+                          <option>Lainnya</option>
                        </select>
                     </div>
                     <div className="space-y-1">
                        <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Tanggal Publikasi</label>
-                       <input name="tanggal" type="date" className="input-field bg-white/5 border-white/10 text-white h-14" required />
+                       <input name="tanggal" type="date" className="input-field h-14" required />
                     </div>
                  </div>
                  <div className="space-y-1">
                     <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Cluster / Platform</label>
-                    <select name="platform" className="input-field bg-white/5 border-white/10 text-white h-14">
-                       <option value="REPOSITORY" className="bg-white text-slate-900">Repository Institusi</option>
-                       <option value="SISTER" className="bg-white text-slate-900">SISTER</option>
-                       <option value="SINTA" className="bg-white text-slate-900">SINTA</option>
-                       <option value="LAIN" className="bg-white text-slate-900">Lainnya</option>
+                    <select name="platform" className="input-field h-14">
+                       <option value="REPOSITORY">Repository Institusi</option>
+                       <option value="SISTER">SISTER</option>
+                       <option value="SINTA">SINTA</option>
+                       <option value="LAIN">Lainnya</option>
                     </select>
                  </div>
               </div>
@@ -157,23 +157,23 @@ export default function DosenDokumentasiSection() {
                  <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-1">
                        <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">ISBN / ISSN</label>
-                       <input name="isbn" className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="0000-0000" />
+                       <input name="isbn" className="input-field h-14" placeholder="0000-0000" />
                     </div>
                     <div className="space-y-1">
                        <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Penerbit</label>
-                       <input name="penerbit" className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="Publisher Name..." />
+                       <input name="penerbit" className="input-field h-14" placeholder="Publisher Name..." />
                     </div>
                  </div>
                  <div className="space-y-1">
                     <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Co-Authors</label>
-                    <input name="penulis" className="input-field bg-white/5 border-white/10 text-white h-14" placeholder="Ahmad, Budi, Siti..." />
+                    <input name="penulis" className="input-field h-14" placeholder="Ahmad, Budi, Siti..." />
                  </div>
                  
                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Unggah Manusript (PDF/JPG)</label>
                     <label className={cn(
                        "flex items-center justify-center h-14 rounded-2xl border-2 border-dashed transition-all cursor-pointer group",
-                       fileUrl ? "border-primary/50 bg-white/10" : "border-white/10 hover:border-primary/40 hover:bg-white/5"
+                       fileUrl ? "border-primary/50 bg-primary/10" : "border-slate-200 hover:border-primary/40 hover:bg-slate-50"
                     )}>
                        <input 
                          type="file" 

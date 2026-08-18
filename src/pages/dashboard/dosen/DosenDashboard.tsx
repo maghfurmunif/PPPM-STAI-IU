@@ -92,11 +92,16 @@ export default function DosenDashboard() {
         )}
       </AnimatePresence>
       {/* Sidebar */}
-      <aside className="w-72 hidden lg:flex flex-col sticky top-0 h-screen p-6 z-20">
-        <div className="glass-morphism h-full rounded-[32px] p-4 flex flex-col shadow-xl border-white/40">
-          <div className="mb-6 px-4">
-             <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Dosen Portal</div>
-             <div className="h-1 w-8 bg-primary mt-1 rounded-full"></div>
+      <aside className="w-64 hidden lg:flex flex-col sticky top-0 h-screen p-4 z-20">
+        <div className="bg-white h-full rounded-3xl p-4 flex flex-col shadow-sm border border-slate-100">
+          <div className="mb-6 px-4 flex items-center space-x-3">
+             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+               <span className="text-white font-bold text-lg">D</span>
+             </div>
+             <div>
+               <div className="text-sm font-bold text-slate-900">PPPM</div>
+               <div className="text-[10px] text-slate-500">Dosen Portal</div>
+             </div>
           </div>
           <div className="space-y-1 overflow-y-auto side-scrollbar pr-2">
             {menus.map((menu) => (
@@ -106,11 +111,9 @@ export default function DosenDashboard() {
                   href={menu.path}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest text-slate-500 hover:text-primary hover:bg-white/50"
+                  className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium text-sm text-slate-600 hover:bg-slate-50"
                 >
-                   <div className="p-2 rounded-xl bg-slate-100 text-slate-500">
-                    <menu.icon size={16} />
-                   </div>
+                   <menu.icon size={18} />
                    <span>{menu.name}</span>
                 </a>
               ) : (
@@ -118,52 +121,38 @@ export default function DosenDashboard() {
                   key={menu.id} 
                   to={menu.path}
                   className={cn(
-                    "flex items-center space-x-3 px-5 py-3.5 rounded-2xl transition-all font-bold text-[11px] uppercase tracking-widest",
+                    "flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
                     (location.pathname === menu.path)
-                      ? "bg-slate-900 text-white shadow-lg shadow-black/20 scale-[1.02]" 
-                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                      ? "bg-primary text-white shadow-md" 
+                      : "text-slate-600 hover:bg-slate-50"
                   )}
                 >
-                  <div className={cn(
-                    "p-2 rounded-xl transition-colors",
-                    (location.pathname === menu.path)
-                      ? "bg-white/10 text-white"
-                      : "bg-slate-100 text-slate-500"
-                  )}>
-                    <menu.icon size={16} />
-                  </div>
+                  <menu.icon size={18} />
                   <span>{menu.name}</span>
                 </Link>
               )
             ))}
           </div>
           
-          <div className="mt-auto pt-6 space-y-3">
-            <div className="p-4 bg-slate-900 rounded-[24px] flex items-center space-x-3 shadow-xl">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold italic shadow-md shrink-0">D</div>
-              <div className="overflow-hidden">
-                <div className="text-[10px] font-black text-white truncate">{localStorage.getItem('user_name') || 'Dosen Academic'}</div>
-                <div className="text-[9px] font-bold text-primary uppercase tracking-tighter">Academic Faculty</div>
-              </div>
-            </div>
+          <div className="mt-auto pt-4">
             <button 
               onClick={() => {
                 localStorage.removeItem('user_role');
                 localStorage.removeItem('user_name');
                 window.location.href = '/';
               }}
-              className="w-full flex items-center justify-center space-x-2 py-3.5 bg-red-50 text-red-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all border border-red-100"
+              className="w-full flex items-center justify-center space-x-2 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium text-sm hover:bg-red-50 hover:text-red-600 transition-all"
             >
-              <LogOut size={14} />
-              <span>LOGOUT</span>
+              <LogOut size={16} />
+              <span>Keluar</span>
             </button>
           </div>
         </div>
       </aside>
 
       {/* Content Area */}
-      <main className="flex-grow p-4 lg:p-10 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+      <main className="flex-grow p-4 lg:p-8 overflow-y-auto bg-slate-50">
+        <div className="max-w-7xl mx-auto">
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
               <div className="w-16 h-16 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
@@ -188,17 +177,13 @@ export default function DosenDashboard() {
 function DosenOverview() {
   const navigate = useNavigate();
   return (
-     <div className="space-y-10">
-        <div className="space-y-2">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span>Active Session 2024/2025</span>
-          </div>
-          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Halo, <span className="text-primary italic">{localStorage.getItem('user_name') || 'Dosen'}</span> 👋</h1>
-          <p className="text-slate-500 font-medium">Lacak penelitian, pengabdian, dan publikasi ilmiah Anda dalam satu dashboard.</p>
+     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+          <p className="text-slate-500 text-sm">Halo, {localStorage.getItem('user_name') || 'Dosen'} 👋</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
            {[
              { title: 'Penelitian Dosen', desc: 'Kelola proposal dan hasil riset.', icon: FlaskConical, path: 'penelitian' },
              { title: 'Pengabdian Masyarakat', desc: 'Monitoring aktivitas pengabdian.', icon: HeartHandshake, path: 'pengabdian' },
@@ -207,25 +192,18 @@ function DosenOverview() {
              <div 
                key={i} 
                onClick={() => navigate(card.path)}
-               className="card p-8 group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden h-full flex flex-col justify-between"
+               className={cn("card p-6 group hover:shadow-md transition-all cursor-pointer", i === 0 && "!bg-primary text-white border-primary")}
              >
-                <div className="relative z-10 space-y-4">
-                   <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-primary transition-all">
-                      <card.icon size={24} />
-                   </div>
-                   <div className="space-y-1">
-                      <h3 className="text-xl font-bold italic tracking-tighter uppercase underline decoration-primary/30 underline-offset-4">{card.title}</h3>
-                      <p className="text-sm font-medium text-slate-500">{card.desc}</p>
-                   </div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", i === 0 ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500")}>
+                    <card.icon size={18} />
+                  </div>
                 </div>
-                <div className="pt-8 relative z-10 flex items-center text-[10px] font-black uppercase tracking-widest text-primary group-hover:translate-x-2 transition-transform">
-                   <span>Kelola Sekarang</span>
-                   <ChevronRight size={14} className="ml-1" />
-                </div>
-                <card.icon size={160} className="absolute -right-12 -bottom-12 text-slate-50 opacity-20 -rotate-12 group-hover:rotate-0 transition-transform" />
+                <p className={cn("text-xs font-medium mb-1", i === 0 ? "text-white/80" : "text-slate-500")}>{card.desc}</p>
+                <p className={cn("text-lg font-bold", i === 0 ? "text-white" : "text-slate-900")}>{card.title}</p>
              </div>
            ))}
         </div>
-     </div>
+     </motion.div>
   );
 }
