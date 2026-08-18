@@ -639,6 +639,27 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
                 </div>
              )}
           </div>
+
+          {/* SK Penerima Bantuan Info */}
+          {registration.skPenerimaBantuanFile && (
+            <div className="card p-6 bg-primary/5 border border-primary/10 space-y-4">
+               <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <FileText size={20} className="text-primary" />
+                     </div>
+                     <div>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-widest">SK Penerima Bantuan</p>
+                        <p className="text-xs text-slate-500 font-bold">Dokumen penunjukan penerima bantuan penelitian</p>
+                     </div>
+                  </div>
+                  <a href={registration.skPenerimaBantuanFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
+                     <Download size={14} />
+                     <span>Lihat SK</span>
+                  </a>
+               </div>
+            </div>
+          )}
           
           <div className="card p-8 bg-white border-slate-100 shadow-sm space-y-5">
              <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] italic border-b border-slate-50 pb-3">Strategic Protocol</h4>
