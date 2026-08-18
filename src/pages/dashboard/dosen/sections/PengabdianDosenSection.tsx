@@ -140,7 +140,6 @@ export default function PengabdianDosenSection() {
                        "flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-[32px] cursor-pointer transition-all group",
                        docs.suratTugas ? "border-primary/50 bg-primary/10" : "border-white/10 hover:border-white/20 hover:bg-white/5"
                     )}>
-                                  <div className="card p-10 bg-slate-50 text-slate-900 space-y-8 shadow-2xl relative overflow-hidden">
                        {uploading ? <Loader2 className="animate-spin text-primary" /> : 
                         docs.suratTugas ? <div className="flex flex-col items-center space-y-2 text-primary">
                           <CheckCircle2 size={32} />
@@ -177,7 +176,7 @@ export default function PengabdianDosenSection() {
                       <p className="text-sm font-bold text-slate-600 leading-tight pt-2.5">{t}</p>
                    </li>
                  ))}
-                                  <div className="card p-10 bg-slate-50 text-slate-900 flex justify-between items-center relative overflow-hidden shadow-2xl">
+              </ul>
            </div>
         </motion.div>
       ) : (
