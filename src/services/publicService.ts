@@ -78,40 +78,42 @@ export const publicService = {
   },
 
   getGlobalStats: async () => {
-    const [penelitian, sempro, skripsi, kkn, pengabdian, pengabdianSelesai, profiles] = await Promise.all([
-      supabase.from('penelitian_registrations').select('id, status'),
-      supabase.from('sempro_registrations').select('id', { count: 'exact', head: true }),
-      supabase.from('skripsi_registrations').select('id', { count: 'exact', head: true }),
-      supabase.from('kkn_registrations').select('id', { count: 'exact', head: true }),
-      supabase.from('pengabdian_registrations').select('id, status'),
-      supabase.from('pengabdian_registrations').select('id', { count: 'exact', head: true }).eq('status', 'COMPLETED'),
-      supabase.from('profiles').select('id, role')
+    // Wrap each query so one RLS failure doesn't break the entire stats
+    const safe = async (fn: () => PromiseLike<any>) => {
+      try { return await fn(); } catch { return { data: null, count: null, error: true }; }
+    };
+
+    const [penelitianRes, semproRes, skripsiRes, kknRes, pengabdianRes, pengabdianSelesaiRes, profilesRes, dokumentasiRes] = await Promise.all([
+      safe(async () => await supabase.from('penelitian_registrations').select('id, status')),
+      safe(async () => await supabase.from('sempro_registrations').select('id', { count: 'exact', head: true })),
+      safe(async () => await supabase.from('skripsi_registrations').select('id', { count: 'exact', head: true })),
+      safe(async () => await supabase.from('kkn_registrations').select('id', { count: 'exact', head: true })),
+      safe(async () => await supabase.from('pengabdian_registrations').select('id, status')),
+      safe(async () => await supabase.from('pengabdian_registrations').select('id', { count: 'exact', head: true }).eq('status', 'COMPLETED')),
+      safe(async () => await supabase.from('profiles').select('id, role')),
+      safe(async () => await supabase.from('dosen_dokumentasi').select('*')),
     ]);
 
-    // Fetch dokumentasi separately
-    const { data: dokumentasi, error: docError } = await supabase.from('dosen_dokumentasi').select('*');
-    if (docError) console.error('Dokumentasi fetch error:', docError);
+    const activeUsers = profilesRes.data?.length || 0;
+    const dosenCount = profilesRes.data?.filter((p: any) => p.role === 'DOSEN').length || 0;
+    const mahasiswaCount = profilesRes.data?.filter((p: any) => p.role === 'MAHASISWA').length || 0;
 
-    const activeUsers = profiles.data?.length || 0;
-    const dosenCount = profiles.data?.filter(p => p.role === 'DOSEN').length || 0;
-    const mahasiswaCount = profiles.data?.filter(p => p.role === 'MAHASISWA').length || 0;
-
-    const penelitianTotal = (penelitian.data || []).length;
-    const penelitianSelesaiCount = (penelitian.data || []).filter((r: any) => r.status === 'COMPLETED').length;
+    const penelitianTotal = (penelitianRes.data || []).length;
+    const penelitianSelesaiCount = (penelitianRes.data || []).filter((r: any) => r.status === 'COMPLETED').length;
     const penelitianAktif = penelitianTotal - penelitianSelesaiCount;
-    const pengabdianTotal = (pengabdian.data || []).length;
-    const pengabdianSelesaiCount = pengabdianSelesai.count || 0;
+    const pengabdianTotal = (pengabdianRes.data || []).length;
+    const pengabdianSelesaiCount = pengabdianSelesaiRes.count || 0;
     const pengabdianAktif = pengabdianTotal - pengabdianSelesaiCount;
 
     // Hitung dokumentasi — support both camelCase & snake_case column names
-    const docs = dokumentasi || [];
+    const docs = dokumentasiRes.data || [];
     const getJK = (d: any) => d.jenisKarya || d.jenis_karya || d.JENISKARYA || '';
-    const jurnalCount = docs.filter(d => getJK(d) === 'Jurnal').length;
-    const bukuCount = docs.filter(d => getJK(d) === 'Buku').length;
-    const prosidingCount = docs.filter(d => getJK(d) === 'Prosiding').length;
-    const penelitianDocCount = docs.filter(d => getJK(d) === 'Penelitian').length;
-    const pengabdianDocCount = docs.filter(d => getJK(d) === 'Pengabdian').length;
-    const lainnyaCount = docs.filter(d => {
+    const jurnalCount = docs.filter((d: any) => getJK(d) === 'Jurnal').length;
+    const bukuCount = docs.filter((d: any) => getJK(d) === 'Buku').length;
+    const prosidingCount = docs.filter((d: any) => getJK(d) === 'Prosiding').length;
+    const penelitianDocCount = docs.filter((d: any) => getJK(d) === 'Penelitian').length;
+    const pengabdianDocCount = docs.filter((d: any) => getJK(d) === 'Pengabdian').length;
+    const lainnyaCount = docs.filter((d: any) => {
       const jk = getJK(d);
       return jk === 'Lainnya' || (!['Jurnal','Buku','Prosiding','Penelitian','Pengabdian'].includes(jk));
     }).length;
@@ -123,10 +125,10 @@ export const publicService = {
       pengabdian: pengabdianTotal,
       pengabdianAktif,
       pengabdianSelesai: pengabdianSelesaiCount,
-      sempro: sempro.count || 0,
-      skripsi: skripsi.count || 0,
-      kkn: kkn.count || 0,
-      totalActivity: penelitianTotal + (sempro.count || 0) + (skripsi.count || 0) + (kkn.count || 0) + pengabdianTotal,
+      sempro: semproRes.count || 0,
+      skripsi: skripsiRes.count || 0,
+      kkn: kknRes.count || 0,
+      totalActivity: penelitianTotal + (semproRes.count || 0) + (skripsiRes.count || 0) + (kknRes.count || 0) + pengabdianTotal,
       activeUsers,
       dosenCount,
       mahasiswaCount,
@@ -170,8 +172,9 @@ export const publicService = {
 
   /** Statistik publikasi per tahun */
   getPublicationByYear: async (): Promise<{ tahun: string; jurnal: number; buku: number; prosiding: number; penelitian: number }[]> => {
-    const { data: docs } = await supabase.from('dosen_dokumentasi').select('*');
-    if (!docs) return [];
+    let docs: any[] = [];
+    try { const r = await supabase.from('dosen_dokumentasi').select('*'); docs = r.data || []; } catch { return []; }
+    if (!docs.length) return [];
 
     const yearMap: Record<string, { jurnal: number; buku: number; prosiding: number; penelitian: number }> = {};
 
@@ -193,8 +196,9 @@ export const publicService = {
 
   /** Statistik penelitian dosen per tahun (yang sudah selesai) */
   getPenelitianByYear: async (): Promise<{ tahun: string; selesai: number; aktif: number }[]> => {
-    const { data: rows } = await supabase.from('penelitian_registrations').select('id, status, created_at');
-    if (!rows) return [];
+    let rows: any[] = [];
+    try { const r = await supabase.from('penelitian_registrations').select('id, status, created_at'); rows = r.data || []; } catch { return []; }
+    if (!rows.length) return [];
 
     const yearMap: Record<string, { selesai: number; aktif: number }> = {};
     rows.forEach((r: any) => {
@@ -211,11 +215,13 @@ export const publicService = {
 
   /** Statistik publikasi per dosen */
   getPublicationByDosen: async (): Promise<{ dosenId: string; dosenName: string; total: number }[]> => {
-    const { data: docs } = await supabase.from('dosen_dokumentasi').select('id, dosen_id');
-    if (!docs || docs.length === 0) return [];
+    let docs: any[] = [];
+    try { const r = await supabase.from('dosen_dokumentasi').select('id, dosen_id'); docs = r.data || []; } catch { return []; }
+    if (docs.length === 0) return [];
 
     const dosenIds = Array.from(new Set(docs.map(d => d.dosen_id)));
-    const { data: profiles } = await supabase.from('profiles').select('id, full_name').in('id', dosenIds);
+    let profiles: any[] = [];
+    try { const r = await supabase.from('profiles').select('id, full_name').in('id', dosenIds); profiles = r.data || []; } catch { profiles = []; }
     const profileMap = (profiles || []).reduce((acc: any, p) => { acc[p.id] = p.full_name; return acc; }, {});
 
     const countMap: Record<string, number> = {};
@@ -229,8 +235,9 @@ export const publicService = {
 
   /** Statistik jenis publikasi */
   getPublicationByType: async (): Promise<{ jenis: string; jumlah: number }[]> => {
-    const { data: docs } = await supabase.from('dosen_dokumentasi').select('*');
-    if (!docs) return [];
+    let docs: any[] = [];
+    try { const r = await supabase.from('dosen_dokumentasi').select('*'); docs = r.data || []; } catch { return []; }
+    if (!docs.length) return [];
 
     const typeMap: Record<string, number> = {};
     docs.forEach(d => {

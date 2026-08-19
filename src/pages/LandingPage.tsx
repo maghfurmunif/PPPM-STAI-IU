@@ -27,7 +27,7 @@ export default function LandingPage() {
 
     const fetchData = async () => {
       try {
-        const [statsData, annData, yearData, dosenData, typeData, penYearData] = await Promise.all([
+        const results = await Promise.allSettled([
           publicService.getGlobalStats(),
           publicService.getAnnouncements(),
           publicService.getPublicationByYear(),
@@ -35,12 +35,13 @@ export default function LandingPage() {
           publicService.getPublicationByType(),
           publicService.getPenelitianByYear()
         ]);
-        setStats(statsData);
-        setAnnouncements(annData);
-        setPubByYear(yearData);
-        setPubByDosen(dosenData);
-        setPubByType(typeData);
-        setPenelitianByYear(penYearData);
+        const getValue = (r: PromiseSettledResult<any>) => r.status === 'fulfilled' ? r.value : null;
+        setStats(getValue(results[0]));
+        setAnnouncements(getValue(results[1]) || []);
+        setPubByYear(getValue(results[2]) || []);
+        setPubByDosen(getValue(results[3]) || []);
+        setPubByType(getValue(results[4]) || []);
+        setPenelitianByYear(getValue(results[5]) || []);
       } catch (e) {
         console.error('Landing page fetch error:', e);
       } finally {
