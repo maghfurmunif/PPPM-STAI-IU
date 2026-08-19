@@ -468,7 +468,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
   const [uploading, setUploading] = useState(false);
   const [newLog, setNewLog] = useState<Partial<PenelitianLogbook>>({
     date: new Date().toISOString().split('T')[0],
-    time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+    time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
     activity: '',
     note: ''
   });
@@ -499,7 +499,7 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
     setIsAdding(false);
     setNewLog({
       date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
       activity: '',
       note: ''
     });
