@@ -44,8 +44,8 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">P</span>
+            <div className="w-9 h-9 rounded-full overflow-hidden shadow-md border border-slate-200">
+              <img src="/images/logo-stai.jpg" alt="Logo STAI IU" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="block font-semibold text-slate-900 leading-none">PPPM</span>
@@ -57,6 +57,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Dashboard</Link>
             <Link to="/pengumuman" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Pengumuman</Link>
+            <Link to="/profil-peneliti" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Profil Peneliti</Link>
             <Link to="/statistik" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Statistik</Link>
             <Link to="/panduan" className="text-slate-600 hover:text-primary font-medium text-sm transition-colors">Panduan</Link>
             
@@ -107,6 +108,7 @@ export default function Navbar() {
         >
           <Link to="/" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Dashboard</Link>
           <Link to="/pengumuman" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Pengumuman</Link>
+          <Link to="/profil-peneliti" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Profil Peneliti</Link>
           <Link to="/statistik" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Statistik</Link>
           <Link to="/panduan" className="block py-2 text-slate-600 font-medium text-sm" onClick={() => setIsOpen(false)}>Panduan</Link>
           <div className="pt-3 border-t border-slate-100 flex flex-col space-y-2">

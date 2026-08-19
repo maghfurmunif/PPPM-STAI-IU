@@ -1,17 +1,32 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Users, GraduationCap, BarChart3, Globe, Download, ArrowLeft, Loader2, BookOpen, FlaskConical } from 'lucide-react';
+import { Users, GraduationCap, BarChart3, Globe, ArrowLeft, Loader2, FlaskConical, FileText, Bookmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { publicService } from '@/src/services/publicService';
+import { cn } from '@/src/lib/utils';
 
 export default function StatistikPage() {
   const [stats, setStats] = useState<any>(null);
+  const [pubByYear, setPubByYear] = useState<any[]>([]);
+  const [pubByDosen, setPubByDosen] = useState<any[]>([]);
+  const [pubByType, setPubByType] = useState<any[]>([]);
+  const [penelitianByYear, setPenelitianByYear] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await publicService.getGlobalStats();
-      setStats(data);
+      const [statsData, yearData, dosenData, typeData, penYearData] = await Promise.all([
+        publicService.getGlobalStats(),
+        publicService.getPublicationByYear(),
+        publicService.getPublicationByDosen(),
+        publicService.getPublicationByType(),
+        publicService.getPenelitianByYear()
+      ]);
+      setStats(statsData);
+      setPubByYear(yearData);
+      setPubByDosen(dosenData);
+      setPubByType(typeData);
+      setPenelitianByYear(penYearData);
       setLoading(false);
     };
     fetch();
@@ -104,6 +119,151 @@ export default function StatistikPage() {
                      <Globe size={400} />
                   </div>
                </div>
+            </div>
+
+            {/* Statistik Dokumentasi */}
+            <div className="card p-12 bg-white shadow-xl border-none">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center">
+                  <FileText className="mr-3 text-primary" /> Statistik Dokumentasi
+                </h3>
+                <span className="text-xs text-slate-500 font-bold">{stats.dokumentasiTotal || 0} Total</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                {[
+                  { label: 'Jurnal', value: stats.jurnal || 0, color: 'bg-blue-500' },
+                  { label: 'Penelitian', value: stats.penelitianDoc || 0, color: 'bg-emerald-500' },
+                  { label: 'Pengabdian', value: stats.pengabdianDoc || 0, color: 'bg-amber-500' },
+                  { label: 'Buku', value: stats.buku || 0, color: 'bg-violet-500' },
+                  { label: 'Prosiding', value: stats.prosiding || 0, color: 'bg-rose-500' },
+                  { label: 'Lainnya', value: stats.lainnya || 0, color: 'bg-slate-500' }
+                ].map((item, i) => (
+                  <div key={i} className="text-center p-5 rounded-2xl bg-slate-50">
+                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 text-white", item.color)}>
+                      <FileText size={16} />
+                    </div>
+                    <p className="text-2xl font-black text-slate-900 mb-0.5">{item.value}</p>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Grafik Publikasi per Tahun */}
+            {/* Grafik Penelitian Dosen per Tahun */}
+            {penelitianByYear.length > 0 && (
+              <div className="card p-12 bg-white shadow-xl border-none">
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                  <FlaskConical className="mr-3 text-primary" /> Penelitian Dosen per Tahun
+                </h3>
+                <div className="flex items-end gap-3 h-64">
+                  {penelitianByYear.map((item, i) => {
+                    const total = item.selesai + item.aktif;
+                    const maxTotal = Math.max(...penelitianByYear.map((y: any) => y.selesai + y.aktif), 1);
+                    const hSelesai = (item.selesai / maxTotal) * 100;
+                    const hAktif = (item.aktif / maxTotal) * 100;
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                        <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{total}</div>
+                        <div className="w-full flex gap-1" style={{ height: '180px', alignItems: 'flex-end' }}>
+                          <div className="flex-1 bg-emerald-500 rounded-t-lg transition-all hover:bg-emerald-600" style={{ height: `${hSelesai}%` }} title={`Selesai: ${item.selesai}`} />
+                          <div className="flex-1 bg-amber-400 rounded-t-lg transition-all hover:bg-amber-500" style={{ height: `${hAktif}%` }} title={`Aktif: ${item.aktif}`} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 mt-2">{item.tahun}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex justify-center gap-6 mt-6">
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-emerald-500" />Selesai</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-amber-400" />Aktif</span>
+                </div>
+              </div>
+            )}
+
+            {pubByYear.length > 0 && (
+              <div className="card p-12 bg-white shadow-xl border-none">
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                  <BarChart3 className="mr-3 text-primary" /> Publikasi per Tahun
+                </h3>
+                <div className="flex items-end gap-3 h-64">
+                  {pubByYear.map((item, i) => {
+                    const total = item.jurnal + item.buku + item.prosiding + item.penelitian;
+                    const maxTotal = Math.max(...pubByYear.map((y: any) => y.jurnal + y.buku + y.prosiding + y.penelitian), 1);
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                        <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{total}</div>
+                        <div className="w-full flex gap-0.5" style={{ height: '180px', alignItems: 'flex-end' }}>
+                          <div className="flex-1 bg-blue-500 rounded-t-lg transition-all hover:bg-blue-600" style={{ height: `${(item.jurnal / maxTotal) * 100}%` }} title={`Jurnal: ${item.jurnal}`} />
+                          <div className="flex-1 bg-violet-500 rounded-t-lg transition-all hover:bg-violet-600" style={{ height: `${(item.buku / maxTotal) * 100}%` }} title={`Buku: ${item.buku}`} />
+                          <div className="flex-1 bg-rose-500 rounded-t-lg transition-all hover:bg-rose-600" style={{ height: `${(item.prosiding / maxTotal) * 100}%` }} title={`Prosiding: ${item.prosiding}`} />
+                          <div className="flex-1 bg-emerald-500 rounded-t-lg transition-all hover:bg-emerald-600" style={{ height: `${(item.penelitian / maxTotal) * 100}%` }} title={`Penelitian: ${item.penelitian}`} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 mt-2">{item.tahun}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex justify-center gap-6 mt-6">
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-blue-500" />Jurnal</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-violet-500" />Buku</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-rose-500" />Prosiding</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-emerald-500" />Penelitian</span>
+                </div>
+              </div>
+            )}
+
+            {/* Grafik Publikasi per Dosen & Jenis */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {pubByDosen.length > 0 && (
+                <div className="card p-12 bg-white shadow-xl border-none">
+                  <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                    <GraduationCap className="mr-3 text-primary" /> Publikasi per Dosen
+                  </h3>
+                  <div className="flex items-end gap-2 h-64">
+                    {pubByDosen.map((item, i) => {
+                      const maxTotal = pubByDosen[0]?.total || 1;
+                      const h = (item.total / maxTotal) * 100;
+                      return (
+                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                          <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.total}</div>
+                          <div className="w-full flex justify-center" style={{ height: '180px', alignItems: 'flex-end' }}>
+                            <div className="w-full bg-primary rounded-t-lg transition-all hover:bg-primary/80" style={{ height: `${h}%` }} title={`${item.dosenName}: ${item.total}`} />
+                          </div>
+                          <span className="text-[9px] font-bold text-slate-500 mt-2 truncate w-full text-center" title={item.dosenName}>{item.dosenName.split(' ').pop()}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {pubByType.length > 0 && (
+                <div className="card p-12 bg-white shadow-xl border-none">
+                  <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                    <FileText className="mr-3 text-primary" /> Jenis Publikasi
+                  </h3>
+                  <div className="flex items-end gap-4 h-64">
+                    {pubByType.map((item, i) => {
+                      const colors = ['bg-blue-500', 'bg-emerald-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500', 'bg-slate-500'];
+                      const hoverColors = ['hover:bg-blue-600', 'hover:bg-emerald-600', 'hover:bg-violet-600', 'hover:bg-amber-600', 'hover:bg-rose-600', 'hover:bg-slate-600'];
+                      const color = colors[i % colors.length];
+                      const hoverColor = hoverColors[i % hoverColors.length];
+                      const maxJml = pubByType[0]?.jumlah || 1;
+                      const h = (item.jumlah / maxJml) * 100;
+                      return (
+                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                          <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.jumlah}</div>
+                          <div className="w-full flex justify-center" style={{ height: '180px', alignItems: 'flex-end' }}>
+                            <div className={cn('w-full rounded-t-lg transition-all', color, hoverColor)} style={{ height: `${h}%` }} title={`${item.jenis}: ${item.jumlah}`} />
+                          </div>
+                          <span className="text-[9px] font-bold text-slate-500 mt-2 truncate w-full text-center">{item.jenis}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </>
         )}

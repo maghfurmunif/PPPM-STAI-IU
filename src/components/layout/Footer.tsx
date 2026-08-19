@@ -9,8 +9,8 @@ export default function Footer() {
           {/* Section 1: Profile & Contact */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                 <span className="text-white font-bold text-sm">P</span>
+               <div className="w-10 h-10 rounded-full overflow-hidden shadow-md border border-slate-200">
+                 <img src="/images/logo-stai.jpg" alt="Logo STAI IU" className="w-full h-full object-cover" />
                </div>
                <div>
                  <span className="block font-semibold text-slate-900 leading-none">PPPM</span>

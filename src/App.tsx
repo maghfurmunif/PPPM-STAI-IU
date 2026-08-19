@@ -12,6 +12,7 @@ import LandingPage from '@/src/pages/LandingPage';
 import LoginPage from '@/src/pages/auth/LoginPage';
 import RegisterPage from '@/src/pages/auth/RegisterPage';
 import PengumumanPage from '@/src/pages/public/PengumumanPage';
+import ProfilPenelitiPage from '@/src/pages/public/ProfilPenelitiPage';
 import StatistikPage from '@/src/pages/public/StatistikPage';
 import PanduanPage from '@/src/pages/public/PanduanPage';
 
@@ -43,6 +44,7 @@ function AppShell() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/pengumuman" element={<PengumumanPage />} />
+              <Route path="/profil-peneliti" element={<ProfilPenelitiPage />} />
               <Route path="/statistik" element={<StatistikPage />} />
               <Route path="/panduan" element={<PanduanPage />} />
               

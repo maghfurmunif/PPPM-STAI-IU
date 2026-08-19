@@ -75,9 +75,16 @@ export interface DosenDokumentasi {
   tanggal: string;
   isbnIssn?: string;
   penulisTambahan?: string;
+  coAuthorIds?: string[];
   penerbit: string;
   platform: 'REPOSITORY' | 'SISTER' | 'SINTA' | 'LAIN';
   fileUrl: string;
+}
+
+export interface DosenProfile {
+  id: string;
+  fullName: string;
+  email?: string;
 }
 
 export const penelitianService = {
@@ -211,29 +218,56 @@ export const penelitianService = {
     return (data || []).map(d => ({
       id: d.id,
       dosenId: d.dosen_id,
-      jenisKarya: d.jenis_karya,
-      judul: d.judul,
-      tanggal: d.tanggal,
-      isbnIssn: d.isbn_issn,
-      penulisTambahan: d.penulis_tambahan,
-      penerbit: d.penerbit,
-      platform: d.platform,
-      fileUrl: d.file_url
+      jenisKarya: d.jenisKarya || d.jenis_karya || '',
+      judul: d.judul || '',
+      tanggal: d.tanggal || '',
+      isbnIssn: d.isbnIssn || d.isbn_issn || '',
+      penulisTambahan: d.penulisTambahan || d.penulis_tambahan || '',
+      penerbit: d.penerbit || '',
+      platform: d.platform || '',
+      fileUrl: d.fileUrl || d.file_url || ''
+    }));
+  },
+
+  getDosenProfiles: async (): Promise<DosenProfile[]> => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, full_name, email')
+      .eq('role', 'DOSEN');
+    if (error) {
+      console.error('Error fetching dosen profiles:', error);
+      return [];
+    }
+    return (data || []).map(d => ({
+      id: d.id,
+      fullName: d.full_name,
+      email: d.email
     }));
   },
 
   saveDokumentasi: async (doc: DosenDokumentasi) => {
+    // Resolve co-author names from IDs
+    let coAuthorNames = doc.penulisTambahan || '';
+    if (doc.coAuthorIds && doc.coAuthorIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', doc.coAuthorIds);
+      const names = (profiles || []).map(p => p.full_name);
+      coAuthorNames = names.join(', ');
+    }
+
     const dbPayload = {
       id: doc.id,
       dosen_id: doc.dosenId,
-      jenis_karya: doc.jenisKarya,
+      "jenisKarya": doc.jenisKarya,
       judul: doc.judul,
       tanggal: doc.tanggal,
-      isbn_issn: doc.isbnIssn,
-      penulis_tambahan: doc.penulisTambahan,
+      "isbnIssn": doc.isbnIssn,
+      "penulisTambahan": coAuthorNames,
       penerbit: doc.penerbit,
       platform: doc.platform,
-      file_url: doc.fileUrl
+      "fileUrl": doc.fileUrl
     };
     const { error } = await supabase
       .from('dosen_dokumentasi')

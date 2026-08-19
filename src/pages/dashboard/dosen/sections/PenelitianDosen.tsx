@@ -402,10 +402,17 @@ function SemproSchedulePhase({ reg, onUpdate, actionLoading }: { reg: Penelitian
                      <p className="text-xs text-slate-500 font-bold">Dokumen penunjukan reviewer oleh Admin PPPM</p>
                   </div>
                </div>
-               <a href={reg.skReviewerFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
-                  <Download size={14} />
-                  <span>Lihat SK</span>
-               </a>
+               {reg.skReviewerFile ? (
+                  <a href={reg.skReviewerFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
+                     <Download size={14} />
+                     <span>Lihat SK</span>
+                  </a>
+               ) : (
+                  <span className="flex items-center space-x-2 px-5 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest">
+                     <Download size={14} />
+                     <span>Belum Tersedia</span>
+                  </span>
+               )}
             </div>
          </div>
        )}
@@ -653,10 +660,17 @@ function PenelitianLogbookSection({ registration, onUpdate, actionLoading }: { r
                         <p className="text-xs text-slate-500 font-bold">Dokumen penunjukan penerima bantuan penelitian</p>
                      </div>
                   </div>
-                  <a href={registration.skPenerimaBantuanFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
-                     <Download size={14} />
-                     <span>Lihat SK</span>
-                  </a>
+                  {registration.skPenerimaBantuanFile ? (
+                     <a href={registration.skPenerimaBantuanFile} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-colors shadow-lg">
+                        <Download size={14} />
+                        <span>Lihat SK</span>
+                     </a>
+                  ) : (
+                     <span className="flex items-center space-x-2 px-5 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest">
+                        <Download size={14} />
+                        <span>Belum Tersedia</span>
+                     </span>
+                  )}
                </div>
             </div>
           )}

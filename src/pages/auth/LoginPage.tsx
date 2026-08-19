@@ -77,7 +77,9 @@ export default function LoginPage() {
       >
         <div className="glass-morphism border-white/40 shadow-2xl p-10 space-y-8 rounded-[40px]">
           <div className="text-center space-y-3">
-            <div className="w-16 h-16 bg-primary rounded-2xl mx-auto flex items-center justify-center text-white font-bold italic text-2xl shadow-lg mb-4">STAI</div>
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden shadow-lg border-2 border-white/50">
+              <img src="/images/logo-stai.jpg" alt="Logo STAI Ihyaul Ulum" className="w-full h-full object-cover" />
+            </div>
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight italic">Selamat Datang</h1>
             <p className="text-slate-500 text-sm">Masuk ke portal akademik PPPM STAI Ihyaul Ulum</p>
           </div>

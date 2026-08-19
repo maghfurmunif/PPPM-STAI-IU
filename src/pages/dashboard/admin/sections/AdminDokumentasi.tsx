@@ -4,7 +4,7 @@ import {
   FileText, Search, Plus, Filter, 
   ExternalLink, Download, Clock, Loader2,
   Trash2, Globe, Archive, Hash, Calendar,
-  Activity, GraduationCap, FlaskConical, HeartHandshake
+  Activity, GraduationCap, FlaskConical, HeartHandshake, User
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
@@ -131,6 +131,12 @@ export default function AdminDokumentasi() {
                   </td>
                   <td className="px-10 py-8 max-w-lg">
                      <p className="font-black text-slate-900 text-lg leading-tight mb-2 tracking-tight uppercase italic group-hover:text-primary transition-colors">{doc.judul}</p>
+                     {doc.penulisTambahan && (
+                       <p className="text-[10px] font-bold text-slate-500 mb-2 flex items-center gap-1.5">
+                         <User size={12} className="text-primary" />
+                         <span>Co-Authors: {doc.penulisTambahan}</span>
+                       </p>
+                     )}
                      <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                            <Calendar size={12} className="text-primary" />
@@ -150,13 +156,23 @@ export default function AdminDokumentasi() {
                     </div>
                   </td>
                    <td className="px-10 py-8 text-right">
-                    <button 
-                      onClick={() => doc.fileUrl && window.open(doc.fileUrl, '_blank')}
-                      className="p-4 bg-white border border-slate-200 rounded-[20px] text-primary hover:border-primary hover:scale-110 active:scale-95 transition-all shadow-sm hover:shadow-xl group/btn overflow-hidden relative"
-                    >
-                      <div className="relative z-10"><ExternalLink size={20} /></div>
-                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      {doc.fileUrl ? (
+                        <a 
+                          href={doc.fileUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-4 bg-primary/10 border border-primary/20 rounded-[20px] text-primary hover:bg-primary hover:text-white hover:scale-110 active:scale-95 transition-all shadow-sm hover:shadow-xl"
+                          title="Download / Lihat File"
+                        >
+                          <Download size={20} />
+                        </a>
+                      ) : (
+                        <span className="p-4 bg-slate-50 border border-slate-100 rounded-[20px] text-slate-300" title="Belum ada file">
+                          <Download size={20} />
+                        </span>
+                      )}
+                    </div>
                   </td>
                 </motion.tr>
               ))

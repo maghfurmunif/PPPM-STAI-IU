@@ -42,7 +42,9 @@ export default function MahasiswaDashboard() {
       {/* Mobile Header */}
       <div className="lg:hidden h-20 bg-white border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold italic">STAI</div>
+          <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md border border-slate-200">
+            <img src="/images/logo-stai.jpg" alt="Logo STAI IU" className="w-full h-full object-cover" />
+          </div>
           <span className="font-black text-xs uppercase tracking-widest italic text-slate-900">Student Portal</span>
         </div>
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 bg-slate-50 rounded-xl text-slate-900">
@@ -60,7 +62,9 @@ export default function MahasiswaDashboard() {
             className="fixed inset-0 z-40 lg:hidden bg-slate-900 p-6 flex flex-col space-y-4"
           >
              <div className="flex justify-between items-center mb-10">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold italic">STAI</div>
+                <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md border border-white/20">
+                  <img src="/images/logo-stai.jpg" alt="Logo STAI IU" className="w-full h-full object-cover" />
+                </div>
                 <button onClick={() => setIsMobileMenuOpen(false)} className="text-white ring-1 ring-white/20 p-2 rounded-xl">Tutup</button>
              </div>
              <div className="flex-grow space-y-2 overflow-y-auto pr-2">
@@ -92,8 +96,8 @@ export default function MahasiswaDashboard() {
       <aside className="w-64 hidden lg:flex flex-col sticky top-0 h-screen p-4 z-20">
         <div className="bg-white h-full rounded-3xl p-4 flex flex-col shadow-sm border border-slate-100">
           <div className="mb-6 px-4 flex items-center space-x-3">
-             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-               <span className="text-white font-bold text-lg">S</span>
+             <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md border border-slate-200">
+               <img src="/images/logo-stai.jpg" alt="Logo STAI IU" className="w-full h-full object-cover" />
              </div>
              <div>
                <div className="text-sm font-bold text-slate-900">PPPM</div>

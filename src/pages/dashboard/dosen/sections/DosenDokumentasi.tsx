@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
-import { penelitianService, DosenDokumentasi } from '@/src/services/penelitianService';
+import { penelitianService, DosenDokumentasi, DosenProfile } from '@/src/services/penelitianService';
 
 export default function DosenDokumentasiSection() {
   const [docs, setDocs] = useState<DosenDokumentasi[]>([]);
@@ -30,6 +30,16 @@ export default function DosenDokumentasiSection() {
   const [saving, setSaving] = useState(false);
   const [fileUrl, setFileUrl] = useState('');
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [dosenList, setDosenList] = useState<DosenProfile[]>([]);
+  const [selectedCoAuthors, setSelectedCoAuthors] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchDosen = async () => {
+      const data = await penelitianService.getDosenProfiles();
+      setDosenList(data);
+    };
+    fetchDosen();
+  }, []);
 
   const handleFileUpload = async (file: File) => {
     try {
@@ -49,15 +59,15 @@ export default function DosenDokumentasiSection() {
     e.preventDefault();
     if (!userId) return;
     setSaving(true);
-    const formData = new FormData(e.target as HTMLFormElement);
-    const newDoc: DosenDokumentasi = {
-      id: crypto.randomUUID(), 
+    const formData = new FormData(e.target as HTMLFormElement);    const newDoc: DosenDokumentasi = {
+      id: crypto.randomUUID(),
       dosenId: userId,
       jenisKarya: formData.get('jenis') as string,
       judul: formData.get('judul') as string,
       tanggal: formData.get('tanggal') as string,
       isbnIssn: formData.get('isbn') as string,
       penulisTambahan: formData.get('penulis') as string,
+      coAuthorIds: selectedCoAuthors,
       penerbit: formData.get('penerbit') as string,
       platform: formData.get('platform') as any,
       fileUrl: fileUrl || '#'
@@ -164,9 +174,29 @@ export default function DosenDokumentasiSection() {
                        <input name="penerbit" className="input-field h-14" placeholder="Publisher Name..." />
                     </div>
                  </div>
-                 <div className="space-y-1">
-                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Co-Authors</label>
-                    <input name="penulis" className="input-field h-14" placeholder="Ahmad, Budi, Siti..." />
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Co-Authors (Dosen)</label>
+                    <div className="max-h-32 overflow-y-auto border border-slate-200 rounded-2xl p-3 bg-white space-y-2">
+                      {dosenList.filter(d => d.id !== userId).map(dosen => (
+                        <label key={dosen.id} className="flex items-center space-x-3 p-2 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                            checked={selectedCoAuthors.includes(dosen.id)}
+                            onChange={e => {
+                              if (e.target.checked) {
+                                setSelectedCoAuthors(prev => [...prev, dosen.id]);
+                              } else {
+                                setSelectedCoAuthors(prev => prev.filter(id => id !== dosen.id));
+                              }
+                            }}
+                          />
+                          <span className="text-xs font-bold text-slate-700">{dosen.fullName}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <input type="hidden" name="penulis" value={selectedCoAuthors.join(',')} />
+                    <p className="text-[9px] text-slate-400 italic pl-1">Pilih dosen yang menjadi co-author</p>
                  </div>
                  
                  <div className="space-y-2">
@@ -240,10 +270,17 @@ export default function DosenDokumentasiSection() {
                </div>
 
                <div className="pt-8 border-t border-slate-100 flex items-center justify-between">
-                  <button onClick={() => window.open(doc.fileUrl, '_blank')} className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
-                    <Download size={14} className="mr-2 group-hover/btn:-translate-y-1 transition-transform" />
-                    <span>Download</span>
-                  </button>
+                  {doc.fileUrl ? (
+                    <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-primary hover:text-primary/80 uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
+                      <Download size={14} className="mr-2 group-hover/btn:-translate-y-1 transition-transform" />
+                      <span>Download</span>
+                    </a>
+                  ) : (
+                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center h-10 px-4 rounded-xl">
+                      <Download size={14} className="mr-2" />
+                      <span>No File</span>
+                    </span>
+                  )}
                   <button className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
                     <ExternalLink size={14} className="mr-2 group-hover/btn:translate-x-1 transition-transform" />
                     <span>Reference</span>

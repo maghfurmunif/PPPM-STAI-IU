@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ArrowRight, BookOpen, Users, BarChart3, Globe, GraduationCap, Landmark, Loader2, Calendar } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, BarChart3, Globe, GraduationCap, Landmark, Loader2, Calendar, FlaskConical, FileText, Bookmark } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { publicService, Announcement } from '@/src/services/publicService';
@@ -10,6 +10,10 @@ export default function LandingPage() {
   const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || 'MAHASISWA');
   const [stats, setStats] = useState<any>(null);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [pubByYear, setPubByYear] = useState<any[]>([]);
+  const [pubByDosen, setPubByDosen] = useState<any[]>([]);
+  const [pubByType, setPubByType] = useState<any[]>([]);
+  const [penelitianByYear, setPenelitianByYear] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -23,12 +27,20 @@ export default function LandingPage() {
 
     const fetchData = async () => {
       try {
-        const [statsData, annData] = await Promise.all([
+        const [statsData, annData, yearData, dosenData, typeData, penYearData] = await Promise.all([
           publicService.getGlobalStats(),
-          publicService.getAnnouncements()
+          publicService.getAnnouncements(),
+          publicService.getPublicationByYear(),
+          publicService.getPublicationByDosen(),
+          publicService.getPublicationByType(),
+          publicService.getPenelitianByYear()
         ]);
         setStats(statsData);
         setAnnouncements(annData);
+        setPubByYear(yearData);
+        setPubByDosen(dosenData);
+        setPubByType(typeData);
+        setPenelitianByYear(penYearData);
       } catch (e) {
         console.error('Landing page fetch error:', e);
       } finally {
@@ -158,11 +170,12 @@ export default function LandingPage() {
             <p className="text-slate-500 text-sm mt-1">Data real-time dari sistem</p>
           </div>
           
+          {/* Ringkasan Utama */}
           <div className="grid md:grid-cols-3 gap-4">
             {[
               { label: 'Mahasiswa', value: stats?.mahasiswaCount || 0, sub: 'Terverifikasi', icon: Users },
               { label: 'Dosen', value: stats?.dosenCount || 0, sub: 'Pembimbing Aktif', icon: GraduationCap },
-              { label: 'Total Aktivitas', value: stats?.totalActivity || 0, sub: 'KKN, Skripsi, Riset', icon: BarChart3 }
+              { label: 'Total Aktivitas', value: stats?.totalActivity || 0, sub: 'Semua Kategori', icon: BarChart3 }
             ].map((stat, i) => (
               <div key={i} className={cn("card p-5 hover:shadow-md transition-all", i === 0 && "!bg-primary text-white border-primary")}>
                 <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-4", i === 0 ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500")}>
@@ -172,6 +185,170 @@ export default function LandingPage() {
                 <p className={cn("text-2xl font-bold", i === 0 ? "text-white" : "text-slate-900")}>{stat.value}</p>
               </div>
             ))}
+          </div>
+
+          {/* Detail Aktivitas */}
+          <div className="card p-6">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-lg font-bold text-slate-900">Detail Aktivitas</h3>
+              <span className="text-xs text-slate-500 font-medium">Real-time</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: 'Penelitian Dosen', value: stats?.penelitian || 0, sub: `${stats?.penelitianSelesai || 0} selesai / ${stats?.penelitianAktif || 0} aktif`, icon: FlaskConical, color: 'bg-blue-50 text-blue-600' },
+                { label: 'Pengabdian Dosen', value: stats?.pengabdian || 0, sub: `${stats?.pengabdianSelesai || 0} selesai / ${stats?.pengabdianAktif || 0} aktif`, icon: Globe, color: 'bg-emerald-50 text-emerald-600' },
+                { label: 'Skripsi', value: stats?.skripsi || 0, sub: 'Tugas Akhir', icon: BookOpen, color: 'bg-violet-50 text-violet-600' },
+                { label: 'KKN', value: stats?.kkn || 0, sub: 'Kuliah Kerja Nyata', icon: Users, color: 'bg-amber-50 text-amber-600' }
+              ].map((item, i) => (
+                <div key={i} className="p-4 rounded-2xl bg-slate-50 hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-slate-100">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-3", item.color)}>
+                    <item.icon size={18} />
+                  </div>
+                  <p className="text-2xl font-bold text-slate-900 mb-0.5">{item.value}</p>
+                  <p className="text-xs font-semibold text-slate-700 mb-1">{item.label}</p>
+                  <p className="text-[10px] text-slate-500">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Statistik Dokumentasi */}
+          <div className="card p-6">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-lg font-bold text-slate-900">Statistik Dokumentasi</h3>
+              <span className="text-xs text-slate-500 font-medium">{stats?.dokumentasiTotal || 0} Total</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+              {[
+                { label: 'Jurnal', value: stats?.jurnal || 0, icon: FileText, color: 'bg-blue-500' },
+                { label: 'Penelitian', value: stats?.penelitianDoc || 0, icon: FlaskConical, color: 'bg-emerald-500' },
+                { label: 'Pengabdian', value: stats?.pengabdianDoc || 0, icon: Globe, color: 'bg-amber-500' },
+                { label: 'Buku', value: stats?.buku || 0, icon: Bookmark, color: 'bg-violet-500' },
+                { label: 'Prosiding', value: stats?.prosiding || 0, icon: FileText, color: 'bg-rose-500' },
+                { label: 'Lainnya', value: stats?.lainnya || 0, icon: BarChart3, color: 'bg-slate-500' }
+              ].map((item, i) => (
+                <div key={i} className="text-center p-4 rounded-2xl bg-slate-50 hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-slate-100">
+                  <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-3 text-white", item.color)}>
+                    <item.icon size={14} />
+                  </div>
+                  <p className="text-xl font-bold text-slate-900 mb-0.5">{item.value}</p>
+                  <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Grafik Penelitian Dosen per Tahun */}
+          {penelitianByYear.length > 0 && (
+            <div className="card p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-5">Statistik Penelitian Dosen per Tahun</h3>
+              <div className="flex items-end gap-2 h-48">
+                {penelitianByYear.map((item, i) => {
+                  const total = item.selesai + item.aktif;
+                  const maxTotal = Math.max(...penelitianByYear.map((y: any) => y.selesai + y.aktif), 1);
+                  const hSelesai = (item.selesai / maxTotal) * 100;
+                  const hAktif = (item.aktif / maxTotal) * 100;
+                  return (
+                    <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                      <div className="text-[10px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{total}</div>
+                      <div className="w-full flex gap-0.5" style={{ height: '120px', alignItems: 'flex-end' }}>
+                        <div className="flex-1 bg-emerald-500 rounded-t-md transition-all hover:bg-emerald-600" style={{ height: `${hSelesai}%` }} title={`Selesai: ${item.selesai}`} />
+                        <div className="flex-1 bg-amber-400 rounded-t-md transition-all hover:bg-amber-500" style={{ height: `${hAktif}%` }} title={`Aktif: ${item.aktif}`} />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-500 mt-1">{item.tahun}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-center gap-4 mt-4">
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-emerald-500" />Selesai</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-amber-400" />Aktif</span>
+              </div>
+            </div>
+          )}
+
+          {/* Grafik Publikasi per Tahun */}
+          {pubByYear.length > 0 && (
+            <div className="card p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-5">Publikasi per Tahun</h3>
+              <div className="flex items-end gap-2 h-48">
+                {pubByYear.map((item, i) => {
+                  const total = item.jurnal + item.buku + item.prosiding + item.penelitian;
+                  const maxTotal = Math.max(...pubByYear.map((y: any) => y.jurnal + y.buku + y.prosiding + y.penelitian), 1);
+                  const hJurnal = (item.jurnal / maxTotal) * 100;
+                  const hBuku = (item.buku / maxTotal) * 100;
+                  const hProsiding = (item.prosiding / maxTotal) * 100;
+                  const hPenelitian = (item.penelitian / maxTotal) * 100;
+                  return (
+                    <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                      <div className="text-[10px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{total}</div>
+                      <div className="w-full flex gap-0.5" style={{ height: '120px', alignItems: 'flex-end' }}>
+                        <div className="flex-1 bg-blue-500 rounded-t-md transition-all hover:bg-blue-600" style={{ height: `${hJurnal}%` }} title={`Jurnal: ${item.jurnal}`} />
+                        <div className="flex-1 bg-violet-500 rounded-t-md transition-all hover:bg-violet-600" style={{ height: `${hBuku}%` }} title={`Buku: ${item.buku}`} />
+                        <div className="flex-1 bg-rose-500 rounded-t-md transition-all hover:bg-rose-600" style={{ height: `${hProsiding}%` }} title={`Prosiding: ${item.prosiding}`} />
+                        <div className="flex-1 bg-emerald-500 rounded-t-md transition-all hover:bg-emerald-600" style={{ height: `${hPenelitian}%` }} title={`Penelitian: ${item.penelitian}`} />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-500 mt-1">{item.tahun}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-center gap-4 mt-4">
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-blue-500" />Jurnal</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-violet-500" />Buku</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-rose-500" />Prosiding</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-emerald-500" />Penelitian</span>
+              </div>
+            </div>
+          )}
+
+          {/* Grafik Publikasi per Dosen & Jenis */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {pubByDosen.length > 0 && (
+              <div className="card p-6">
+                <h3 className="text-lg font-bold text-slate-900 mb-5">Publikasi per Dosen</h3>
+                <div className="flex items-end gap-1.5 h-48">
+                  {pubByDosen.map((item, i) => {
+                    const maxTotal = pubByDosen[0]?.total || 1;
+                    const h = (item.total / maxTotal) * 100;
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                        <div className="text-[10px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.total}</div>
+                        <div className="w-full flex justify-center" style={{ height: '120px', alignItems: 'flex-end' }}>
+                          <div className="w-full bg-primary rounded-t-md transition-all hover:bg-primary/80" style={{ height: `${h}%` }} title={`${item.dosenName}: ${item.total}`} />
+                        </div>
+                        <span className="text-[9px] font-bold text-slate-500 mt-1 truncate w-full text-center" title={item.dosenName}>{item.dosenName.split(' ').pop()}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {pubByType.length > 0 && (
+              <div className="card p-6">
+                <h3 className="text-lg font-bold text-slate-900 mb-5">Jenis Publikasi</h3>
+                <div className="flex items-end gap-3 h-48">
+                  {pubByType.map((item, i) => {
+                    const colors = ['bg-blue-500', 'bg-emerald-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500', 'bg-slate-500'];
+                    const hoverColors = ['hover:bg-blue-600', 'hover:bg-emerald-600', 'hover:bg-violet-600', 'hover:bg-amber-600', 'hover:bg-rose-600', 'hover:bg-slate-600'];
+                    const color = colors[i % colors.length];
+                    const hoverColor = hoverColors[i % hoverColors.length];
+                    const maxJml = pubByType[0]?.jumlah || 1;
+                    const h = (item.jumlah / maxJml) * 100;
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                        <div className="text-[10px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.jumlah}</div>
+                        <div className="w-full flex justify-center" style={{ height: '120px', alignItems: 'flex-end' }}>
+                          <div className={cn('w-full rounded-t-md transition-all', color, hoverColor)} style={{ height: `${h}%` }} title={`${item.jenis}: ${item.jumlah}`} />
+                        </div>
+                        <span className="text-[9px] font-bold text-slate-500 mt-1 truncate w-full text-center">{item.jenis}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="card !bg-primary p-8 relative overflow-hidden border-primary">
