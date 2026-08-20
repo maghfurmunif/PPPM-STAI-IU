@@ -110,13 +110,31 @@ export default function AdminUsers() {
   const handleDelete = async (id: string) => {
     try {
       setDeletingId(id);
+      // 1. Hapus data terkait dari tabel-tabel yang reference profiles(id)
+      const relatedTables = [
+        'penelitian_registrations',
+        'pengabdian_registrations',
+        'kkn_registrations',
+        'sempro_registrations',
+        'skripsi_registrations',
+        'dosen_dokumentasi',
+        'logbooks'
+      ];
+      for (const table of relatedTables) {
+        // Try dosen_id first (for dosen-related tables)
+        await supabase.from(table).delete().eq('dosen_id', id);
+        // Try user_id (for student-related tables)
+        await supabase.from(table).delete().eq('user_id', id);
+      }
+      // 2. Hapus dari profiles
       const { error } = await supabase.from('profiles').delete().eq('id', id);
       if (error) throw error;
       setUsers(prev => prev.filter(u => u.id !== id));
       if (selectedUser?.id === id) setSelectedUser(null);
       toast.success('Pengguna berhasil dihapus permanen');
-    } catch (e) {
-      toast.error('Gagal menghapus pengguna');
+    } catch (e: any) {
+      console.error('Delete user error:', e);
+      toast.error('Gagal menghapus: ' + (e.message || e.error?.message || 'Unknown error'));
     } finally {
       setDeletingId(null);
       setShowDeleteConfirm(null);

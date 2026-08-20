@@ -411,20 +411,33 @@ export default function StatistikPage() {
                   <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
                     <GraduationCap className="mr-3 text-primary" /> Publikasi per Dosen
                   </h3>
-                  <div className="flex items-end gap-2 h-64">
+                  <div className="flex items-end gap-1 h-64">
                     {pubByDosen.map((item, i) => {
                       const maxTotal = pubByDosen[0]?.total || 1;
-                      const h = (item.total / maxTotal) * 100;
+                      const bars = [
+                        { val: item.penelitian, color: 'bg-emerald-500', hover: 'hover:bg-emerald-600', label: 'Penelitian' },
+                        { val: item.jurnal, color: 'bg-blue-500', hover: 'hover:bg-blue-600', label: 'Jurnal' },
+                        { val: item.prosiding, color: 'bg-rose-500', hover: 'hover:bg-rose-600', label: 'Prosiding' },
+                        { val: item.buku, color: 'bg-violet-500', hover: 'hover:bg-violet-600', label: 'Buku' },
+                      ];
                       return (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
-                          <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.total}</div>
-                          <div className="w-full flex justify-center" style={{ height: '180px', alignItems: 'flex-end' }}>
-                            <div className="w-full bg-primary rounded-t-lg transition-all hover:bg-primary/80" style={{ height: `${h}%` }} title={`${item.dosenName}: ${item.total}`} />
+                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group" title={`${item.fullName || item.dosenName}: P${item.penelitian} J${item.jurnal} Pr${item.prosiding} B${item.buku}` }>
+                          <div className="text-[9px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.total}</div>
+                          <div className="w-full flex gap-px" style={{ height: '180px', alignItems: 'flex-end' }}>
+                            {bars.map((bar, bi) => (
+                              <div key={bi} className={`flex-1 ${bar.color} rounded-t-sm transition-all ${bar.hover}`} style={{ height: `${(bar.val / maxTotal) * 100}%` }} title={`${bar.label}: ${bar.val}`} />
+                            ))}
                           </div>
-                          <span className="text-[9px] font-bold text-slate-500 mt-2 truncate w-full text-center" title={item.dosenName}>{item.dosenName.split(' ').pop()}</span>
+                          <span className="text-[8px] font-bold text-slate-500 mt-2 truncate w-full text-center" title={item.fullName || item.dosenName}>{item.dosenName}</span>
                         </div>
                       );
                     })}
+                  </div>
+                  <div className="flex justify-center gap-4 mt-4">
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-emerald-500" />Penelitian</span>
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-blue-500" />Jurnal</span>
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-rose-500" />Prosiding</span>
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-violet-500" />Buku</span>
                   </div>
                 </div>
               )}

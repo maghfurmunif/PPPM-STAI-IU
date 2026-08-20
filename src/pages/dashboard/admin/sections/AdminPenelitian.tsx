@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, type ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   FlaskConical, CheckCircle2, XCircle, Eye, 
   Search, Calendar, Clock, FileText, Save,
   MapPin, User, Users, ClipboardList, BookOpen,
   ArrowRight, MessageSquare, AlertCircle, Loader2, FileUp,
-  Plus, Edit3, Camera, Download, Trash2
+  Plus, Edit3, Camera, Download, Trash2, Upload, Table2, Check
 } from 'lucide-react';
+import * as XLSX from 'xlsx';
 import { toast } from 'sonner';
 import { cn, formatDate, openDocument } from '@/src/lib/utils';
 import { penelitianService, PenelitianRegistration } from '@/src/services/penelitianService';
@@ -22,6 +23,12 @@ export default function AdminPenelitian() {
   const [dosenProfiles, setDosenProfiles] = useState<{ id: string; fullName: string }[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importData, setImportData] = useState<any[]>([]);
+  const [importFileName, setImportFileName] = useState('');
+  const [importing, setImporting] = useState(false);
+  const [importProgress, setImportProgress] = useState({ done: 0, total: 0 });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const refreshData = async (quiet = false) => {
     if (!quiet) setLoading(true);
@@ -86,6 +93,104 @@ export default function AdminPenelitian() {
     }
   };
 
+  const handleDownloadTemplate = () => {
+    const headers = ['Peneliti Utama (Dosen)', 'Judul Penelitian', 'Co-Author', 'Jenis Karya', 'Skema', 'Tahun Penelitian'];
+    const sample = [
+      ['Dr. Ahmad Fauzi, M.Pd.', 'Analisis Dampak Ekonomi Syariah di Pedesaan', 'Dr. Budi Santoso, M.E.', 'Penelitian', 'Internal', '2024'],
+      ['Dr. Siti Aminah, M.Ag.', 'Pengembangan Media Pembelajaran Digital', '', 'Penelitian', 'Hibah', '2023'],
+    ];
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...sample]);
+    // Set column widths
+    ws['!cols'] = [
+      { wch: 30 }, { wch: 50 }, { wch: 30 }, { wch: 15 }, { wch: 15 }, { wch: 18 }
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Penelitian');
+    XLSX.writeFile(wb, 'Template_Import_Penelitian.xlsx');
+    toast.success('Template berhasil didownload');
+  };
+
+  const handleFileImport = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImportFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const wb = XLSX.read(evt.target?.result, { type: 'binary' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const raw = XLSX.utils.sheet_to_json(ws, { defval: '' });
+        // Map column names to our fields
+        const mapped = raw.map((row: any) => {
+          // Try multiple column name variations
+          const penelitiUtama = row['Peneliti Utama'] || row['Peneliti Utama (Dosen)'] || row['Peneliti Utama (Dosen)'] || row['peneliti_utama'] || row['Peneliti'] || '';
+          const judul = row['Judul Penelitian'] || row['judul_penelitian'] || row['Judul'] || '';
+          const coAuthor = row['Co-Author'] || row['Co Author'] || row['co_author'] || row['Co-Author'] || '';
+          const jenisKarya = row['Jenis Karya'] || row['jenis_karya'] || 'Penelitian';
+          const skema = row['Skema'] || row['skema'] || 'Internal';
+          const tahun = String(row['Tahun Penelitian'] || row['tahun_penelitian'] || row['Tahun'] || new Date().getFullYear());
+          return { penelitiUtama: penelitiUtama.trim(), judul: judul.trim(), coAuthor: coAuthor.trim(), jenisKarya: jenisKarya.trim(), skema: skema.trim(), tahun: tahun.trim() };
+        }).filter(r => r.judul && r.penelitiUtama);
+        setImportData(mapped);
+        if (mapped.length === 0) {
+          toast.error('Tidak ada data valid ditemukan di file. Pastikan kolom: Peneliti Utama, Judul Penelitian');
+        }
+      } catch (err) {
+        toast.error('Gagal membaca file Excel');
+      }
+    };
+    reader.readAsBinaryString(file);
+    // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleBulkImport = async () => {
+    if (importData.length === 0) return;
+    setImporting(true);
+    setImportProgress({ done: 0, total: importData.length });
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const row of importData) {
+      try {
+        // Match dosen by name (case-insensitive, partial match)
+        const matchDosen = dosenProfiles.find(p => {
+          const fullName = (p.fullName || '').toLowerCase();
+          const inputName = row.penelitiUtama.toLowerCase();
+          return fullName === inputName || fullName.includes(inputName) || inputName.includes(fullName);
+        });
+        if (!matchDosen) {
+          failCount++;
+          setImportProgress(prev => ({ ...prev, done: prev.done + 1 }));
+          continue;
+        }
+        const newReg: PenelitianRegistration = {
+          id: crypto.randomUUID(),
+          dosenId: matchDosen.id,
+          dosenName: matchDosen.fullName,
+          status: 'ENROLL',
+          logbooks: [],
+          judulPenelitian: row.judul,
+          coAuthors: row.coAuthor,
+          skema: row.skema,
+          tahunPenelitian: row.tahun,
+          jenisKarya: row.jenisKarya || 'Penelitian',
+        };
+        await penelitianService.saveRegistration(newReg);
+        successCount++;
+      } catch {
+        failCount++;
+      }
+      setImportProgress(prev => ({ ...prev, done: prev.done + 1 }));
+    }
+
+    setImporting(false);
+    setShowImportModal(false);
+    setImportData([]);
+    toast.success(`Import selesai: ${successCount} berhasil, ${failCount} gagal (dosen tidak ditemukan)`);
+    await refreshData(true);
+  };
+
   if (loading && registrations.length === 0) return (
     <div className="flex flex-col items-center justify-center h-[50vh] space-y-4">
       <Loader2 className="animate-spin text-primary" size={40} />
@@ -108,6 +213,14 @@ export default function AdminPenelitian() {
             <Plus size={16} />
             <span>Tambah Manual</span>
           </button>
+          <button 
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center gap-2 px-6 py-3 text-[10px] uppercase tracking-widest rounded-xl border-2 border-dashed border-emerald-300 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-400 transition-all font-bold"
+          >
+            <Upload size={16} />
+            <span>Import Excel</span>
+          </button>
+          <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleFileImport} />
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
             <input 
@@ -382,6 +495,106 @@ export default function AdminPenelitian() {
                   <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Import Excel Modal */}
+      <AnimatePresence>
+        {showImportModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => { if (!importing) { setShowImportModal(false); setImportData([]); } }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-8 max-w-3xl mx-4 shadow-2xl max-h-[85vh] flex flex-col"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center">
+                    <Table2 size={24} className="text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Import Excel</h3>
+                    <p className="text-xs text-slate-500">Upload file .xlsx/.xls/.csv data penelitian</p>
+                  </div>
+                </div>
+                <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="p-2 rounded-xl hover:bg-slate-100"><XCircle size={20} /></button>
+              </div>
+
+              {importData.length === 0 ? (
+                <div className="space-y-4">
+                  <div className="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center hover:border-primary/40 transition-all cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                    <Upload size={40} className="mx-auto text-slate-300 mb-3" />
+                    <p className="text-sm font-bold text-slate-600">Klik untuk memilih file Excel</p>
+                    <p className="text-[10px] text-slate-400 mt-1">Format kolom: Peneliti Utama, Judul Penelitian, Co-Author, Jenis Karya, Skema, Tahun Penelitian</p>
+                  </div>
+                  <button onClick={handleDownloadTemplate} className="w-full py-3 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2">
+                    <Download size={14} />
+                    <span>Download Template Excel</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex-1 overflow-hidden flex flex-col space-y-4">
+                  <div className="flex items-center justify-between bg-emerald-50 rounded-xl p-3">
+                    <span className="text-xs font-bold text-emerald-700">{importFileName} — {importData.length} data ditemukan</span>
+                    <button onClick={() => { setImportData([]); setImportFileName(''); }} className="text-[10px] font-bold text-red-500 hover:text-red-700">Ganti File</button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto border border-slate-100 rounded-xl">
+                    <table className="w-full text-xs">
+                      <thead className="bg-slate-50 sticky top-0">
+                        <tr>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">#</th>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">Peneliti Utama</th>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">Judul</th>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">Skema</th>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">Tahun</th>
+                          <th className="px-3 py-2 text-left font-bold text-slate-500 uppercase">Match</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-50">
+                        {importData.map((row, i) => {
+                          const matched = dosenProfiles.find(p => {
+                            const fn = (p.fullName || '').toLowerCase();
+                            const inp = row.penelitiUtama.toLowerCase();
+                            return fn === inp || fn.includes(inp) || inp.includes(fn);
+                          });
+                          return (
+                            <tr key={i} className="hover:bg-slate-50/50">
+                              <td className="px-3 py-2 text-slate-400">{i + 1}</td>
+                              <td className="px-3 py-2 font-medium text-slate-700">{row.penelitiUtama}</td>
+                              <td className="px-3 py-2 text-slate-600 max-w-xs truncate">{row.judul}</td>
+                              <td className="px-3 py-2 text-slate-500">{row.skema}</td>
+                              <td className="px-3 py-2 text-slate-500">{row.tahun}</td>
+                              <td className="px-3 py-2">
+                                {matched ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[9px] font-bold"><Check size={10} />{matched.fullName}</span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-[9px] font-bold"><XCircle size={10} />Tidak ditemukan</span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="flex space-x-3 pt-2">
+                    <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="flex-1 py-3 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Batal</button>
+                    <button onClick={handleBulkImport} disabled={importing} className="flex-1 py-3 rounded-2xl bg-emerald-600 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2">
+                      {importing ? (<><Loader2 className="animate-spin" size={16} /><span>{importProgress.done}/{importProgress.total}</span></>) : (<><Upload size={16} /><span>Import {importData.length} Data</span></>) }
+                    </button>
+                  </div>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}

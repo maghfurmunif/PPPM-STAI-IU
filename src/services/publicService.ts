@@ -226,22 +226,56 @@ export const publicService = {
       .sort((a, b) => a.tahun.localeCompare(b.tahun));
   },
 
-  /** Statistik publikasi per dosen */
-  getPublicationByDosen: async (): Promise<{ dosenId: string; dosenName: string; total: number }[]> => {
-    let docs: any[] = [];
-    try { const r = await supabase.from('dosen_dokumentasi').select('id, dosen_id'); docs = r.data || []; } catch { return []; }
-    if (docs.length === 0) return [];
+  /** Statistik publikasi per dosen — 4 batang: Penelitian, Jurnal, Prosiding, Buku */
+  getPublicationByDosen: async (): Promise<{ dosenId: string; dosenName: string; fullName: string; penelitian: number; jurnal: number; prosiding: number; buku: number; total: number }[]> => {
+    const safeQ = async (fn: () => Promise<any>) => { try { return await fn(); } catch { return []; } };
 
-    const dosenIds = Array.from(new Set(docs.map(d => d.dosen_id)));
+    // Penelitian & Pengabdian registrations = kategori Penelitian
+    const penRes = await safeQ(async () => (await supabase.from('penelitian_registrations').select('dosen_id')).data || []);
+    const pengRes = await safeQ(async () => (await supabase.from('pengabdian_registrations').select('dosen_id')).data || []);
+    // Dokumentasi per jenis — select * untuk handle both column name conventions
+    const docRes = await safeQ(async () => (await supabase.from('dosen_dokumentasi').select('*')).data || []);
+
+    // Hitung per dosen per jenis
+    type DosenCount = { penelitian: number; jurnal: number; prosiding: number; buku: number };
+    const countMap: Record<string, DosenCount> = {};
+    const init = (): DosenCount => ({ penelitian: 0, jurnal: 0, prosiding: 0, buku: 0 });
+
+    // Penelitian & Pengabdian registrations → kategori Penelitian
+    [...penRes, ...pengRes].forEach((row: any) => {
+      if (!row.dosen_id) return;
+      if (!countMap[row.dosen_id]) countMap[row.dosen_id] = init();
+      countMap[row.dosen_id].penelitian++;
+    });
+
+    // Dokumentasi by jenisKarya — gunakan helper untuk handle semua kolom naming
+    docRes.forEach((row: any) => {
+      if (!row.dosen_id) return;
+      if (!countMap[row.dosen_id]) countMap[row.dosen_id] = init();
+      const jk = publicService.getJenisKarya(row).toLowerCase().trim();
+      if (jk === 'jurnal') countMap[row.dosen_id].jurnal++;
+      else if (jk === 'prosiding') countMap[row.dosen_id].prosiding++;
+      else if (jk === 'buku') countMap[row.dosen_id].buku++;
+      else if (jk === 'penelitian') countMap[row.dosen_id].penelitian++;
+    });
+
+    if (Object.keys(countMap).length === 0) return [];
+
+    // Ambil profil
+    const dosenIds = Object.keys(countMap);
     let profiles: any[] = [];
-    try { const r = await supabase.from('profiles').select('id, full_name').in('id', dosenIds); profiles = r.data || []; } catch { profiles = []; }
-    const profileMap = (profiles || []).reduce((acc: any, p) => { acc[p.id] = p.full_name; return acc; }, {});
-
-    const countMap: Record<string, number> = {};
-    docs.forEach(d => { countMap[d.dosen_id] = (countMap[d.dosen_id] || 0) + 1; });
+    try { const r = await supabase.from('profiles').select('id, full_name, kode_dosen').in('id', dosenIds); profiles = r.data || []; } catch { profiles = []; }
+    const profileMap = (profiles || []).reduce((acc: any, p) => {
+      acc[p.id] = { fullName: p.full_name || '', kodeDosen: p.kode_dosen || '' };
+      return acc;
+    }, {});
 
     return Object.entries(countMap)
-      .map(([dosenId, total]) => ({ dosenId, dosenName: profileMap[dosenId] || 'Dosen', total }))
+      .map(([dosenId, c]) => {
+        const profile = profileMap[dosenId] || { fullName: 'Dosen', kodeDosen: '' };
+        const total = c.penelitian + c.jurnal + c.prosiding + c.buku;
+        return { dosenId, dosenName: profile.kodeDosen || profile.fullName || 'Dosen', fullName: profile.fullName, ...c, total };
+      })
       .sort((a, b) => b.total - a.total)
       .slice(0, 10);
   },
