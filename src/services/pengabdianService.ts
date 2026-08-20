@@ -80,6 +80,17 @@ export const pengabdianService = {
     };
   },
 
+  deleteRegistration: async (id: string) => {
+    const { error } = await supabase
+      .from('pengabdian_registrations')
+      .delete()
+      .eq('id', id);
+    if (error) {
+      console.error('Pengabdian Delete Error:', error);
+      throw error;
+    }
+  },
+
   saveRegistration: async (reg: PengabdianRegistration) => {
     const dbPayload: any = {
       dosen_id: reg.dosenId,

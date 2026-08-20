@@ -4,7 +4,7 @@ import {
   Plus, Search, Filter, Layers, 
   Calendar, FileText, Download, ExternalLink,
   Tag, Hash, User, Globe, Save,
-  FileUp, Loader2, CheckCircle2, Trash2, ArrowRight
+  FileUp, Loader2, CheckCircle2, Trash2, ArrowRight, Link2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
@@ -29,7 +29,10 @@ export default function DosenDokumentasiSection() {
 
   const [saving, setSaving] = useState(false);
   const [fileUrl, setFileUrl] = useState('');
+  const [articleUrl, setArticleUrl] = useState('');
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [platformValue, setPlatformValue] = useState('REPOSITORY');
+  const [platformRank, setPlatformRank] = useState('');
   const [dosenList, setDosenList] = useState<DosenProfile[]>([]);
   const [selectedCoAuthors, setSelectedCoAuthors] = useState<string[]>([]);
 
@@ -59,7 +62,8 @@ export default function DosenDokumentasiSection() {
     e.preventDefault();
     if (!userId) return;
     setSaving(true);
-    const formData = new FormData(e.target as HTMLFormElement);    const newDoc: DosenDokumentasi = {
+    const formData = new FormData(e.target as HTMLFormElement);
+    const newDoc: DosenDokumentasi = {
       id: crypto.randomUUID(),
       dosenId: userId,
       jenisKarya: formData.get('jenis') as string,
@@ -69,14 +73,19 @@ export default function DosenDokumentasiSection() {
       penulisTambahan: formData.get('penulis') as string,
       coAuthorIds: selectedCoAuthors,
       penerbit: formData.get('penerbit') as string,
-      platform: formData.get('platform') as any,
-      fileUrl: fileUrl || '#'
+      platform: platformValue as any,
+      platformRank: platformRank || undefined,
+      fileUrl: fileUrl || '#',
+      articleUrl: articleUrl || undefined
     };
     try {
       await penelitianService.saveDokumentasi(newDoc);
       setDocs(prev => [newDoc, ...prev]);
       setIsAdding(false);
       setFileUrl('');
+      setArticleUrl('');
+      setPlatformValue('REPOSITORY');
+      setPlatformRank('');
       toast.success('Karya ilmiah berhasil didokumentasikan');
     } catch (error) {
       toast.error('Gagal menyimpan dokumentasi');
@@ -154,13 +163,45 @@ export default function DosenDokumentasiSection() {
                  </div>
                  <div className="space-y-1">
                     <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Cluster / Platform</label>
-                    <select name="platform" className="input-field h-14">
+                    <select 
+                      className="input-field h-14"
+                      value={platformValue}
+                      onChange={e => { setPlatformValue(e.target.value); setPlatformRank(''); }}
+                    >
                        <option value="REPOSITORY">Repository Institusi</option>
                        <option value="SISTER">SISTER</option>
                        <option value="SINTA">SINTA</option>
+                       <option value="SCOPUS">Scopus</option>
+                       <option value="BERISSN">Ber-ISSN</option>
                        <option value="LAIN">Lainnya</option>
                     </select>
                  </div>
+                 {platformValue === 'SINTA' && (
+                   <div className="space-y-1">
+                      <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Rank Sinta</label>
+                      <select className="input-field h-14" value={platformRank} onChange={e => setPlatformRank(e.target.value)}>
+                         <option value="">Pilih Rank...</option>
+                         <option value="S1">S1</option>
+                         <option value="S2">S2</option>
+                         <option value="S3">S3</option>
+                         <option value="S4">S4</option>
+                         <option value="S5">S5</option>
+                         <option value="S6">S6</option>
+                      </select>
+                   </div>
+                 )}
+                 {platformValue === 'SCOPUS' && (
+                   <div className="space-y-1">
+                      <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Rank Scopus</label>
+                      <select className="input-field h-14" value={platformRank} onChange={e => setPlatformRank(e.target.value)}>
+                         <option value="">Pilih Rank...</option>
+                         <option value="Q1">Q1</option>
+                         <option value="Q2">Q2</option>
+                         <option value="Q3">Q3</option>
+                         <option value="Q4">Q4</option>
+                      </select>
+                   </div>
+                 )}
               </div>
 
               <div className="space-y-6">
@@ -200,7 +241,7 @@ export default function DosenDokumentasiSection() {
                  </div>
                  
                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Unggah Manusript (PDF/JPG)</label>
+                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">Unggah Manuskrip (PDF/JPG)</label>
                     <label className={cn(
                        "flex items-center justify-center h-14 rounded-2xl border-2 border-dashed transition-all cursor-pointer group",
                        fileUrl ? "border-primary/50 bg-primary/10" : "border-slate-200 hover:border-primary/40 hover:bg-slate-50"
@@ -225,6 +266,18 @@ export default function DosenDokumentasiSection() {
                           </div>
                        )}
                     </label>
+                 </div>
+
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.25em] block pl-1">URL / Link Artikel</label>
+                    <input 
+                      type="url"
+                      className="input-field h-14"
+                      placeholder="https://doi.org/... atau https://journal.example.com/..."
+                      value={articleUrl}
+                      onChange={e => setArticleUrl(e.target.value)}
+                    />
+                    <p className="text-[9px] text-slate-400 italic pl-1">Masukkan link artikel (opsional, sebagai alternatif PDF)</p>
                  </div>
 
                  <button type="submit" disabled={saving || uploadingFile} className="w-full h-16 btn-primary rounded-2xl shadow-xl font-black uppercase text-[11px] tracking-[0.2em] disabled:opacity-50 mt-4 group">
@@ -258,7 +311,7 @@ export default function DosenDokumentasiSection() {
                      </div>
                      <div className="flex items-center text-[10px] text-slate-500 font-bold uppercase tracking-widest">
                         <Tag size={14} className="mr-3 text-primary opacity-50" />
-                        <span>Platform: {doc.platform}</span>
+                        <span>Platform: {doc.platform}{doc.platformRank ? ` ${doc.platformRank}` : ''}</span>
                      </div>
                      {doc.penerbit && (
                        <div className="flex items-center text-[10px] text-slate-500 font-bold uppercase tracking-widest">
@@ -270,7 +323,7 @@ export default function DosenDokumentasiSection() {
                </div>
 
                <div className="pt-8 border-t border-slate-100 flex items-center justify-between">
-                  {doc.fileUrl ? (
+                  {doc.fileUrl && doc.fileUrl !== '#' ? (
                     <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-primary hover:text-primary/80 uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
                       <Download size={14} className="mr-2 group-hover/btn:-translate-y-1 transition-transform" />
                       <span>Download</span>
@@ -281,10 +334,17 @@ export default function DosenDokumentasiSection() {
                       <span>No File</span>
                     </span>
                   )}
-                  <button className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
-                    <ExternalLink size={14} className="mr-2 group-hover/btn:translate-x-1 transition-transform" />
-                    <span>Reference</span>
-                  </button>
+                  {doc.articleUrl ? (
+                    <a href={doc.articleUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-emerald-50">
+                      <Link2 size={14} className="mr-2 group-hover/btn:translate-x-1 transition-transform" />
+                      <span>Link Artikel</span>
+                    </a>
+                  ) : (
+                    <button className="text-[10px] font-black text-slate-500 hover:text-primary uppercase tracking-widest flex items-center transition-all group/btn h-10 px-4 rounded-xl hover:bg-primary/5">
+                      <ExternalLink size={14} className="mr-2 group-hover/btn:translate-x-1 transition-transform" />
+                      <span>Reference</span>
+                    </button>
+                  )}
                </div>
             </div>
           ))

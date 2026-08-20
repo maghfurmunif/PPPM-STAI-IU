@@ -89,6 +89,17 @@ export const skripsiService = {
     };
   },
 
+  deleteRegistration: async (id: string) => {
+    const { error } = await supabase
+      .from('skripsi_registrations')
+      .delete()
+      .eq('id', id);
+    if (error) {
+      console.error('Skripsi Delete Error:', error);
+      throw error;
+    }
+  },
+
   saveRegistration: async (reg: SkripsiRegistration) => {
     const dbPayload: any = {
       student_id: reg.studentId,

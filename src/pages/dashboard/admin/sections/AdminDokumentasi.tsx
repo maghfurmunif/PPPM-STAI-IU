@@ -15,21 +15,40 @@ export default function AdminDokumentasi() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState<string | 'ALL'>('ALL');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+
+  const refreshData = async () => {
+    try {
+      const data = await penelitianService.getDokumentasi();
+      setDocs(data);
+    } catch (e) {
+      toast.error('Gagal memuat arsip dokumentasi');
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      try {
-        const data = await penelitianService.getDokumentasi();
-        setDocs(data);
-      } catch (e) {
-        toast.error('Gagal memuat arsip dokumentasi');
-      } finally {
-        setLoading(false);
-      }
+      await refreshData();
+      setLoading(false);
     };
     fetchData();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await penelitianService.deleteDokumentasi(id);
+      setDocs(prev => prev.filter(d => d.id !== id));
+      toast.success('Dokumentasi berhasil dihapus dari database');
+    } catch (e) {
+      toast.error('Gagal menghapus dokumentasi');
+    } finally {
+      setDeletingId(null);
+      setShowDeleteConfirm(null);
+    }
+  };
 
   const filtered = docs.filter(d => {
     const matchesSearch = (d.judul.toLowerCase().includes(search.toLowerCase()) || 
@@ -93,6 +112,7 @@ export default function AdminDokumentasi() {
             <tr>
               <th className="px-10 py-7">Classification</th>
               <th className="px-10 py-7">Title & Metadata</th>
+              <th className="px-10 py-7">Nama Peneliti</th>
               <th className="px-10 py-7">Platform / Sync</th>
               <th className="px-10 py-7 text-right">Access</th>
             </tr>
@@ -100,7 +120,7 @@ export default function AdminDokumentasi() {
           <tbody className="divide-y divide-slate-100">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-10 py-32 text-center text-slate-500 italic font-black uppercase tracking-widest text-[11px] bg-slate-50/50 border-dashed border-2 m-4 rounded-[32px]">
+                <td colSpan={5} className="px-10 py-32 text-center text-slate-500 italic font-black uppercase tracking-widest text-[11px] bg-slate-50/50 border-dashed border-2 m-4 rounded-[32px]">
                    Search query returned no archived assets.
                 </td>
               </tr>
@@ -150,9 +170,17 @@ export default function AdminDokumentasi() {
                      </div>
                   </td>
                   <td className="px-10 py-8">
+                     <div className="flex items-center space-x-2">
+                        <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <User size={16} className="text-primary" />
+                        </div>
+                        <span className="text-sm font-bold text-slate-700 italic">{doc.namaPeneliti || '-'}</span>
+                     </div>
+                  </td>
+                  <td className="px-10 py-8">
                     <div className="inline-flex items-center space-x-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner group-hover:bg-white transition-colors">
                        <Activity size={14} className="text-green-500 animate-pulse" />
-                       <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] italic">{doc.platform}</span>
+                       <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] italic">{doc.platform}{doc.platformRank ? ` ${doc.platformRank}` : ''}</span>
                     </div>
                   </td>
                    <td className="px-10 py-8 text-right">
@@ -172,6 +200,13 @@ export default function AdminDokumentasi() {
                           <Download size={20} />
                         </span>
                       )}
+                      <button
+                        onClick={() => setShowDeleteConfirm(doc.id)}
+                        className="p-4 bg-red-50 border border-red-100 rounded-[20px] text-red-400 hover:text-red-600 hover:bg-red-100 hover:scale-110 active:scale-95 transition-all shadow-sm"
+                        title="Hapus dokumentasi"
+                      >
+                        <Trash2 size={20} />
+                      </button>
                     </div>
                   </td>
                 </motion.tr>
@@ -198,6 +233,56 @@ export default function AdminDokumentasi() {
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Repository Health Status</p>
          </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-10 max-w-md mx-4 shadow-2xl space-y-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                  <Trash2 size={28} className="text-red-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Hapus Dokumentasi?</h3>
+                  <p className="text-xs text-slate-500 font-medium">Data akan dihapus permanen dari database Supabase.</p>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                Dokumentasi ini akan <span className="font-black text-red-600">dihapus permanen</span> dari repository.
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={() => showDeleteConfirm && handleDelete(showDeleteConfirm)}
+                  disabled={deletingId !== null}
+                  className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                >
+                  {deletingId ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

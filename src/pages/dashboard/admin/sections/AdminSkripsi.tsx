@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Users, CheckCircle2, XCircle, Eye, Search, 
   FileText, Calendar, Clock, AlertCircle, Save,
-  Download, GraduationCap, Loader2, MessageSquare
+  Download, GraduationCap, Loader2, MessageSquare, Trash2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn, formatDate } from '@/src/lib/utils';
@@ -18,6 +18,23 @@ export default function AdminSkripsi() {
   const [actionLoading, setActionLoading] = useState(false);
   const [naskahGrade, setNaskahGrade] = useState<string>('');
   const [sidangGrade, setSidangGrade] = useState<string>('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await skripsiService.deleteRegistration(id);
+      setRegistrations(prev => prev.filter(r => r.id !== id));
+      if (selectedReg?.id === id) setSelectedReg(null);
+      toast.success('Skripsi berhasil dihapus dari database');
+    } catch (e) {
+      toast.error('Gagal menghapus skripsi');
+    } finally {
+      setDeletingId(null);
+      setShowDeleteConfirm(null);
+    }
+  };
 
   useEffect(() => {
     if (selectedReg) {
@@ -90,20 +107,35 @@ export default function AdminSkripsi() {
               </div>
             ) : (
               registrations.map(reg => (
-                <button 
+                <div 
                   key={reg.id} 
                   onClick={() => setSelectedReg(reg)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedReg(reg); }}
                   className={cn(
-                    "w-full card p-5 text-left transition-all border-l-[6px] group bg-white border border-slate-200 shadow-sm",
+                    "w-full card p-5 text-left transition-all border-l-[6px] group bg-white border border-slate-200 shadow-sm cursor-pointer",
                     selectedReg?.id === reg.id ? "border-l-primary shadow-xl scale-[1.02]" : "border-l-slate-300 hover:border-l-slate-400"
                   )}
                 >
                    <div className="flex justify-between items-center mb-2">
                       <StatusBadge status={reg.status} />
-                      <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
+                      <div className="flex items-center gap-2">
+                         <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
+                         <button
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setShowDeleteConfirm(reg.id);
+                           }}
+                           className="p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                           title="Hapus skripsi"
+                         >
+                           <Trash2 size={14} />
+                         </button>
+                      </div>
                    </div>
                    <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.studentName}</h4>
-                </button>
+                </div>
               ))
             )}
         </div>
@@ -564,6 +596,51 @@ export default function AdminSkripsi() {
            </AnimatePresence>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-10 max-w-md mx-4 shadow-2xl space-y-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                  <Trash2 size={28} className="text-red-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Hapus Skripsi?</h3>
+                  <p className="text-xs text-slate-500 font-medium">Data akan dihapus permanen dari database Supabase.</p>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                Seluruh data skripsi ini akan <span className="font-black text-red-600">dihapus permanen</span>.
+              </p>
+              <div className="flex space-x-3">
+                <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Batal</button>
+                <button
+                  onClick={() => showDeleteConfirm && handleDelete(showDeleteConfirm)}
+                  disabled={deletingId !== null}
+                  className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                >
+                  {deletingId ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

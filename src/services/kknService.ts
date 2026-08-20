@@ -109,6 +109,17 @@ export const kknService = {
     };
   },
 
+  deleteRegistration: async (id: string) => {
+    const { error } = await supabase
+      .from('kkn_registrations')
+      .delete()
+      .eq('id', id);
+    if (error) {
+      console.error('KKN Delete Error:', error);
+      throw error;
+    }
+  },
+
   saveRegistration: async (reg: KKNRegistration) => {
     // Pick ONLY columns that exist in the database table
     const dbPayload: any = {

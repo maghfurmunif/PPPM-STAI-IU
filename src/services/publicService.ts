@@ -147,22 +147,34 @@ export const publicService = {
   getMonthlyStats: async (tableName: string): Promise<{ bulan: string; selesai: number; aktif: number }[]> => {
     const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
     const currentYear = new Date().getFullYear();
+    
+    // For penelitian_registrations, also fetch tahun_penelitian to use as year filter
+    const isPenelitianTable = tableName === 'penelitian_registrations';
+    const selectCols = isPenelitianTable ? 'id, status, created_at, tahun_penelitian' : 'id, status, created_at';
+    
     const [{ data: allRows }, { data: completedRows }] = await Promise.all([
-      supabase.from(tableName).select('id, status, created_at'),
-      supabase.from(tableName).select('id, created_at').eq('status', 'COMPLETED'),
+      supabase.from(tableName).select(selectCols),
+      supabase.from(tableName).select(selectCols).eq('status', 'COMPLETED'),
     ]);
 
     const counts: { bulan: string; selesai: number; aktif: number }[] = MONTHS.map(m => ({ bulan: m, selesai: 0, aktif: 0 }));
 
     (allRows || []).forEach((row: any) => {
       const d = new Date(row.created_at);
-      if (d.getFullYear() === currentYear) {
+      // Use tahun_penelitian for penelitian table, otherwise use created_at year
+      const rowYear = isPenelitianTable && row.tahun_penelitian 
+        ? parseInt(row.tahun_penelitian) 
+        : d.getFullYear();
+      if (rowYear === currentYear) {
         counts[d.getMonth()].aktif++;
       }
     });
     (completedRows || []).forEach((row: any) => {
       const d = new Date(row.created_at);
-      if (d.getFullYear() === currentYear) {
+      const rowYear = isPenelitianTable && row.tahun_penelitian 
+        ? parseInt(row.tahun_penelitian) 
+        : d.getFullYear();
+      if (rowYear === currentYear) {
         counts[d.getMonth()].selesai++;
       }
     });
@@ -197,12 +209,13 @@ export const publicService = {
   /** Statistik penelitian dosen per tahun (yang sudah selesai) */
   getPenelitianByYear: async (): Promise<{ tahun: string; selesai: number; aktif: number }[]> => {
     let rows: any[] = [];
-    try { const r = await supabase.from('penelitian_registrations').select('id, status, created_at'); rows = r.data || []; } catch { return []; }
+    try { const r = await supabase.from('penelitian_registrations').select('id, status, created_at, tahun_penelitian'); rows = r.data || []; } catch { return []; }
     if (!rows.length) return [];
 
     const yearMap: Record<string, { selesai: number; aktif: number }> = {};
     rows.forEach((r: any) => {
-      const year = r.created_at ? new Date(r.created_at).getFullYear().toString() : new Date().getFullYear().toString();
+      // Use tahun_penelitian if set, fallback to created_at year, then current year
+      const year = r.tahun_penelitian || (r.created_at ? new Date(r.created_at).getFullYear().toString() : new Date().getFullYear().toString());
       if (!yearMap[year]) yearMap[year] = { selesai: 0, aktif: 0 };
       if (r.status === 'COMPLETED') yearMap[year].selesai++;
       else yearMap[year].aktif++;
@@ -377,18 +390,24 @@ export const publicService = {
       } catch { profiles = []; }
       const profileMap = (profiles || []).reduce((acc: any, p) => { acc[p.id] = p.full_name; return acc; }, {});
 
-      return filtered.map(d => ({
-        id: d.id,
-        penulis: profileMap[d.dosen_id] || 'Dosen',
-        coAuthor: d.penulisTambahan || d.penulis_tambahan || '',
-        judul: d.judul || '',
-        tanggal: d.tanggal || '',
-        tahun: (d.tanggal || '').split('-')[0] || (d.tanggal || '').split('/')[2] || '-',
-        penerbit: d.penerbit || '',
-        isbnIssn: d.isbnIssn || d.isbn_issn || '',
-        platform: d.platform || '',
-        fileUrl: d.fileUrl || d.file_url || '',
-      }));
+      return filtered.map(d => {
+        const platform = d.platform || '';
+        const rank = d.platform_rank || '';
+        const platformDisplay = rank ? `${platform} ${rank}` : platform;
+        return {
+          id: d.id,
+          penulis: profileMap[d.dosen_id] || 'Dosen',
+          coAuthor: d.penulisTambahan || d.penulis_tambahan || '',
+          judul: d.judul || '',
+          tanggal: d.tanggal || '',
+          tahun: (d.tanggal || '').split('-')[0] || (d.tanggal || '').split('/')[2] || '-',
+          penerbit: d.penerbit || '',
+          isbnIssn: d.isbnIssn || d.isbn_issn || '',
+          platform: platformDisplay,
+          fileUrl: d.fileUrl || d.file_url || '',
+          articleUrl: d.article_url || '',
+        };
+      });
     } catch (e) {
       console.error('Error fetching dokumentasi by type:', e);
       return [];

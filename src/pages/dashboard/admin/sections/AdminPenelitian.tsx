@@ -5,7 +5,7 @@ import {
   Search, Calendar, Clock, FileText, Save,
   MapPin, User, Users, ClipboardList, BookOpen,
   ArrowRight, MessageSquare, AlertCircle, Loader2, FileUp,
-  Plus, Edit3, Camera, Download
+  Plus, Edit3, Camera, Download, Trash2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn, formatDate, openDocument } from '@/src/lib/utils';
@@ -20,6 +20,8 @@ export default function AdminPenelitian() {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [dosenProfiles, setDosenProfiles] = useState<{ id: string; fullName: string }[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
   const refreshData = async (quiet = false) => {
     if (!quiet) setLoading(true);
@@ -41,6 +43,23 @@ export default function AdminPenelitian() {
     r.dosenName?.toLowerCase().includes(search.toLowerCase()) ||
     r.judulPenelitian?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await penelitianService.deleteRegistration(id);
+      setRegistrations(prev => prev.filter(r => r.id !== id));
+      if (selectedReg?.id === id) {
+        setSelectedReg(null);
+      }
+      toast.success('Penelitian berhasil dihapus dari database');
+    } catch (e) {
+      toast.error('Gagal menghapus penelitian');
+    } finally {
+      setDeletingId(null);
+      setShowDeleteConfirm(null);
+    }
+  };
 
   const handleCreateEntry = async (dosenId: string, judul: string, skema: string, coAuthors: string, tahun: string, jenisKarya: string) => {
     try {
@@ -111,11 +130,14 @@ export default function AdminPenelitian() {
             </div>
           ) : (
             filtered.map(reg => (
-              <button 
+              <div 
                 key={reg.id} 
                 onClick={() => setSelectedReg(reg)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedReg(reg); }}
                 className={cn(
-                  "w-full card p-5 text-left transition-all border-l-[6px] group",
+                  "w-full card p-5 text-left transition-all border-l-[6px] group cursor-pointer",
                   selectedReg?.id === reg.id ? "border-l-primary shadow-xl scale-[1.02] bg-white" : "border-l-slate-200 hover:border-l-slate-400"
                 )}
               >
@@ -123,14 +145,26 @@ export default function AdminPenelitian() {
                    <StatusBadge status={reg.status} />
                    <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
                 </div>
-                <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.dosenName}</h4>
+                <div className="flex items-center justify-between">
+                   <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.dosenName}</h4>
+                   <button
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       setShowDeleteConfirm(reg.id);
+                     }}
+                     className="p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                     title="Hapus penelitian"
+                   >
+                     <Trash2 size={14} />
+                   </button>
+                </div>
                 {reg.jenisKarya && (
                   <span className="inline-block px-2 py-0.5 bg-slate-100 text-slate-600 text-[8px] font-black uppercase rounded-full mt-1">{reg.jenisKarya}</span>
                 )}
                 {reg.judulPenelitian && (
                   <p className="text-[9px] text-slate-500 truncate mt-1 italic">{reg.judulPenelitian}</p>
                 )}
-              </button>
+              </div>
             ))
           )}
         </div>
@@ -300,6 +334,56 @@ export default function AdminPenelitian() {
             onSubmit={handleCreateEntry}
             onClose={() => setShowCreateModal(false)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-10 max-w-md mx-4 shadow-2xl space-y-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                  <Trash2 size={28} className="text-red-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Hapus Penelitian?</h3>
+                  <p className="text-xs text-slate-500 font-medium">Data akan dihapus permanen dari database Supabase.</p>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                Proyek penelitian ini beserta seluruh data logbook, dokumentasi, dan berkas terkait akan <span className="font-black text-red-600">dihapus permanen</span>.
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={() => showDeleteConfirm && handleDelete(showDeleteConfirm)}
+                  disabled={deletingId !== null}
+                  className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                >
+                  {deletingId ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

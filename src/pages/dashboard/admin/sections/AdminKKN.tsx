@@ -19,6 +19,8 @@ export default function AdminKKN() {
   const [search, setSearch] = useState('');
   const [selectedReg, setSelectedReg] = useState<KKNRegistration | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,21 @@ export default function AdminKKN() {
     setRegistrations(data);
     if (selectedReg) {
       setSelectedReg(data.find(r => r.id === selectedReg.id) || null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await kknService.deleteRegistration(id);
+      setRegistrations(prev => prev.filter(r => r.id !== id));
+      if (selectedReg?.id === id) setSelectedReg(null);
+      toast.success('KKN berhasil dihapus dari database');
+    } catch (e) {
+      toast.error('Gagal menghapus KKN');
+    } finally {
+      setDeletingId(null);
+      setShowDeleteConfirm(null);
     }
   };
 
@@ -101,17 +118,32 @@ export default function AdminKKN() {
                 <div className="card p-20 text-center text-slate-500 italic font-black uppercase tracking-widest text-[10px] border-dashed border-2">No active records found.</div>
               ) : (
                 filtered.map(reg => (
-                  <button 
+                  <div 
                     key={reg.id} 
                     onClick={() => setSelectedReg(reg)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedReg(reg); }}
                     className={cn(
-                      "w-full card p-6 text-left transition-all border-l-8 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden",
+                      "w-full card p-6 text-left transition-all border-l-8 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden cursor-pointer",
                       selectedReg?.id === reg.id ? "border-l-primary bg-primary/5 shadow-xl ring-2 ring-primary/10" : "border-l-slate-200 bg-white"
                     )}
                   >
                      <div className="flex justify-between items-start mb-3">
                         <span className="text-[9px] font-black text-primary uppercase tracking-[0.3em] italic">{reg.type}</span>
-                        <StatusBadge status={reg.status} />
+                        <div className="flex items-center gap-2">
+                           <StatusBadge status={reg.status} />
+                           <button
+                             onClick={(e) => {
+                               e.stopPropagation();
+                               setShowDeleteConfirm(reg.id);
+                             }}
+                             className="p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                             title="Hapus KKN"
+                           >
+                             <Trash2 size={14} />
+                           </button>
+                        </div>
                      </div>
                      <h4 className="font-black text-lg text-slate-900 truncate tracking-tight uppercase italic">{reg.studentName}</h4>
                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">ID: {reg.id.slice(0, 8)}</p>
@@ -119,7 +151,7 @@ export default function AdminKKN() {
                      <div className="absolute -right-4 -bottom-4 opacity-0 group-hover:opacity-5 transition-opacity">
                         <GraduationCap size={80} />
                      </div>
-                  </button>
+                  </div>
                 ))
               )}
            </div>
@@ -241,6 +273,51 @@ export default function AdminKKN() {
            </AnimatePresence>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-10 max-w-md mx-4 shadow-2xl space-y-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                  <Trash2 size={28} className="text-red-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Hapus KKN?</h3>
+                  <p className="text-xs text-slate-500 font-medium">Data akan dihapus permanen dari database Supabase.</p>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                Seluruh data KKN ini akan <span className="font-black text-red-600">dihapus permanen</span>.
+              </p>
+              <div className="flex space-x-3">
+                <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Batal</button>
+                <button
+                  onClick={() => showDeleteConfirm && handleDelete(showDeleteConfirm)}
+                  disabled={deletingId !== null}
+                  className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                >
+                  {deletingId ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -121,8 +121,7 @@ export default function PenelitianDosen() {
                    Proyek Penelitian <span className="text-primary">({registrations.length})</span>
                 </h3>
                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">Pilih proyek untuk melanjutkan alur riset, atau buat pengajuan baru.</p>
-             </div>
-             <button onClick={handleEnroll} disabled={actionLoading} className="btn-primary px-8 py-4 shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
+             </div>              <button onClick={handleEnroll} disabled={actionLoading} className="btn-primary px-8 py-4 shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
                 {actionLoading ? <Loader2 className="animate-spin" /> : <><Plus size={18} /> <span className="text-[10px] font-black uppercase tracking-widest">Buat Pengajuan Baru</span></>}
              </button>
           </div>

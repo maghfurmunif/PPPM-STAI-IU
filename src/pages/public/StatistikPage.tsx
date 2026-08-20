@@ -16,6 +16,7 @@ interface DokumentasiItem {
   isbnIssn: string;
   platform: string;
   fileUrl: string;
+  articleUrl?: string;
 }
 
 export default function StatistikPage() {
@@ -238,7 +239,7 @@ export default function StatistikPage() {
                           {/* Table Header */}
                           <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2">
                             <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Penulis</span>
-                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Co-Author</span>
+                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Cluster / Platform</span>
                             <span className="col-span-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Judul</span>
                             <span className="col-span-1 text-[9px] font-black text-slate-400 uppercase tracking-widest">Tahun</span>
                             <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Penerbit</span>
@@ -253,7 +254,11 @@ export default function StatistikPage() {
                                   <p className="text-xs font-bold text-slate-900 truncate">{item.penulis}</p>
                                 </div>
                                 <div className="col-span-2">
-                                  <p className="text-[10px] text-slate-500 truncate italic">{item.coAuthor || '-'}</p>
+                                  {item.platform ? (
+                                    <span className="inline-flex px-2.5 py-1 bg-primary/10 text-primary border border-primary/20 rounded-lg text-[9px] font-black uppercase tracking-wider">{item.platform}</span>
+                                  ) : (
+                                    <span className="text-[10px] text-slate-400 italic">-</span>
+                                  )}
                                 </div>
                                 <div className="col-span-3">
                                   <p className="text-xs font-bold text-slate-900 truncate italic" title={item.judul}>{item.judul}</p>
@@ -264,7 +269,7 @@ export default function StatistikPage() {
                                 <div className="col-span-2">
                                   <p className="text-[10px] text-slate-500 truncate">{item.penerbit}</p>
                                 </div>
-                                <div className="col-span-2 flex justify-end">
+                                <div className="col-span-2 flex justify-end gap-1.5">
                                   {item.fileUrl ? (
                                     <button 
                                       onClick={() => openDocument(item.fileUrl, `${item.judul || item.penulis}`)}
@@ -275,6 +280,16 @@ export default function StatistikPage() {
                                   ) : (
                                     <span className="text-[9px] font-bold text-slate-400 italic">Tidak ada file</span>
                                   )}
+                                  {item.articleUrl ? (
+                                    <a 
+                                      href={item.articleUrl} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 text-white rounded-xl text-[9px] font-black uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-sm"
+                                    >
+                                      <Eye size={12} /> Link
+                                    </a>
+                                  ) : null}
                                 </div>
                               </div>
                               {/* Mobile */}
@@ -286,19 +301,34 @@ export default function StatistikPage() {
                                   </div>
                                   <span className="px-2 py-0.5 bg-slate-200 text-slate-700 rounded-lg text-[9px] font-black shrink-0 ml-2">{item.tahun}</span>
                                 </div>
-                                {item.coAuthor && <p className="text-[10px] text-slate-400 italic">Co-author: {item.coAuthor}</p>}
+                                {item.platform && (
+                                  <span className="inline-flex px-2 py-0.5 bg-primary/10 text-primary rounded-lg text-[9px] font-black">{item.platform}</span>
+                                )}
                                 <div className="flex justify-between items-center pt-1">
                                   <p className="text-[10px] text-slate-500">{item.penerbit}</p>
-                                  {item.fileUrl ? (
-                                    <button 
-                                      onClick={() => openDocument(item.fileUrl, `${item.judul || item.penulis}`)}
-                                      className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white rounded-xl text-[9px] font-black uppercase"
-                                    >
-                                      <Download size={10} /> Unduh
-                                    </button>
-                                  ) : (
-                                    <span className="text-[9px] text-slate-400 italic">Tidak ada file</span>
-                                  )}
+                                  <div className="flex gap-1.5">
+                                    {item.fileUrl ? (
+                                      <button 
+                                        onClick={() => openDocument(item.fileUrl, `${item.judul || item.penulis}`)}
+                                        className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white rounded-xl text-[9px] font-black uppercase"
+                                      >
+                                        <Download size={10} /> Unduh
+                                      </button>
+                                    ) : null}
+                                    {item.articleUrl ? (
+                                      <a 
+                                        href={item.articleUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500 text-white rounded-xl text-[9px] font-black uppercase"
+                                      >
+                                        <Eye size={10} /> Link
+                                      </a>
+                                    ) : null}
+                                    {!item.fileUrl && !item.articleUrl && (
+                                      <span className="text-[9px] text-slate-400 italic">Tidak ada file</span>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>

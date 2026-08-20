@@ -115,6 +115,7 @@ export interface PenelitianLogbook {
 export interface DosenDokumentasi {
   id: string;
   dosenId: string;
+  namaPeneliti?: string;
   jenisKarya: string;
   judul: string;
   tanggal: string;
@@ -122,8 +123,10 @@ export interface DosenDokumentasi {
   penulisTambahan?: string;
   coAuthorIds?: string[];
   penerbit: string;
-  platform: 'REPOSITORY' | 'SISTER' | 'SINTA' | 'LAIN';
+  platform: 'REPOSITORY' | 'SISTER' | 'SINTA' | 'SCOPUS' | 'BERISSN' | 'LAIN';
+  platformRank?: string;
   fileUrl: string;
+  articleUrl?: string;
 }
 
 export interface DosenProfile {
@@ -267,7 +270,7 @@ export const penelitianService = {
   },
   
   getDokumentasi: async (dosenId?: string): Promise<DosenDokumentasi[]> => {
-    let query = supabase.from('dosen_dokumentasi').select('*');
+    let query = supabase.from('dosen_dokumentasi').select('*, profiles!dosen_id(full_name)');
     if (dosenId) query = query.eq('dosen_id', dosenId);
     
     const { data, error } = await query;
@@ -278,6 +281,7 @@ export const penelitianService = {
     return (data || []).map(d => ({
       id: d.id,
       dosenId: d.dosen_id,
+      namaPeneliti: d.profiles?.full_name || '',
       jenisKarya: d.jenisKarya || d.jenis_karya || '',
       judul: d.judul || '',
       tanggal: d.tanggal || '',
@@ -285,7 +289,9 @@ export const penelitianService = {
       penulisTambahan: d.penulisTambahan || d.penulis_tambahan || '',
       penerbit: d.penerbit || '',
       platform: d.platform || '',
-      fileUrl: d.fileUrl || d.file_url || ''
+      platformRank: d.platform_rank || '',
+      fileUrl: d.fileUrl || d.file_url || '',
+      articleUrl: d.article_url || ''
     }));
   },
 
@@ -305,6 +311,28 @@ export const penelitianService = {
     }));
   },
 
+  deleteRegistration: async (id: string) => {
+    const { error } = await supabase
+      .from('penelitian_registrations')
+      .delete()
+      .eq('id', id);
+    if (error) {
+      console.error('Penelitian Delete Error:', error);
+      throw error;
+    }
+  },
+
+  deleteDokumentasi: async (id: string) => {
+    const { error } = await supabase
+      .from('dosen_dokumentasi')
+      .delete()
+      .eq('id', id);
+    if (error) {
+      console.error('Dokumentasi Delete Error:', error);
+      throw error;
+    }
+  },
+
   saveDokumentasi: async (doc: DosenDokumentasi) => {
     // Resolve co-author names from IDs
     let coAuthorNames = doc.penulisTambahan || '';
@@ -317,18 +345,20 @@ export const penelitianService = {
       coAuthorNames = names.join(', ');
     }
 
-    const dbPayload = {
+    const dbPayload: any = {
       id: doc.id,
       dosen_id: doc.dosenId,
-      "jenisKarya": doc.jenisKarya,
+      jenis_karya: doc.jenisKarya,
       judul: doc.judul,
       tanggal: doc.tanggal,
-      "isbnIssn": doc.isbnIssn,
-      "penulisTambahan": coAuthorNames,
+      isbn_issn: doc.isbnIssn,
+      penulis_tambahan: coAuthorNames,
       penerbit: doc.penerbit,
       platform: doc.platform,
-      "fileUrl": doc.fileUrl
+      file_url: doc.fileUrl
     };
+    if (doc.platformRank) dbPayload.platform_rank = doc.platformRank;
+    if (doc.articleUrl) dbPayload.article_url = doc.articleUrl;
     const { error } = await supabase
       .from('dosen_dokumentasi')
       .upsert(dbPayload);

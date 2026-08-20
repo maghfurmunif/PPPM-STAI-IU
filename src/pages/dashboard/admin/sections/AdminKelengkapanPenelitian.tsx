@@ -397,6 +397,32 @@ function InteractiveChecklistItem({
       const field = fieldMap[item.key];
       if (field) {
         await onUpdate({ [field]: url });
+
+        // Auto-create Dokumentasi entry when Laporan Hasil (resultFile) is uploaded
+        if (item.key === 'laporanHasil') {
+          console.log('[Auto-Dokumentasi] Laporan Hasil uploaded, creating dokumentasi entry...');
+          console.log('[Auto-Dokumentasi] registration:', { dosenId: registration.dosenId, judul: registration.judulPenelitian, tahun: registration.tahunPenelitian });
+          try {
+            const docEntry = {
+              id: crypto.randomUUID(),
+              dosenId: registration.dosenId,
+              jenisKarya: registration.jenisKarya || 'Penelitian',
+              judul: registration.judulPenelitian || 'Penelitian Dosen',
+              tanggal: registration.tahunPenelitian || new Date().getFullYear().toString(),
+              penerbit: '',
+              platform: 'REPOSITORY' as const,
+              fileUrl: url,
+              penulisTambahan: registration.coAuthors || '',
+            };
+            console.log('[Auto-Dokumentasi] docEntry:', docEntry);
+            await penelitianService.saveDokumentasi(docEntry as any);
+            console.log('[Auto-Dokumentasi] Save successful!');
+            toast.success('Dokumentasi penelitian otomatis ditambahkan ke Repository');
+          } catch (docErr: any) {
+            console.error('[Auto-Dokumentasi] Error:', docErr);
+            toast.error('Gagal membuat dokumentasi: ' + (docErr?.message || docErr?.error?.message || 'Unknown error'));
+          }
+        }
       }
     } catch (e) {
       toast.error('Gagal mengunggah file');
