@@ -206,19 +206,23 @@ export const publicService = {
       .sort((a, b) => a.tahun.localeCompare(b.tahun));
   },
 
-  /** Statistik penelitian dosen per tahun (yang sudah selesai) */
-  getPenelitianByYear: async (): Promise<{ tahun: string; selesai: number; aktif: number }[]> => {
+  /** Statistik penelitian dosen per tahun — dikelompokkan berdasarkan skema */
+  getPenelitianByYear: async (): Promise<{ tahun: string; internal: number; mandiri: number; hibah: number; kerjasama: number }[]> => {
     let rows: any[] = [];
-    try { const r = await supabase.from('penelitian_registrations').select('id, status, created_at, tahun_penelitian'); rows = r.data || []; } catch { return []; }
+    try { const r = await supabase.from('penelitian_registrations').select('id, skema, created_at, tahun_penelitian'); rows = r.data || []; } catch { return []; }
     if (!rows.length) return [];
 
-    const yearMap: Record<string, { selesai: number; aktif: number }> = {};
+    const yearMap: Record<string, { internal: number; mandiri: number; hibah: number; kerjasama: number }> = {};
+    const init = () => ({ internal: 0, mandiri: 0, hibah: 0, kerjasama: 0 });
     rows.forEach((r: any) => {
-      // Use tahun_penelitian if set, fallback to created_at year, then current year
       const year = r.tahun_penelitian || (r.created_at ? new Date(r.created_at).getFullYear().toString() : new Date().getFullYear().toString());
-      if (!yearMap[year]) yearMap[year] = { selesai: 0, aktif: 0 };
-      if (r.status === 'COMPLETED') yearMap[year].selesai++;
-      else yearMap[year].aktif++;
+      if (!yearMap[year]) yearMap[year] = init();
+      const skema = (r.skema || '').toLowerCase().trim();
+      if (skema === 'internal') yearMap[year].internal++;
+      else if (skema === 'mandiri') yearMap[year].mandiri++;
+      else if (skema === 'hibah') yearMap[year].hibah++;
+      else if (skema === 'kerjasama') yearMap[year].kerjasama++;
+      else yearMap[year].internal++; // fallback ke internal
     });
 
     return Object.entries(yearMap)

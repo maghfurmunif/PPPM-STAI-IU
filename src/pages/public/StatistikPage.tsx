@@ -341,7 +341,7 @@ export default function StatistikPage() {
               </AnimatePresence>
             </div>
 
-            {/* Grafik Penelitian Dosen per Tahun */}
+            {/* Grafik Penelitian Dosen per Tahun — Skema */}
             {penelitianByYear.length > 0 && (
               <div className="card p-12 bg-white shadow-xl border-none">
                 <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
@@ -349,16 +349,21 @@ export default function StatistikPage() {
                 </h3>
                 <div className="flex items-end gap-3 h-64">
                   {penelitianByYear.map((item, i) => {
-                    const total = item.selesai + item.aktif;
-                    const maxTotal = Math.max(...penelitianByYear.map((y: any) => y.selesai + y.aktif), 1);
-                    const hSelesai = (item.selesai / maxTotal) * 100;
-                    const hAktif = (item.aktif / maxTotal) * 100;
+                    const total = item.internal + item.mandiri + item.hibah + item.kerjasama;
+                    const maxTotal = Math.max(...penelitianByYear.map((y: any) => y.internal + y.mandiri + y.hibah + y.kerjasama), 1);
+                    const bars = [
+                      { val: item.internal, color: 'bg-blue-500', hover: 'hover:bg-blue-600', label: 'Internal' },
+                      { val: item.mandiri, color: 'bg-emerald-500', hover: 'hover:bg-emerald-600', label: 'Mandiri' },
+                      { val: item.hibah, color: 'bg-amber-400', hover: 'hover:bg-amber-500', label: 'Hibah' },
+                      { val: item.kerjasama, color: 'bg-violet-500', hover: 'hover:bg-violet-600', label: 'Kerjasama' },
+                    ];
                     return (
                       <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
                         <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{total}</div>
-                        <div className="w-full flex gap-1" style={{ height: '180px', alignItems: 'flex-end' }}>
-                          <div className="flex-1 bg-emerald-500 rounded-t-lg transition-all hover:bg-emerald-600" style={{ height: `${hSelesai}%` }} title={`Selesai: ${item.selesai}`} />
-                          <div className="flex-1 bg-amber-400 rounded-t-lg transition-all hover:bg-amber-500" style={{ height: `${hAktif}%` }} title={`Aktif: ${item.aktif}`} />
+                        <div className="w-full flex gap-0.5" style={{ height: '180px', alignItems: 'flex-end' }}>
+                          {bars.map((bar, bi) => (
+                            <div key={bi} className={`flex-1 ${bar.color} rounded-t-lg transition-all ${bar.hover}`} style={{ height: `${(bar.val / maxTotal) * 100}%` }} title={`${bar.label}: ${bar.val}`} />
+                          ))}
                         </div>
                         <span className="text-xs font-bold text-slate-500 mt-2">{item.tahun}</span>
                       </div>
@@ -366,8 +371,10 @@ export default function StatistikPage() {
                   })}
                 </div>
                 <div className="flex justify-center gap-6 mt-6">
-                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-emerald-500" />Selesai</span>
-                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-amber-400" />Aktif</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-blue-500" />Internal</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-emerald-500" />Mandiri</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-amber-400" />Hibah</span>
+                  <span className="flex items-center gap-2 text-xs font-bold text-slate-500"><span className="w-3 h-3 rounded bg-violet-500" />Kerjasama</span>
                 </div>
               </div>
             )}
