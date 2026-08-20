@@ -4,7 +4,8 @@ import {
   FlaskConical, CheckCircle2, XCircle, Eye, 
   Search, Calendar, Clock, FileText, Save,
   MapPin, User, Users, ClipboardList, BookOpen,
-  ArrowRight, MessageSquare, AlertCircle, Loader2, FileUp
+  ArrowRight, MessageSquare, AlertCircle, Loader2, FileUp,
+  Plus, Edit3, Camera, Download
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn, formatDate, openDocument } from '@/src/lib/utils';
@@ -17,6 +18,8 @@ export default function AdminPenelitian() {
   const [search, setSearch] = useState('');
   const [selectedReg, setSelectedReg] = useState<PenelitianRegistration | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [dosenProfiles, setDosenProfiles] = useState<{ id: string; fullName: string }[]>([]);
 
   const refreshData = async (quiet = false) => {
     if (!quiet) setLoading(true);
@@ -25,6 +28,8 @@ export default function AdminPenelitian() {
     if (selectedReg) {
       setSelectedReg(data.find(r => r.id === selectedReg.id) || null);
     }
+    const profiles = await penelitianService.getDosenProfiles();
+    setDosenProfiles(profiles);
     if (!quiet) setLoading(false);
   };
 
@@ -33,8 +38,34 @@ export default function AdminPenelitian() {
   }, []);
 
   const filtered = registrations.filter(r => 
-    r.dosenName?.toLowerCase().includes(search.toLowerCase())
+    r.dosenName?.toLowerCase().includes(search.toLowerCase()) ||
+    r.judulPenelitian?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleCreateEntry = async (dosenId: string, judul: string, skema: string, coAuthors: string, tahun: string, jenisKarya: string) => {
+    try {
+      const dosen = dosenProfiles.find(p => p.id === dosenId);
+      const newReg: PenelitianRegistration = {
+        id: crypto.randomUUID(),
+        dosenId,
+        dosenName: dosen?.fullName || 'Dosen',
+        status: 'ENROLL',
+        logbooks: [],
+        judulPenelitian: judul,
+        coAuthors,
+        skema: skema as any,
+        tahunPenelitian: tahun,
+        jenisKarya,
+      };
+      await penelitianService.saveRegistration(newReg);
+      toast.success('Data penelitian baru berhasil dibuat');
+      setShowCreateModal(false);
+      await refreshData(true);
+      setSelectedReg(newReg);
+    } catch (e) {
+      toast.error('Gagal membuat data penelitian');
+    }
+  };
 
   if (loading && registrations.length === 0) return (
     <div className="flex flex-col items-center justify-center h-[50vh] space-y-4">
@@ -50,15 +81,24 @@ export default function AdminPenelitian() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic underline decoration-primary underline-offset-8">Manajemen Penelitian</h1>
           <p className="text-slate-500 font-medium mt-2 text-xs">Kelola proposal, seminar, dan publikasi penelitian dosen.</p>
         </div>
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-          <input 
-            type="text" 
-            placeholder="Cari dosen..." 
-            className="input-field pl-12 py-3 w-64 text-xs font-bold uppercase tracking-widest shadow-sm" 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
+        <div className="flex gap-3">
+          <button 
+            onClick={() => setShowCreateModal(true)}
+            className="btn-primary flex items-center gap-2 px-6 py-3 text-[10px] uppercase tracking-widest"
+          >
+            <Plus size={16} />
+            <span>Tambah Manual</span>
+          </button>
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <input 
+              type="text" 
+              placeholder="Cari dosen / judul..." 
+              className="input-field pl-12 py-3 w-64 text-xs font-bold uppercase tracking-widest shadow-sm" 
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 
@@ -84,6 +124,12 @@ export default function AdminPenelitian() {
                    <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 5)}</span>
                 </div>
                 <h4 className="font-bold text-slate-900 truncate group-hover:text-primary">{reg.dosenName}</h4>
+                {reg.jenisKarya && (
+                  <span className="inline-block px-2 py-0.5 bg-slate-100 text-slate-600 text-[8px] font-black uppercase rounded-full mt-1">{reg.jenisKarya}</span>
+                )}
+                {reg.judulPenelitian && (
+                  <p className="text-[9px] text-slate-500 truncate mt-1 italic">{reg.judulPenelitian}</p>
+                )}
               </button>
             ))
           )}
@@ -112,6 +158,14 @@ export default function AdminPenelitian() {
                     <StatusBadge status={selectedReg.status} />
                  </div>
               </div>
+
+              {/* Metadata Penelitian */}
+              <MetadataEditor 
+                registration={selectedReg} 
+                onSaved={async () => {
+                  await refreshData(true);
+                }} 
+              />
 
               {/* Action Phases */}
               {selectedReg.status === 'SUBMITTED' && (
@@ -237,10 +291,301 @@ export default function AdminPenelitian() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Create Modal */}
+      <AnimatePresence>
+        {showCreateModal && (
+          <CreateEntryModal 
+            dosenProfiles={dosenProfiles}
+            onSubmit={handleCreateEntry}
+            onClose={() => setShowCreateModal(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
+// =========================================================
+// Metadata Editor: Inline edit judul, co-authors, skema
+// =========================================================
+function MetadataEditor({ registration, onSaved }: { registration: PenelitianRegistration; onSaved: () => void }) {
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    judulPenelitian: registration.judulPenelitian || '',
+    coAuthors: registration.coAuthors || '',
+    skema: registration.skema || '',
+    tahunPenelitian: registration.tahunPenelitian || '',
+    jenisKarya: registration.jenisKarya || 'Penelitian',
+  });
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const updated = { ...registration, ...form, skema: form.skema as any };
+      await penelitianService.saveRegistration(updated);
+      toast.success('Metadata penelitian berhasil disimpan');
+      setEditing(false);
+      onSaved();
+    } catch (e) {
+      toast.error('Gagal menyimpan metadata');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!editing) {
+    return (
+      <div className="card p-6 bg-white border border-slate-100">
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Metadata Penelitian</h4>
+          <button onClick={() => setEditing(true)} className="flex items-center gap-1.5 text-primary text-[10px] font-black uppercase hover:underline">
+            <Edit3 size={12} /> Edit
+          </button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+          <div>
+            <span className="text-[9px] font-black text-slate-400 uppercase block mb-1">Judul</span>
+            <p className="font-bold text-slate-700 italic">{registration.judulPenelitian || '-'}</p>
+          </div>
+          <div>
+            <span className="text-[9px] font-black text-slate-400 uppercase block mb-1">Co-Author</span>
+            <p className="font-bold text-slate-700">{registration.coAuthors || '-'}</p>
+          </div>
+          <div>
+            <span className="text-[9px] font-black text-slate-400 uppercase block mb-1">Jenis Karya</span>
+            <p className="font-bold text-slate-700">{registration.jenisKarya || 'Penelitian'}</p>
+          </div>
+          <div>
+            <span className="text-[9px] font-black text-slate-400 uppercase block mb-1">Skema</span>
+            <p className="font-bold text-slate-700">{registration.skema || '-'}</p>
+          </div>
+          <div>
+            <span className="text-[9px] font-black text-slate-400 uppercase block mb-1">Tahun</span>
+            <p className="font-bold text-slate-700">{registration.tahunPenelitian || '-'}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card p-6 bg-primary/5 border border-primary/10 space-y-4">
+      <div className="flex items-center justify-between">
+        <h4 className="text-[10px] font-black uppercase text-primary tracking-widest">Edit Metadata Penelitian</h4>
+        <button onClick={() => setEditing(false)} className="text-[10px] font-black text-slate-500 uppercase hover:text-slate-700">Batal</button>
+      </div>
+      <div>
+        <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Judul Penelitian</label>
+        <input 
+          className="input-field w-full text-xs" 
+          value={form.judulPenelitian}
+          onChange={e => setForm(p => ({ ...p, judulPenelitian: e.target.value }))}
+          placeholder="Masukkan judul penelitian..."
+        />
+      </div>
+      <div>
+        <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Co-Author</label>
+        <input 
+          className="input-field w-full text-xs" 
+          value={form.coAuthors}
+          onChange={e => setForm(p => ({ ...p, coAuthors: e.target.value }))}
+          placeholder="Nama co-author (pisahkan koma)"
+        />
+      </div>
+      <div>
+        <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Jenis Karya</label>
+        <select 
+          className="input-field w-full text-xs"
+          value={form.jenisKarya}
+          onChange={e => setForm(p => ({ ...p, jenisKarya: e.target.value }))}
+        >
+          <option value="Penelitian">Penelitian</option>
+          <option value="Jurnal">Jurnal</option>
+          <option value="Buku">Buku</option>
+          <option value="Pengabdian">Pengabdian</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Skema</label>
+          <select 
+            className="input-field w-full text-xs"
+            value={form.skema}
+            onChange={e => setForm(p => ({ ...p, skema: e.target.value }))}
+          >
+            <option value="">- Pilih -</option>
+            <option value="INTERNAL">Internal</option>
+            <option value="HIBAH">Hibah</option>
+            <option value="KERJASAMA">Kerjasama</option>
+            <option value="MANDIRI">Mandiri</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Tahun</label>
+          <input 
+            className="input-field w-full text-xs" 
+            value={form.tahunPenelitian}
+            onChange={e => setForm(p => ({ ...p, tahunPenelitian: e.target.value }))}
+            placeholder="2024"
+          />
+        </div>
+      </div>
+      <button 
+        onClick={handleSave} 
+        disabled={saving}
+        className="btn-primary w-full h-10 text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"
+      >
+        {saving ? <Loader2 className="animate-spin" size={14} /> : <Save size={14} />}
+        Simpan Metadata
+      </button>
+    </div>
+  );
+}
+
+// =========================================================
+// Create Entry Modal: Admin can manually create penelitian entry
+// =========================================================
+function CreateEntryModal({ dosenProfiles, onSubmit, onClose }: {
+  dosenProfiles: { id: string; fullName: string }[];
+  onSubmit: (dosenId: string, judul: string, skema: string, coAuthors: string, tahun: string, jenisKarya: string) => void;
+  onClose: () => void;
+}) {
+  const [form, setForm] = useState({
+    dosenId: dosenProfiles[0]?.id || '',
+    judulPenelitian: '',
+    coAuthors: '',
+    skema: '',
+    tahunPenelitian: new Date().getFullYear().toString(),
+    jenisKarya: 'Penelitian',
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-white rounded-3xl p-8 w-full max-w-lg space-y-6 shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div>
+          <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tighter">Tambah Data Penelitian</h3>
+          <p className="text-xs text-slate-500 mt-1">Buat entri manual untuk penelitian pra-2025 atau data yang belum tercatat di sistem.</p>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Peneliti Utama (Dosen)</label>
+            <select 
+              className="input-field w-full text-xs" 
+              value={form.dosenId}
+              onChange={e => setForm(p => ({ ...p, dosenId: e.target.value }))}
+            >
+              <option value="">- Pilih Dosen -</option>
+              {dosenProfiles.map(p => (
+                <option key={p.id} value={p.id}>{p.fullName}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Judul Penelitian</label>
+            <input 
+              type="text" 
+              className="input-field w-full text-xs" 
+              placeholder="Masukkan judul penelitian..."
+              value={form.judulPenelitian}
+              onChange={e => setForm(p => ({ ...p, judulPenelitian: e.target.value }))}
+            />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Co-Author</label>
+            <input 
+              type="text" 
+              className="input-field w-full text-xs" 
+              placeholder="Nama co-author (pisahkan koma jika lebih dari satu)"
+              value={form.coAuthors}
+              onChange={e => setForm(p => ({ ...p, coAuthors: e.target.value }))}
+            />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Jenis Karya</label>
+            <select 
+              className="input-field w-full text-xs"
+              value={form.jenisKarya}
+              onChange={e => setForm(p => ({ ...p, jenisKarya: e.target.value }))}
+            >
+              <option value="Penelitian">Penelitian</option>
+              <option value="Jurnal">Jurnal</option>
+              <option value="Buku">Buku</option>
+              <option value="Pengabdian">Pengabdian</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Skema</label>
+              <select 
+                className="input-field w-full text-xs"
+                value={form.skema}
+                onChange={e => setForm(p => ({ ...p, skema: e.target.value }))}
+              >
+                <option value="">- Pilih Skema -</option>
+                <option value="INTERNAL">Internal</option>
+                <option value="HIBAH">Hibah</option>
+                <option value="KERJASAMA">Kerjasama</option>
+                <option value="MANDIRI">Mandiri</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Tahun Penelitian</label>
+              <input 
+                type="text" 
+                className="input-field w-full text-xs" 
+                placeholder="2024"
+                value={form.tahunPenelitian}
+                onChange={e => setForm(p => ({ ...p, tahunPenelitian: e.target.value }))}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-3 pt-2">
+          <button 
+            onClick={() => onSubmit(form.dosenId, form.judulPenelitian, form.skema, form.coAuthors, form.tahunPenelitian, form.jenisKarya)}
+            disabled={!form.dosenId}
+            className="btn-primary flex-grow h-12 uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 disabled:opacity-30"
+          >
+            <Plus size={14} />
+            Buat Entri Penelitian
+          </button>
+          <button 
+            onClick={onClose} 
+            className="px-6 h-12 rounded-2xl bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-colors"
+          >
+            Batal
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// =========================================================
+// Existing sub-components (ProposalAction, SemproProofAction, etc.)
+// =========================================================
 function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onAction: () => void }) {
   const [reason, setReason] = useState('');
   const [showReject, setShowReject] = useState(false);
@@ -257,7 +602,6 @@ function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onActi
       setUploadingSK(true);
       const { uploadToCloudinary } = await import('@/src/lib/cloudinary');
       const url = await uploadToCloudinary(file);
-      // Save SK file directly to registration
       const updated = { ...reg, skReviewerFile: url };
       await penelitianService.saveRegistration(updated);
       toast.success('SK Reviuwer berhasil diunggah');
@@ -298,7 +642,6 @@ function ProposalAction({ reg, onAction }: { reg: PenelitianRegistration, onActi
           <span className="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-[10px] font-black uppercase">Pending Review</span>
        </div>
 
-       {/* SK Reviuwer Upload */}
        <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
           <div className="flex items-center justify-between">
              <p className="text-[10px] font-black text-primary uppercase tracking-widest">SK Reviuwer</p>
@@ -425,7 +768,6 @@ function SemproProofAction({ reg, onAction }: { reg: PenelitianRegistration, onA
           )}
        </div>
 
-       {/* SK Penerima Bantuan Penelitian Upload */}
        <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
           <div className="flex items-center justify-between">
              <p className="text-[10px] font-black text-primary uppercase tracking-widest">SK Penerima Bantuan Penelitian</p>
@@ -557,10 +899,9 @@ function ResultAction({ reg, onAction }: { reg: PenelitianRegistration, onAction
     if (!reason) return alert('Silakan isi alasan penolakan!');
     const updated = {
       ...reg,
-      status: 'RESULT_SUBMITTED' as any, // Stay in result submitted but update reg or move to rejected
+      status: 'RESULT_SUBMITTED' as any,
       rejectionReason: reason
     };
-    // In this flow, rejection usually means they need to fix and re-upload
     await penelitianService.saveRegistration(updated);
     onAction();
   };
@@ -612,7 +953,7 @@ function FinalSemproProofAction({ reg, onAction }: { reg: PenelitianRegistration
   const [showReject, setShowReject] = useState(false);
 
   const handleApprove = async () => {
-    const updated = { ...reg, status: 'REVISION_SUBMITTED' as any }; // Wait for revision
+    const updated = { ...reg, status: 'REVISION_SUBMITTED' as any };
     await penelitianService.saveRegistration(updated);
     onAction();
   };
@@ -621,7 +962,7 @@ function FinalSemproProofAction({ reg, onAction }: { reg: PenelitianRegistration
     if (!reason) return alert('Silakan isi alasan penolakan!');
     const updated = {
       ...reg,
-      status: 'RESULT_APPROVED' as any, // Stay in this stage
+      status: 'RESULT_APPROVED' as any,
       rejectionReason: reason
     };
     await penelitianService.saveRegistration(updated);

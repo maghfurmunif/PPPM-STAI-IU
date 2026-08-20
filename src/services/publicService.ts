@@ -348,5 +348,50 @@ export const publicService = {
       console.error('Error fetching recent activities:', e);
       return [];
     }
+  },
+
+  /** Fetch dokumentasi dosen by jenisKarya with dosen name */
+  getDokumentasiByType: async (jenisKarya: string): Promise<any[]> => {
+    try {
+      // 1. Fetch all docs of this type
+      let docs: any[] = [];
+      try {
+        const r = await supabase.from('dosen_dokumentasi').select('*');
+        docs = r.data || [];
+      } catch { return []; }
+
+      // 2. Filter by jenisKarya (handle both column name conventions)
+      const filtered = docs.filter(d => {
+        const jk = d.jenisKarya || d.jenis_karya || d.JENISKARYA || '';
+        return jk === jenisKarya;
+      });
+
+      if (filtered.length === 0) return [];
+
+      // 3. Fetch dosen profiles for names
+      const dosenIds = Array.from(new Set(filtered.map(d => d.dosen_id)));
+      let profiles: any[] = [];
+      try {
+        const r = await supabase.from('profiles').select('id, full_name').in('id', dosenIds);
+        profiles = r.data || [];
+      } catch { profiles = []; }
+      const profileMap = (profiles || []).reduce((acc: any, p) => { acc[p.id] = p.full_name; return acc; }, {});
+
+      return filtered.map(d => ({
+        id: d.id,
+        penulis: profileMap[d.dosen_id] || 'Dosen',
+        coAuthor: d.penulisTambahan || d.penulis_tambahan || '',
+        judul: d.judul || '',
+        tanggal: d.tanggal || '',
+        tahun: (d.tanggal || '').split('-')[0] || (d.tanggal || '').split('/')[2] || '-',
+        penerbit: d.penerbit || '',
+        isbnIssn: d.isbnIssn || d.isbn_issn || '',
+        platform: d.platform || '',
+        fileUrl: d.fileUrl || d.file_url || '',
+      }));
+    } catch (e) {
+      console.error('Error fetching dokumentasi by type:', e);
+      return [];
+    }
   }
 };

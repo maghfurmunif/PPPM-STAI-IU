@@ -1,9 +1,22 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Users, GraduationCap, BarChart3, Globe, ArrowLeft, Loader2, FlaskConical, FileText, Bookmark } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Users, GraduationCap, BarChart3, Globe, ArrowLeft, Loader2, FlaskConical, FileText, Bookmark, ChevronDown, Download, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { publicService } from '@/src/services/publicService';
-import { cn } from '@/src/lib/utils';
+import { cn, openDocument } from '@/src/lib/utils';
+
+interface DokumentasiItem {
+  id: string;
+  penulis: string;
+  coAuthor: string;
+  judul: string;
+  tanggal: string;
+  tahun: string;
+  penerbit: string;
+  isbnIssn: string;
+  platform: string;
+  fileUrl: string;
+}
 
 export default function StatistikPage() {
   const [stats, setStats] = useState<any>(null);
@@ -12,6 +25,11 @@ export default function StatistikPage() {
   const [pubByType, setPubByType] = useState<any[]>([]);
   const [penelitianByYear, setPenelitianByYear] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Dokumentasi interactive state
+  const [activeDocType, setActiveDocType] = useState<string | null>(null);
+  const [docItems, setDocItems] = useState<DokumentasiItem[]>([]);
+  const [docLoading, setDocLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -31,6 +49,28 @@ export default function StatistikPage() {
     };
     fetch();
   }, []);
+
+  const handleDocTypeClick = async (type: string) => {
+    if (activeDocType === type) {
+      setActiveDocType(null);
+      setDocItems([]);
+      return;
+    }
+    setDocLoading(true);
+    setActiveDocType(type);
+    const items = await publicService.getDokumentasiByType(type);
+    setDocItems(items);
+    setDocLoading(false);
+  };
+
+  const docCategories = [
+    { label: 'Jurnal', value: stats?.jurnal || 0, color: 'bg-blue-500', hover: 'hover:bg-blue-600', key: 'Jurnal' },
+    { label: 'Penelitian', value: stats?.penelitianDoc || 0, color: 'bg-emerald-500', hover: 'hover:bg-emerald-600', key: 'Penelitian' },
+    { label: 'Pengabdian', value: stats?.pengabdianDoc || 0, color: 'bg-amber-500', hover: 'hover:bg-amber-600', key: 'Pengabdian' },
+    { label: 'Buku', value: stats?.buku || 0, color: 'bg-violet-500', hover: 'hover:bg-violet-600', key: 'Buku' },
+    { label: 'Prosiding', value: stats?.prosiding || 0, color: 'bg-rose-500', hover: 'hover:bg-rose-600', key: 'Prosiding' },
+    { label: 'Lainnya', value: stats?.lainnya || 0, color: 'bg-slate-500', hover: 'hover:bg-slate-600', key: 'Lainnya' },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50 py-20 px-4">
@@ -54,7 +94,7 @@ export default function StatistikPage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
                 { label: 'Mahasiswa', value: stats.mahasiswaCount, icon: Users, color: 'bg-blue-50 text-blue-500' },
-                { label: 'Dosen Pembimbing', value: stats.dosenCount, icon: GraduationCap, color: 'bg-primary/10 text-primary' },
+                { label: 'Peneliti', value: stats.dosenCount, icon: GraduationCap, color: 'bg-primary/10 text-primary' },
                 { label: 'Penelitian Dosen', value: stats.penelitian, icon: FlaskConical, color: 'bg-rose-50 text-rose-500' },
                 { label: 'Proyek KKN', value: stats.kkn, icon: Globe, color: 'bg-indigo-50 text-indigo-500' }
               ].map((item, i) => (
@@ -121,7 +161,7 @@ export default function StatistikPage() {
                </div>
             </div>
 
-            {/* Statistik Dokumentasi */}
+            {/* ========== STATISTIK DOKUMENTASI (INTERAKTIF) ========== */}
             <div className="card p-12 bg-white shadow-xl border-none">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center">
@@ -130,26 +170,147 @@ export default function StatistikPage() {
                 <span className="text-xs text-slate-500 font-bold">{stats.dokumentasiTotal || 0} Total</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                {[
-                  { label: 'Jurnal', value: stats.jurnal || 0, color: 'bg-blue-500' },
-                  { label: 'Penelitian', value: stats.penelitianDoc || 0, color: 'bg-emerald-500' },
-                  { label: 'Pengabdian', value: stats.pengabdianDoc || 0, color: 'bg-amber-500' },
-                  { label: 'Buku', value: stats.buku || 0, color: 'bg-violet-500' },
-                  { label: 'Prosiding', value: stats.prosiding || 0, color: 'bg-rose-500' },
-                  { label: 'Lainnya', value: stats.lainnya || 0, color: 'bg-slate-500' }
-                ].map((item, i) => (
-                  <div key={i} className="text-center p-5 rounded-2xl bg-slate-50">
-                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 text-white", item.color)}>
+                {docCategories.map((item, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleDocTypeClick(item.key)}
+                    className={cn(
+                      "text-center p-5 rounded-2xl transition-all cursor-pointer group",
+                      activeDocType === item.key
+                        ? "bg-slate-900 text-white shadow-xl scale-105 ring-2 ring-primary"
+                        : "bg-slate-50 hover:bg-slate-100 hover:shadow-md"
+                    )}
+                  >
+                    <div className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 text-white",
+                      activeDocType === item.key ? "bg-primary" : item.color
+                    )}>
                       <FileText size={16} />
                     </div>
-                    <p className="text-2xl font-black text-slate-900 mb-0.5">{item.value}</p>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{item.label}</p>
-                  </div>
+                    <p className={cn(
+                      "text-2xl font-black mb-0.5",
+                      activeDocType === item.key ? "text-white" : "text-slate-900"
+                    )}>{item.value}</p>
+                    <p className={cn(
+                      "text-[10px] font-bold uppercase tracking-wider",
+                      activeDocType === item.key ? "text-white/70" : "text-slate-500"
+                    )}>{item.label}</p>
+                    {activeDocType === item.key && (
+                      <ChevronDown size={14} className="mx-auto mt-2 text-primary animate-bounce" />
+                    )}
+                  </button>
                 ))}
               </div>
+
+              {/* Detail List */}
+              <AnimatePresence>
+                {activeDocType && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-8 border-t border-slate-100 pt-8 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">
+                          Daftar {activeDocType}
+                          <span className="ml-2 px-2 py-0.5 bg-primary/10 text-primary rounded-lg text-[10px]">{docItems.length} item</span>
+                        </h4>
+                        <button 
+                          onClick={() => { setActiveDocType(null); setDocItems([]); }} 
+                          className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600"
+                        >
+                          Tutup
+                        </button>
+                      </div>
+
+                      {docLoading ? (
+                        <div className="flex items-center justify-center py-12">
+                          <Loader2 className="animate-spin text-primary" size={24} />
+                        </div>
+                      ) : docItems.length === 0 ? (
+                        <div className="text-center py-12 text-slate-400 italic text-xs">
+                          Belum ada data {activeDocType}.
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {/* Table Header */}
+                          <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2">
+                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Penulis</span>
+                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Co-Author</span>
+                            <span className="col-span-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Judul</span>
+                            <span className="col-span-1 text-[9px] font-black text-slate-400 uppercase tracking-widest">Tahun</span>
+                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">Penerbit</span>
+                            <span className="col-span-2 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Aksi</span>
+                          </div>
+
+                          {docItems.map((item, i) => (
+                            <div key={item.id} className="bg-slate-50 rounded-2xl border border-slate-100 p-4 hover:shadow-md transition-all">
+                              {/* Desktop */}
+                              <div className="hidden md:grid grid-cols-12 gap-4 items-center">
+                                <div className="col-span-2">
+                                  <p className="text-xs font-bold text-slate-900 truncate">{item.penulis}</p>
+                                </div>
+                                <div className="col-span-2">
+                                  <p className="text-[10px] text-slate-500 truncate italic">{item.coAuthor || '-'}</p>
+                                </div>
+                                <div className="col-span-3">
+                                  <p className="text-xs font-bold text-slate-900 truncate italic" title={item.judul}>{item.judul}</p>
+                                </div>
+                                <div className="col-span-1">
+                                  <span className="px-2 py-0.5 bg-slate-200 text-slate-700 rounded-lg text-[9px] font-black">{item.tahun}</span>
+                                </div>
+                                <div className="col-span-2">
+                                  <p className="text-[10px] text-slate-500 truncate">{item.penerbit}</p>
+                                </div>
+                                <div className="col-span-2 flex justify-end">
+                                  {item.fileUrl ? (
+                                    <button 
+                                      onClick={() => openDocument(item.fileUrl, `${item.judul || item.penulis}`)}
+                                      className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-wider hover:bg-primary/90 transition-colors shadow-sm"
+                                    >
+                                      <Download size={12} /> Unduh
+                                    </button>
+                                  ) : (
+                                    <span className="text-[9px] font-bold text-slate-400 italic">Tidak ada file</span>
+                                  )}
+                                </div>
+                              </div>
+                              {/* Mobile */}
+                              <div className="md:hidden space-y-2">
+                                <div className="flex justify-between items-start">
+                                  <div className="min-w-0 flex-grow">
+                                    <p className="text-xs font-bold text-slate-900 truncate">{item.judul}</p>
+                                    <p className="text-[10px] text-slate-500 mt-0.5">{item.penulis}</p>
+                                  </div>
+                                  <span className="px-2 py-0.5 bg-slate-200 text-slate-700 rounded-lg text-[9px] font-black shrink-0 ml-2">{item.tahun}</span>
+                                </div>
+                                {item.coAuthor && <p className="text-[10px] text-slate-400 italic">Co-author: {item.coAuthor}</p>}
+                                <div className="flex justify-between items-center pt-1">
+                                  <p className="text-[10px] text-slate-500">{item.penerbit}</p>
+                                  {item.fileUrl ? (
+                                    <button 
+                                      onClick={() => openDocument(item.fileUrl, `${item.judul || item.penulis}`)}
+                                      className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white rounded-xl text-[9px] font-black uppercase"
+                                    >
+                                      <Download size={10} /> Unduh
+                                    </button>
+                                  ) : (
+                                    <span className="text-[9px] text-slate-400 italic">Tidak ada file</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Grafik Publikasi per Tahun */}
             {/* Grafik Penelitian Dosen per Tahun */}
             {penelitianByYear.length > 0 && (
               <div className="card p-12 bg-white shadow-xl border-none">

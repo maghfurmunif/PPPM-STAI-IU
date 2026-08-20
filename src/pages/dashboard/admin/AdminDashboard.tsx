@@ -4,7 +4,7 @@ import {
   BarChart3, Users, BookOpen, GraduationCap, 
   FlaskConical, HeartHandshake, Settings, 
   Bell, FileText, Activity, Layers, Search, Filter,
-  Globe, LogOut, Loader2
+  Globe, LogOut, Loader2, ClipboardList
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { Suspense, lazy, useState, useEffect } from 'react';
@@ -21,6 +21,7 @@ const AdminKKN = lazy(() => import('./sections/AdminKKN'));
 const AdminSempro = lazy(() => import('./sections/AdminSempro'));
 const AdminSkripsi = lazy(() => import('./sections/AdminSkripsi'));
 const AdminPenelitian = lazy(() => import('./sections/AdminPenelitian'));
+const AdminKelengkapanPenelitian = lazy(() => import('./sections/AdminKelengkapanPenelitian'));
 const AdminPengabdian = lazy(() => import('./sections/AdminPengabdian'));
 const AdminDokumentasi = lazy(() => import('./sections/AdminDokumentasi'));
 const AdminUsers = lazy(() => import('./sections/AdminUsers'));
@@ -34,6 +35,7 @@ export default function AdminDashboard() {
     { id: 'overview', name: 'Dashboard', path: '/dashboard/admin', icon: BarChart3 },
     { id: 'kkn', name: 'Kelola KKN', path: '/dashboard/admin/kkn', icon: Globe },
     { id: 'penelitian', name: 'Penelitian Dosen', path: '/dashboard/admin/penelitian', icon: FlaskConical },
+    { id: 'kelengkapan', name: 'Kelengkapan Data', path: '/dashboard/admin/kelengkapan', icon: ClipboardList },
     { id: 'pengabdian', name: 'Pengabdian Dosen', path: '/dashboard/admin/pengabdian', icon: HeartHandshake },
     { id: 'dokumentasi', name: 'Kelola Dokumentasi', path: '/dashboard/admin/dokumentasi', icon: FileText },
     { id: 'sempro', name: 'Seminar Proposal', path: '/dashboard/admin/sempro', icon: BookOpen },
@@ -167,6 +169,7 @@ export default function AdminDashboard() {
               <Route index element={<AdminOverview />} />
               <Route path="kkn" element={<AdminKKN />} />
               <Route path="penelitian" element={<AdminPenelitian />} />
+              <Route path="kelengkapan" element={<AdminKelengkapanPenelitian />} />
               <Route path="pengabdian" element={<AdminPengabdian />} />
               <Route path="dokumentasi" element={<AdminDokumentasi />} />
               <Route path="sempro" element={<AdminSempro />} />

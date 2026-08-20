@@ -141,7 +141,10 @@ export default function PenelitianDosen() {
                       <StatusBadge status={reg.status} />
                       <span className="text-[9px] font-bold text-slate-500 italic">#{reg.id.slice(0, 8).toUpperCase()}</span>
                    </div>
-                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center space-x-2">
+                   {reg.judulPenelitian && (
+                     <p className="text-[9px] text-slate-500 truncate mt-2 italic font-medium">{reg.judulPenelitian}</p>
+                   )}
+                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center space-x-2 mt-2">
                       <Calendar size={12} className="text-primary" />
                       <span>{reg.createdAt ? new Date(reg.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Baru saja'}</span>
                    </p>
@@ -271,6 +274,11 @@ export default function PenelitianDosen() {
 
 function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistration, onUpdate: (u: any, m?: string) => void, actionLoading: boolean }) {
   const [uploading, setUploading] = useState(false);
+  const [meta, setMeta] = useState({
+    judulPenelitian: reg.judulPenelitian || '',
+    coAuthors: reg.coAuthors || '',
+    skema: reg.skema || '',
+  });
   const handleFile = async (file: File) => {
     try {
       setUploading(true);
@@ -281,6 +289,15 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
     finally { setUploading(false); }
   };
 
+  const handleSubmit = () => {
+    onUpdate({
+      status: 'SUBMITTED',
+      judulPenelitian: meta.judulPenelitian,
+      coAuthors: meta.coAuthors,
+      skema: meta.skema,
+    }, 'Proposal diajukan!');
+  };
+
   return (
     <div className="grid lg:grid-cols-2 gap-10">
       <div className="card p-10 bg-slate-50 text-slate-900 space-y-8 shadow-2xl relative overflow-hidden">
@@ -288,6 +305,43 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
           <div className="space-y-2 relative z-10">
             <h3 className="text-3xl font-black italic uppercase tracking-tighter">Proposal Submission</h3>
             <p className="text-slate-500 text-sm leading-relaxed font-medium">Unggah draf proposal penelitian terbaru dalam format PDF untuk diverifikasi dewan pakar.</p>
+          </div>
+
+          {/* Metadata Penelitian */}
+          <div className="space-y-4 relative z-10 p-6 bg-white rounded-3xl border border-slate-100">
+             <p className="text-[10px] font-black uppercase text-primary tracking-[0.3em] pl-1">Data Penelitian</p>
+             <div>
+               <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Judul Penelitian *</label>
+               <input 
+                 className="input-field w-full text-xs" 
+                 placeholder="Masukkan judul penelitian..."
+                 value={meta.judulPenelitian}
+                 onChange={e => setMeta(p => ({ ...p, judulPenelitian: e.target.value }))}
+               />
+             </div>
+             <div>
+               <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Co-Author (opsional)</label>
+               <input 
+                 className="input-field w-full text-xs" 
+                 placeholder="Nama co-author (pisahkan koma)"
+                 value={meta.coAuthors}
+                 onChange={e => setMeta(p => ({ ...p, coAuthors: e.target.value }))}
+               />
+             </div>
+             <div>
+               <label className="text-[9px] font-black text-slate-500 uppercase block mb-1">Skema Penelitian *</label>
+               <select 
+                 className="input-field w-full text-xs"
+                 value={meta.skema}
+                 onChange={e => setMeta(p => ({ ...p, skema: e.target.value }))}
+               >
+                 <option value="">- Pilih Skema -</option>
+                 <option value="INTERNAL">Internal</option>
+                 <option value="HIBAH">Hibah</option>
+                 <option value="KERJASAMA">Kerjasama</option>
+                 <option value="MANDIRI">Mandiri</option>
+               </select>
+             </div>
           </div>
           
           <div className="space-y-4 relative z-10">
@@ -304,8 +358,8 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
           </div>
 
           <button 
-            disabled={!reg.proposalFile || uploading || actionLoading}
-            onClick={() => onUpdate({ status: 'SUBMITTED' }, 'Proposal diajukan!')}
+            disabled={!reg.proposalFile || !meta.judulPenelitian || !meta.skema || uploading || actionLoading}
+            onClick={handleSubmit}
             className="w-full h-16 bg-primary text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] shadow-xl disabled:opacity-20 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center relative z-10"
           >
             {actionLoading ? <Loader2 className="animate-spin" /> : 'SUBMIT PROPOSAL FOR AUDIT'}
@@ -315,6 +369,7 @@ function EnrollPhase({ reg, onUpdate, actionLoading }: { reg: PenelitianRegistra
           <h4 className="text-2xl font-black italic text-slate-900 border-b border-slate-100 pb-4 uppercase tracking-tighter">Prosedur Riset</h4>
           <ul className="space-y-5">
              {[
+               "Isi data penelitian: judul, co-author, dan skema.",
                "Proposal disetujui & Penetapan Reviewer (SK Reviuwer).",
                "Seminar Proposal & Validasi Bukti Seminar.",
                "Melaksanakan riset & Pencatatan Logbook Minimal 5 kali.",

@@ -23,11 +23,11 @@ export default function Footer() {
             <div className="space-y-2">
               <div className="flex items-center space-x-3 text-sm">
                 <Phone size={14} className="text-slate-400" />
-                <span>+62 812-3456-7890</span>
+                <span>+62 899-5023-222</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Mail size={14} className="text-slate-400" />
-                <span>pppm@stai-ihyaululum.ac.id</span>
+                <span>pppm@stai-iu.ac.id</span>
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default function Footer() {
             <h4 className="font-semibold text-slate-900">Lokasi</h4>
             <div className="rounded-xl overflow-hidden h-40 border border-slate-100 relative">
                <iframe 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.8396117650637!2d112.4497551!3d-7.028080!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e77e2daed698cdd%3A0xe96cf5d51d536768!2sSTAI%20Ihyaul%20Ulum%20Gresik!5e0!3m2!1sid!2sid!4v1716202400000!5m2!1sid!2sid" 
+                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0488092057562!2d112.5053578749972!3d-7.00353539299778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e77e48eb5a9a76b%3A0x14d3f3a46b5379d9!2sSTAI%20Ihyaul%20Ulum%20Gresik!5e0!3m2!1sid!2sid!4v1787207272567!5m2!1sid!2sid" 
                  width="100%" 
                  height="100%" 
                  style={{ border: 0 }} 

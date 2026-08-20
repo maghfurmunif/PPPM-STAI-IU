@@ -55,6 +55,51 @@ export interface PenelitianRegistration {
     type: 'MANDIRI' | 'PPPM';
     method?: string; // Jurnal, Buku, Prosiding, Lainnya
   };
+  // Metadata untuk pelacakan kelengkapan data (termasuk penelitian pra-2025)
+  judulPenelitian?: string;
+  coAuthors?: string;
+  skema?: string;
+  tahunPenelitian?: string;
+  jenisKarya?: string; // Penelitian, Jurnal, Buku, Pengabdian, Lainnya
+}
+
+/** Checklist kelengkapan 11 item penelitian */
+export interface KelengkapanPenelitian {
+  penelitiUtama: boolean;      // 1. Nama Peneliti Utama (selalu true jika ada dosen_id)
+  coAuthor: boolean;            // 2. Co-Author
+  judulPenelitian: boolean;     // 3. Judul Penelitian
+  skema: boolean;               // 4. Skema (Internal/Hibah/Kerjasama/Mandiri)
+  proposalPenelitian: boolean;  // 5. Proposal Penelitian (pdf)
+  skReviewer: boolean;          // 6. SK Reviewer (pdf)
+  seminarProposal: boolean;     // 7. Seminar Proposal (foto)
+  skPenerimaan: boolean;        // 8. SK Penerimaan (pdf)
+  logbookMonev: boolean;        // 9. Logbook Penelitian/Monev (foto)
+  seminarHasil: boolean;        // 10. Seminar Hasil (foto)
+  laporanHasil: boolean;        // 11. Laporan Hasil Seminar (pdf)
+}
+
+/** Hitung kelengkapan dari sebuah registration */
+export function hitungKelengkapan(reg: PenelitianRegistration): KelengkapanPenelitian {
+  return {
+    penelitiUtama: true, // Selalu ada karena dosen_id wajib
+    coAuthor: !!(reg.coAuthors && reg.coAuthors.trim() !== ''),
+    judulPenelitian: !!(reg.judulPenelitian && reg.judulPenelitian.trim() !== ''),
+    skema: !!(reg.skema && reg.skema !== ''),
+    proposalPenelitian: !!(reg.proposalFile && reg.proposalFile.trim() !== ''),
+    skReviewer: !!(reg.skReviewerFile && reg.skReviewerFile.trim() !== ''),
+    seminarProposal: !!(reg.semproProof && reg.semproProof.dokumentasi && reg.semproProof.dokumentasi.length > 0),
+    skPenerimaan: !!(reg.skPenerimaBantuanFile && reg.skPenerimaBantuanFile.trim() !== ''),
+    logbookMonev: !!(reg.logbooks && reg.logbooks.some(l => l.photo && l.photo.trim() !== '')),
+    seminarHasil: !!(reg.finalSemproProof && reg.finalSemproProof.dokumentasi && reg.finalSemproProof.dokumentasi.length > 0),
+    laporanHasil: !!(reg.resultFile && reg.resultFile.trim() !== ''),
+  };
+}
+
+/** Hitung persentase kelengkapan (0-100) */
+export function persentaseKelengkapan(k: KelengkapanPenelitian): number {
+  const values = Object.values(k);
+  const filled = values.filter(Boolean).length;
+  return Math.round((filled / values.length) * 100);
 }
 
 export interface PenelitianLogbook {
@@ -129,7 +174,12 @@ export const penelitianService = {
       rejectionReason: r.rejection_reason,
       proposalFile: r.proposal_file,
       createdAt: r.created_at,
-      updatedAt: r.updated_at
+      updatedAt: r.updated_at,
+      judulPenelitian: r.judul_penelitian,
+      coAuthors: r.co_authors,
+      skema: r.skema,
+      tahunPenelitian: r.tahun_penelitian,
+      jenisKarya: r.jenis_karya,
     }));
   },
 
@@ -169,7 +219,12 @@ export const penelitianService = {
       rejectionReason: r.rejection_reason,
       proposalFile: r.proposal_file,
       createdAt: r.created_at,
-      updatedAt: r.updated_at
+      updatedAt: r.updated_at,
+      judulPenelitian: r.judul_penelitian,
+      coAuthors: r.co_authors,
+      skema: r.skema,
+      tahunPenelitian: r.tahun_penelitian,
+      jenisKarya: r.jenis_karya,
     }));
   },
 
@@ -189,6 +244,11 @@ export const penelitianService = {
       sk_reviewer_file: reg.skReviewerFile,
       sk_penerima_bantuan_file: reg.skPenerimaBantuanFile,
       publication: reg.publication,
+      judul_penelitian: reg.judulPenelitian,
+      co_authors: reg.coAuthors,
+      skema: reg.skema,
+      tahun_penelitian: reg.tahunPenelitian,
+      jenis_karya: reg.jenisKarya,
       updated_at: new Date().toISOString()
     };
 
