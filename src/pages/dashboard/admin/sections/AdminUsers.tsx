@@ -31,6 +31,8 @@ export default function AdminUsers() {
   const [filterAngkatan, setFilterAngkatan] = useState<string>('ALL');
   const [filterProdi, setFilterProdi] = useState<string>('ALL');
   const [showFilters, setShowFilters] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -106,15 +108,18 @@ export default function AdminUsers() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Hapus pengguna ini secara permanen?')) return;
     try {
+      setDeletingId(id);
       const { error } = await supabase.from('profiles').delete().eq('id', id);
       if (error) throw error;
       setUsers(prev => prev.filter(u => u.id !== id));
       if (selectedUser?.id === id) setSelectedUser(null);
-      toast.success('Pengguna berhasil dihapus');
+      toast.success('Pengguna berhasil dihapus permanen');
     } catch (e) {
       toast.error('Gagal menghapus pengguna');
+    } finally {
+      setDeletingId(null);
+      setShowDeleteConfirm(null);
     }
   };
 
@@ -206,20 +211,28 @@ export default function AdminUsers() {
             <div className="card p-10 text-center text-slate-400 text-sm">Tidak ada data ditemukan.</div>
           ) : (
             filteredUsers.map(user => (
-              <button key={user.id} onClick={() => setSelectedUser(user)}
-                className={cn("w-full card p-4 text-left transition-all border-l-4 flex items-center space-x-3",
-                  selectedUser?.id === user.id ? "border-l-primary shadow-md bg-white" : "border-l-transparent bg-white/50 hover:bg-white hover:border-l-slate-300"
-                )}>
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0",
-                  user.role === 'ADMIN' ? "bg-slate-900 text-white" : user.role === 'DOSEN' ? "bg-blue-100 text-blue-600" : "bg-green-100 text-green-600"
-                )}>
-                  {user.full_name?.charAt(0) || '?'}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-slate-800 truncate">{user.full_name || 'Anonymous'}</p>
-                  <p className="text-[10px] text-slate-400 truncate">{user.nim || user.nidn || user.email}</p>
-                </div>
-              </button>
+              <div key={user.id} className={cn("w-full card p-4 transition-all border-l-4 flex items-center space-x-3",
+                selectedUser?.id === user.id ? "border-l-primary shadow-md bg-white" : "border-l-transparent bg-white/50 hover:bg-white hover:border-l-slate-300"
+              )}>
+                <button onClick={() => setSelectedUser(user)} className="flex items-center space-x-3 flex-1 min-w-0 text-left">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0",
+                    user.role === 'ADMIN' ? "bg-slate-900 text-white" : user.role === 'DOSEN' ? "bg-blue-100 text-blue-600" : "bg-green-100 text-green-600"
+                  )}>
+                    {user.full_name?.charAt(0) || '?'}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-slate-800 truncate">{user.full_name || 'Anonymous'}</p>
+                    <p className="text-[10px] text-slate-400 truncate">{user.nim || user.nidn || user.email}</p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(user.id)}
+                  className="p-2 rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all shrink-0"
+                  title="Hapus pengguna"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
             ))
           )}
         </div>
@@ -251,7 +264,7 @@ export default function AdminUsers() {
                       <button onClick={() => openEdit(selectedUser)} className="btn-primary h-10 px-5 rounded-xl text-xs flex items-center space-x-2">
                         <Edit2 size={14} /><span>Edit</span>
                       </button>
-                      <button onClick={() => handleDelete(selectedUser.id)} className="p-2.5 rounded-xl border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all">
+                      <button onClick={() => setShowDeleteConfirm(selectedUser.id)} className="p-2.5 rounded-xl border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -408,6 +421,56 @@ export default function AdminUsers() {
               </form>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-10 max-w-md mx-4 shadow-2xl space-y-6"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                  <Trash2 size={28} className="text-red-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">Hapus Pengguna?</h3>
+                  <p className="text-xs text-slate-500 font-medium">Akun akan dihapus permanen dari Supabase Auth & profiles.</p>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                Pengguna ini akan <span className="font-black text-red-600">dihapus permanen</span> termasuk seluruh data profilnya.
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={() => showDeleteConfirm && handleDelete(showDeleteConfirm)}
+                  disabled={deletingId !== null}
+                  className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                >
+                  {deletingId ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  <span>{deletingId ? 'Menghapus...' : 'Ya, Hapus'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
