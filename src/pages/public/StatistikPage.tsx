@@ -345,7 +345,7 @@ export default function StatistikPage() {
             {penelitianByYear.length > 0 && (
               <div className="card p-12 bg-white shadow-xl border-none">
                 <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
-                  <FlaskConical className="mr-3 text-primary" /> Penelitian Dosen per Tahun
+                  <FlaskConical className="mr-3 text-primary" /> Penelitian Dosen per Tahun Berdasarkan Skema
                 </h3>
                 <div className="flex items-end gap-3 h-64">
                   {penelitianByYear.map((item, i) => {
@@ -382,7 +382,7 @@ export default function StatistikPage() {
             {pubByYear.length > 0 && (
               <div className="card p-12 bg-white shadow-xl border-none">
                 <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
-                  <BarChart3 className="mr-3 text-primary" /> Publikasi per Tahun
+                  <BarChart3 className="mr-3 text-primary" /> Publikasi per Tahun Berdasarkan Jenis (Jurnal, Buku, Prosiding, Penelitian)
                 </h3>
                 <div className="flex items-end gap-3 h-64">
                   {pubByYear.map((item, i) => {
@@ -411,14 +411,13 @@ export default function StatistikPage() {
               </div>
             )}
 
-            {/* Grafik Publikasi per Dosen & Jenis */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              {pubByDosen.length > 0 && (
-                <div className="card p-12 bg-white shadow-xl border-none">
-                  <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
-                    <GraduationCap className="mr-3 text-primary" /> Publikasi per Dosen
-                  </h3>
-                  <div className="flex items-end gap-1 h-64">
+            {/* Grafik Publikasi per Dosen — Full Width */}
+            {pubByDosen.length > 0 && (
+              <div className="card p-12 bg-white shadow-xl border-none overflow-x-auto">
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                  <GraduationCap className="mr-3 text-primary" /> Publikasi per Dosen
+                </h3>
+                <div className="flex items-end gap-1 h-64 min-w-[800px]">
                     {pubByDosen.map((item, i) => {
                       const maxTotal = pubByDosen[0]?.total || 1;
                       const bars = [
@@ -447,35 +446,34 @@ export default function StatistikPage() {
                     <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-500"><span className="w-2.5 h-2.5 rounded bg-violet-500" />Buku</span>
                   </div>
                 </div>
-              )}
+            )}
 
-              {pubByType.length > 0 && (
-                <div className="card p-12 bg-white shadow-xl border-none">
-                  <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
-                    <FileText className="mr-3 text-primary" /> Jenis Publikasi
-                  </h3>
-                  <div className="flex items-end gap-4 h-64">
-                    {pubByType.map((item, i) => {
-                      const colors = ['bg-blue-500', 'bg-emerald-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500', 'bg-slate-500'];
-                      const hoverColors = ['hover:bg-blue-600', 'hover:bg-emerald-600', 'hover:bg-violet-600', 'hover:bg-amber-600', 'hover:bg-rose-600', 'hover:bg-slate-600'];
-                      const color = colors[i % colors.length];
-                      const hoverColor = hoverColors[i % hoverColors.length];
-                      const maxJml = pubByType[0]?.jumlah || 1;
-                      const h = (item.jumlah / maxJml) * 100;
-                      return (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
-                          <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.jumlah}</div>
-                          <div className="w-full flex justify-center" style={{ height: '180px', alignItems: 'flex-end' }}>
-                            <div className={cn('w-full rounded-t-lg transition-all', color, hoverColor)} style={{ height: `${h}%` }} title={`${item.jenis}: ${item.jumlah}`} />
-                          </div>
-                          <span className="text-[9px] font-bold text-slate-500 mt-2 truncate w-full text-center">{item.jenis}</span>
+            {pubByType.length > 0 && (
+              <div className="card p-12 bg-white shadow-xl border-none">
+                <h3 className="text-2xl font-black text-slate-900 italic uppercase flex items-center mb-8">
+                  <FileText className="mr-3 text-primary" /> Jenis Publikasi
+                </h3>
+                <div className="flex items-end gap-4 h-64">
+                  {pubByType.map((item, i) => {
+                    const colors = ['bg-blue-500', 'bg-emerald-500', 'bg-violet-500', 'bg-amber-500', 'bg-rose-500', 'bg-slate-500'];
+                    const hoverColors = ['hover:bg-blue-600', 'hover:bg-emerald-600', 'hover:bg-violet-600', 'hover:bg-amber-600', 'hover:bg-rose-600', 'hover:bg-slate-600'];
+                    const color = colors[i % colors.length];
+                    const hoverColor = hoverColors[i % hoverColors.length];
+                    const maxJml = pubByType[0]?.jumlah || 1;
+                    const h = (item.jumlah / maxJml) * 100;
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                        <div className="text-xs font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">{item.jumlah}</div>
+                        <div className="w-full flex justify-center" style={{ height: '180px', alignItems: 'flex-end' }}>
+                          <div className={cn('w-full rounded-t-lg transition-all', color, hoverColor)} style={{ height: `${h}%` }} title={`${item.jenis}: ${item.jumlah}`} />
                         </div>
-                      );
-                    })}
-                  </div>
+                        <span className="text-[9px] font-bold text-slate-500 mt-2 truncate w-full text-center">{item.jenis}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
       </div>

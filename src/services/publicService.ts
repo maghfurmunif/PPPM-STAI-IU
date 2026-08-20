@@ -281,7 +281,7 @@ export const publicService = {
         return { dosenId, dosenName: profile.kodeDosen || profile.fullName || 'Dosen', fullName: profile.fullName, ...c, total };
       })
       .sort((a, b) => b.total - a.total)
-      .slice(0, 10);
+      .slice(0, 20);
   },
 
   /** Statistik jenis publikasi */
